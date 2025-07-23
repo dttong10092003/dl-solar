@@ -1,7 +1,8 @@
-import Header from "../components/Header";
-import Banner from "../components/Banner";
-import AboutMe from "../components/AboutMe";
-import Why from "../components/Why";
+import {
+    Header, Banner, AboutMe, Why, InstallationProcess, SolarBenefitsInfographic,
+    SolarProductsCatalog, SolarHeroBanner, SolarProjectsShowcase, BlogNewsSection,
+    CustomerTestimonials, PartnersSection, Footer
+} from "../components/Home";
 const Home = () => {
     return (
         <>
@@ -9,6 +10,15 @@ const Home = () => {
             <Banner />
             <AboutMe />
             <Why />
+            <InstallationProcess />
+            <SolarBenefitsInfographic />
+            <SolarProductsCatalog />
+            <SolarHeroBanner />
+            <SolarProjectsShowcase />
+            <BlogNewsSection />
+            <CustomerTestimonials />
+            <PartnersSection />
+            <Footer />
         </>
     );
 };
