@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
     Search,
     Phone,
@@ -10,6 +11,7 @@ import {
 } from "lucide-react";
 
 export default function Header() {
+    const navigate = useNavigate();
     const texts = [
         'Dola Solar xin chào!',
         'Cùng nhau chung tay vì môi trường!',
@@ -19,6 +21,10 @@ export default function Header() {
     const [index, setIndex] = useState(0);
     const [showProductMenu, setShowProductMenu] = useState(false);
     const [showNewsMenu, setShowNewsMenu] = useState(false);
+
+    const handleAuthNavigation = (tab: string) => {
+        navigate(`/auth?tab=${tab}`);
+    };
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -88,8 +94,18 @@ export default function Header() {
                                 <div className="flex items-center space-x-2">
                                     <User className="w-5 h-5 text-blue-900" />
                                     <div>
-                                        <div className="text-gray-700 cursor-pointer hover:text-[#f3bd01]">Đăng ký</div>
-                                        <div className="text-gray-700 cursor-pointer hover:text-[#f3bd01]">Đăng nhập</div>
+                                        <div 
+                                            className="text-gray-700 cursor-pointer hover:text-[#f3bd01]"
+                                            onClick={() => handleAuthNavigation('register')}
+                                        >
+                                            Đăng ký
+                                        </div>
+                                        <div 
+                                            className="text-gray-700 cursor-pointer hover:text-[#f3bd01]"
+                                            onClick={() => handleAuthNavigation('login')}
+                                        >
+                                            Đăng nhập
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="flex items-center space-x-2">
