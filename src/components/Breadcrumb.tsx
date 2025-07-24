@@ -5,6 +5,7 @@ const routeNameMap: { [key: string]: string } = {
   "": "Trang chủ",
   login: "Đăng nhập tài khoản",
   register: "Đăng ký tài khoản",
+  intro: "Giới thiệu",
 };
 
 export default function Breadcrumb() {

@@ -12,6 +12,17 @@ import {
 
 export default function Header() {
     const navigate = useNavigate();
+    const navRoutes = {
+        "Trang chủ": "/",
+        "Giới thiệu": "/intro",
+        "Sản phẩm": "/products",
+        "Tin tức": "/news",
+        "Câu hỏi thường gặp": "/faq",
+        "Thư viện ảnh": "/gallery",
+        "Liên hệ": "/contact",
+        "Đặt lịch khảo sát": "/booking",
+    };
+
     const texts = [
         'Dola Solar xin chào!',
         'Cùng nhau chung tay vì môi trường!',
@@ -94,13 +105,13 @@ export default function Header() {
                                 <div className="flex items-center space-x-2">
                                     <User className="w-5 h-5 text-blue-900" />
                                     <div>
-                                        <div 
+                                        <div
                                             className="text-gray-700 cursor-pointer hover:text-[#f3bd01]"
                                             onClick={() => handleAuthNavigation('register')}
                                         >
                                             Đăng ký
                                         </div>
-                                        <div 
+                                        <div
                                             className="text-gray-700 cursor-pointer hover:text-[#f3bd01]"
                                             onClick={() => handleAuthNavigation('login')}
                                         >
@@ -122,16 +133,7 @@ export default function Header() {
                         <div className="relative">
                             <nav className="bg-blue-900 rounded-t-xl overflow-hidden">
                                 <div className="flex flex-nowrap overflow-x-auto text-base">
-                                    {[
-                                        "Trang chủ",
-                                        "Giới thiệu",
-                                        "Sản phẩm",
-                                        "Tin tức",
-                                        "Câu hỏi thường gặp",
-                                        "Thư viện ảnh",
-                                        "Liên hệ",
-                                        "Đặt lịch khảo sát",
-                                    ].map((label, i) => {
+                                    {Object.entries(navRoutes).map(([label, path], i) => {
                                         const isProduct = label === 'Sản phẩm';
                                         const isNews = label === "Tin tức";
 
@@ -148,7 +150,9 @@ export default function Header() {
                                                     if (isNews) setShowNewsMenu(false);
                                                 }}
                                             >
-                                                <button className="text-white px-4 py-4 hover:bg-[#F3BD01] transition-colors cursor-pointer flex items-center">
+                                                <button className="text-white px-4 py-4 hover:bg-[#F3BD01] transition-colors cursor-pointer flex items-center"
+                                                    onClick={() => navigate(path)}
+                                                >
                                                     {label}
                                                     {(isProduct || isNews) && (
                                                         <ChevronDown className="w-4 h-4 ml-1" />

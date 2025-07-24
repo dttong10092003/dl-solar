@@ -37,7 +37,7 @@ export default function Why() {
     ];
 
     return (
-        <section className="relative py-16 px-4 overflow-hidden bg-cover bg-center bg-[#ebf9ff]">
+        <section className="relative pb-16 px-4 overflow-hidden bg-cover bg-center bg-[#ebf9ff]">
             {/* Background image behind all content */}
             <div
                 className="absolute inset-0 bg-cover bg-no-repeat bg-bottom bottom-8 z-0"
