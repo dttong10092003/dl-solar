@@ -14,7 +14,7 @@ export default function Header() {
     const navigate = useNavigate();
     const navRoutes = {
         "Trang chủ": "/",
-        "Giới thiệu": "/intro",
+        "Giới thiệu": "/about",
         "Sản phẩm": "/products",
         "Tin tức": "/news",
         "Câu hỏi thường gặp": "/faq",
