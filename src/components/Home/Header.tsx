@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import type { Category, Subcategory } from '../../types'
 import {
     Search,
     Phone,
@@ -12,6 +13,11 @@ import {
 
 export default function Header() {
     const navigate = useNavigate();
+
+    const newsCategories: { id: number; name: string }[] = [
+        { id: 1, name: "Tin tức điện mặt trời" },
+        { id: 2, name: "Kiến thức hữu ích" },
+    ]
     const navRoutes = {
         "Trang chủ": "/",
         "Giới thiệu": "/about",
@@ -28,6 +34,40 @@ export default function Header() {
         'Cùng nhau chung tay vì môi trường!',
         'Hãy sử dụng năng lượng sạch!',
     ];
+
+    const categories: Category[] = [
+        { id: 1, name: "Đèn cao cấp" },
+        { id: 2, name: "Đèn pha" },
+        { id: 3, name: "Đèn đường" },
+        { id: 4, name: "Trụ sân vườn" },
+        { id: 5, name: "Quạt" },
+        { id: 6, name: "Phụ kiện" },
+        { id: 7, name: "Bộ lưu điện" },
+        { id: 8, name: "Đèn ốp trần" },
+    ]
+
+    const subcategories: Subcategory[] = [
+        { id: 1, categoryId: 1, name: "Đèn pha cao cấp" },
+        { id: 2, categoryId: 1, name: "Đèn đường cao cấp" },
+        { id: 3, categoryId: 2, name: "Đèn pha ngoài trời" },
+        { id: 4, categoryId: 2, name: "Đèn pha trong nhà" },
+        { id: 5, categoryId: 3, name: "Đèn liền thể" },
+        { id: 6, categoryId: 3, name: "Đèn tấm pin rời" },
+        { id: 7, categoryId: 3, name: "Đèn bộ lưu điện rời" },
+        { id: 8, categoryId: 3, name: "Đèn chiếc lá" },
+        { id: 9, categoryId: 4, name: "Đèn trụ sân vườn tròn" },
+        { id: 10, categoryId: 4, name: "Đèn trụ sân vườn vuông" },
+        { id: 11, categoryId: 4, name: "Đèn trụ sân vườn nấm" },
+        { id: 12, categoryId: 5, name: "Quạt cao cấp" },
+        { id: 13, categoryId: 6, name: "Dây nối" },
+        { id: 14, categoryId: 6, name: "Pin lưu trữ" },
+        { id: 15, categoryId: 6, name: "Trụ & phụ kiện lắp đặt" },
+        { id: 16, categoryId: 6, name: "Cần đèn chiếu sáng" },
+        { id: 17, categoryId: 6, name: "Khác" },
+        { id: 18, categoryId: 7, name: "Bộ lưu điện" },
+        { id: 19, categoryId: 7, name: "Máy phát điện" },
+        { id: 20, categoryId: 8, name: "Đèn ốp trần cao cấp" },
+    ]
 
     const [index, setIndex] = useState(0);
     const [showProductMenu, setShowProductMenu] = useState(false);
@@ -171,8 +211,15 @@ export default function Header() {
                                     onMouseLeave={() => setShowNewsMenu(false)}
                                 >
                                     <ul className="space-y-2 text-sm">
-                                        <li className="hover:text-yellow-500 cursor-pointer">Tin tức điện mặt trời</li>
-                                        <li className="hover:text-yellow-500 cursor-pointer">Kiến thức hữu ích</li>
+                                        {newsCategories.map((category) => (
+                                            <li
+                                                key={category.id}
+                                                className="hover:text-yellow-500 cursor-pointer"
+                                                onClick={() => navigate(`/news?category=${category.id}`)}
+                                            >
+                                                {category.name}
+                                            </li>
+                                        ))}
                                     </ul>
                                 </div>
                             )}
@@ -184,69 +231,38 @@ export default function Header() {
                                     onMouseLeave={() => setShowProductMenu(false)}
                                 >
                                     <div className="grid grid-cols-4 gap-6">
-                                        <div>
-                                            <h4 className="font-bold mb-2 text-blue-900">Đèn cao cấp</h4>
-                                            <ul className="space-y-1">
-                                                <li className="hover:text-yellow-500 cursor-pointer">Đèn pha cao cấp</li>
-                                                <li className="hover:text-yellow-500 cursor-pointer">Đèn đường cao cấp</li>
-                                            </ul>
-                                        </div>
-                                        <div>
-                                            <h4 className="font-bold mb-2 text-blue-900">Đèn pha</h4>
-                                            <ul className="space-y-1">
-                                                <li className="hover:text-yellow-500 cursor-pointer">Đèn pha ngoài trời</li>
-                                                <li className="hover:text-yellow-500 cursor-pointer">Đèn pha trong nhà</li>
-                                            </ul>
-                                        </div>
-                                        <div>
-                                            <h4 className="font-bold mb-2 text-blue-900">Đèn đường</h4>
-                                            <ul className="space-y-1">
-                                                <li className="hover:text-yellow-500 cursor-pointer">Đèn liển thể</li>
-                                                <li className="hover:text-yellow-500 cursor-pointer">Đèn tấm pin rời</li>
-                                                <li className="hover:text-yellow-500 cursor-pointer">Đèn bộ lưu điện rời</li>
-                                                <li className="hover:text-yellow-500 cursor-pointer">Đèn chiếc lá</li>
-                                            </ul>
-                                        </div>
-                                        <div>
-                                            <h4 className="font-bold mb-2 text-blue-900">Trụ sân vườn</h4>
-                                            <ul className="space-y-1">
-                                                <li className="hover:text-yellow-500 cursor-pointer">Đèn trụ sân vườn tròn</li>
-                                                <li className="hover:text-yellow-500 cursor-pointer">Đèn trụ sân vườn vuông</li>
-                                                <li className="hover:text-yellow-500 cursor-pointer">Đèn trụ sân vườn nấm</li>
-                                            </ul>
-                                        </div>
-                                        <div>
-                                            <h4 className="font-bold mb-2 text-blue-900">Quạt</h4>
-                                            <ul className="space-y-1">
-                                                <li className="hover:text-yellow-500 cursor-pointer">Quạt cao cấp</li>
-                                            </ul>
-                                        </div>
-                                        <div>
-                                            <h4 className="font-bold mb-2 text-blue-900">Phụ kiện</h4>
-                                            <ul className="space-y-1">
-                                                <li className="hover:text-yellow-500 cursor-pointer">Dây nối</li>
-                                                <li className="hover:text-yellow-500 cursor-pointer">Pin lưu trữ</li>
-                                                <li className="hover:text-yellow-500 cursor-pointer">Trụ & phụ kiện lắp đặt</li>
-                                                <li className="hover:text-yellow-500 cursor-pointer">Cần đèn chiếu sáng</li>
-                                                <li className="hover:text-yellow-500 cursor-pointer">Khác</li>
-                                            </ul>
-                                        </div>
-                                        <div>
-                                            <h4 className="font-bold mb-2 text-blue-900">Bộ lưu điện</h4>
-                                            <ul className="space-y-1">
-                                                <li className="hover:text-yellow-500 cursor-pointer">Bộ lưu điện</li>
-                                                <li className="hover:text-yellow-500 cursor-pointer">Máy phát điện</li>
-                                            </ul>
-                                        </div>
-                                        <div>
-                                            <h4 className="font-bold mb-2 text-blue-900">Đèn ốp trần</h4>
-                                            <ul className="space-y-1">
-                                                <li className="hover:text-yellow-500 cursor-pointer">Đèn ốp trần cao cấp</li>
-                                            </ul>
-                                        </div>
+                                        {categories.map((category) => (
+                                            <div key={category.id}>
+                                                <div
+                                                    className="font-bold mb-2 text-blue-900 cursor-pointer"
+                                                    onClick={() => navigate(`/products?category=${category.id}`)}
+                                                >
+                                                    {category.name}
+                                                </div>
+                                                <ul className="space-y-1">
+                                                    {subcategories
+                                                        .filter((sub) => sub.categoryId === category.id)
+                                                        .map((sub) => (
+                                                            <li
+                                                                key={sub.id}
+                                                                onClick={() =>
+                                                                    navigate(
+                                                                        `/products?category=${category.id}&subcategory=${sub.id}`
+                                                                    )
+                                                                }
+                                                                className="hover:text-yellow-500 cursor-pointer"
+                                                            >
+                                                                {sub.name}
+                                                            </li>
+                                                        ))}
+                                                </ul>
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
                             )}
+
+
                         </div>
                     </div>
                 </div>

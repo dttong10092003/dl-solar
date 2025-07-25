@@ -1,8 +1,15 @@
 import { useState } from "react"
+import { useSearchParams, useNavigate } from "react-router-dom"
 import { Plus, Minus, ArrowUpDown } from "lucide-react"
-import type { PriceRange, Category, Subcategory, Product } from "../types"
+import type { PriceRange, Product } from "../types"
+import { categories, subcategories, products } from "../data"
 
 export default function ProductListingPage() {
+  const [searchParams] = useSearchParams()
+  const navigate = useNavigate()
+  const selectedCategory = searchParams.get("category")
+  const selectedSubcategory = searchParams.get("subcategory")
+
   const priceRanges: PriceRange[] = [
     { label: "Dưới 100.000đ", min: 0, max: 100000 },
     { label: "Từ 100.000đ - 200.000đ", min: 100000, max: 200000 },
@@ -15,204 +22,7 @@ export default function ProductListingPage() {
     { label: "Trên 10 triệu", min: 10000000, max: Infinity },
   ]
 
-  const categories: Category[] = [
-    { id: 1, name: "Đèn cao cấp" },
-    { id: 2, name: "Đèn pha" },
-    { id: 3, name: "Đèn đường" },
-    { id: 4, name: "Trụ sân vườn" },
-    { id: 5, name: "Quạt" },
-    { id: 6, name: "Phụ kiện" },
-    { id: 7, name: "Bộ lưu điện" },
-    { id: 8, name: "Đèn ốp trần" },
-  ]
-
-  const subcategories: Subcategory[] = [
-    { id: 1, categoryId: 1, name: "Đèn pha cao cấp" },
-    { id: 2, categoryId: 1, name: "Đèn đường cao cấp" },
-    { id: 3, categoryId: 2, name: "Đèn pha ngoài trời" },
-    { id: 4, categoryId: 2, name: "Đèn pha trong nhà" },
-    { id: 5, categoryId: 3, name: "Đèn liền thể" },
-    { id: 6, categoryId: 3, name: "Đèn tấm pin rời" },
-    { id: 7, categoryId: 3, name: "Đèn bộ lưu điện rời" },
-    { id: 8, categoryId: 3, name: "Đèn chiếc lá" },
-    { id: 9, categoryId: 4, name: "Đèn trụ sân vườn tròn" },
-    { id: 10, categoryId: 4, name: "Đèn trụ sân vườn vuông" },
-    { id: 11, categoryId: 4, name: "Đèn trụ sân vườn nấm" },
-    { id: 12, categoryId: 5, name: "Quạt cao cấp" },
-    { id: 13, categoryId: 6, name: "Dây nối" },
-    { id: 14, categoryId: 6, name: "Pin lưu trữ" },
-    { id: 15, categoryId: 6, name: "Trụ & phụ kiện lắp đặt" },
-    { id: 16, categoryId: 6, name: "Cần đèn chiếu sáng" },
-    { id: 17, categoryId: 6, name: "Khác" },
-    { id: 18, categoryId: 7, name: "Bộ lưu điện" },
-    { id: 19, categoryId: 7, name: "Máy phát điện" },
-    { id: 20, categoryId: 8, name: "Đèn ốp trần cao cấp" },
-  ]
-
-  const products: Product[] = [
-    {
-      id: 1,
-      name: "Đèn đường NLMT 30W cao cấp",
-      image: "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/csd02-sl-rf-rad-30w-2-1.jpg?v=1685007656980",
-      currentPrice: "4.070.000₫",
-      originalPrice: "4.200.000₫",
-      discount: 3,
-      categoryId: 1,
-      subcategoryId: 2,
-    },
-    {
-      id: 2,
-      name: "Đèn đường NLMT 100W",
-      image: "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/csd02-sl-70w-1-1.jpg?v=1685007515690",
-      currentPrice: "25.322.000₫",
-      originalPrice: null,
-      discount: null,
-      categoryId: 1,
-      subcategoryId: 2,
-    },
-    {
-      id: 3,
-      name: "Trụ đèn sân vườn hiện đại",
-      image: "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/cp02-sl-rf-70w-882e2964-7300-4c1c-bfe3-b8ce4a0bae5d.jpg?v=1685007159840",
-      currentPrice: "5.500.000₫",
-      originalPrice: "6.000.000₫",
-      discount: 8,
-      categoryId: 4,
-      subcategoryId: 9,
-    },
-    {
-      id: 4,
-      name: "Quạt NLMT mini",
-      image: "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/z3615445059775-9c41899060e9be5e87d455ee61b4b504.jpg?v=1685085759660",
-      currentPrice: "1.200.000₫",
-      originalPrice: "1.400.000₫",
-      discount: 14,
-      categoryId: 5,
-      subcategoryId: 12,
-    },
-    {
-      id: 5,
-      name: "Bộ lưu điện 1000W",
-      image: "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/ld01-sl-160wh.png?v=1685008156257",
-      currentPrice: "7.800.000₫",
-      originalPrice: null,
-      discount: null,
-      categoryId: 7,
-      subcategoryId: 18,
-    },
-    {
-      id: 6,
-      name: "Phụ kiện đèn đường",
-      image: "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/ld01-sl-160wh.png?v=1685008156257",
-      currentPrice: "600.000₫",
-      originalPrice: "750.000₫",
-      discount: 20,
-      categoryId: 6,
-      subcategoryId: 15,
-    },
-    {
-      id: 7,
-      name: "Đèn pha ngoài trời 50W",
-      image: "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/rd-dsv2204-1.jpg?v=1685008012903",
-      currentPrice: "2.100.000₫",
-      originalPrice: "2.500.000₫",
-      discount: 16,
-      categoryId: 2,
-      subcategoryId: 3,
-    },
-    {
-      id: 8,
-      name: "Đèn pha trong nhà 30W",
-      image: "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/csd02-sl-70w-1.jpg?v=1685007549850",
-      currentPrice: "1.200.000₫",
-      originalPrice: null,
-      discount: null,
-      categoryId: 2,
-      subcategoryId: 4,
-    },
-    {
-      id: 9,
-      name: "Đèn liền thể 60W",
-      image: "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/csd02-sl-70w-1-1.jpg?v=1685007515690",
-      currentPrice: "3.900.000₫",
-      originalPrice: "4.500.000₫",
-      discount: 13,
-      categoryId: 3,
-      subcategoryId: 5,
-    },
-    {
-      id: 10,
-      name: "Đèn chiếc lá 80W",
-      image: "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/csd02-sl-70w-1.jpg?v=1685007549850",
-      currentPrice: "6.000.000₫",
-      originalPrice: "6.800.000₫",
-      discount: 12,
-      categoryId: 3,
-      subcategoryId: 8,
-    },
-    {
-      id: 11,
-      name: "Trụ sân vườn nấm",
-      image: "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/csd02-sl-70w-1-1.jpg?v=1685007515690",
-      currentPrice: "3.200.000₫",
-      originalPrice: "3.700.000₫",
-      discount: 14,
-      categoryId: 4,
-      subcategoryId: 11,
-    },
-    {
-      id: 12,
-      name: "Pin lưu trữ 12V 100Ah",
-      image: "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/csd02-sl-70w-1-1.jpg?v=1685007515690",
-      currentPrice: "4.500.000₫",
-      originalPrice: null,
-      discount: null,
-      categoryId: 6,
-      subcategoryId: 14,
-    },
-    {
-      id: 13,
-      name: "Cần đèn chiếu sáng hợp kim",
-      image: "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/remote-srne-cu-all5-cho-den-nang-luong-mat-troi-sokoyo-h1.jpg?v=1685086223887",
-      currentPrice: "950.000₫",
-      originalPrice: "1.100.000₫",
-      discount: 14,
-      categoryId: 6,
-      subcategoryId: 16,
-    },
-    {
-      id: 14,
-      name: "Máy phát điện 5kW",
-      image: "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/can-den-chu-l-cho-dia-bay-ufo-nang-luong-mat-troi.jpg?v=1685086276963",
-      currentPrice: "9.000.000₫",
-      originalPrice: "10.000.000₫",
-      discount: 10,
-      categoryId: 7,
-      subcategoryId: 19,
-    },
-    {
-      id: 15,
-      name: "Đèn ốp trần LED cao cấp",
-      image: "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/can-den-chu-l-cho-dia-bay-ufo-nang-luong-mat-troi.jpg?v=1685086276963",
-      currentPrice: "1.000.000₫",
-      originalPrice: "1.250.000₫",
-      discount: 20,
-      categoryId: 8,
-      subcategoryId: 20,
-    },
-    {
-      id: 16,
-      name: "Dây nối điện chống cháy",
-      image: "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/can-den-cao-ap-don-nang-luong-mat-troi-cd10-60-h1.jpg?v=1685086301773",
-      currentPrice: "300.000₫",
-      originalPrice: "350.000₫",
-      discount: 14,
-      categoryId: 6,
-      subcategoryId: 13,
-    },
-  ]
-
-  const [expandedCategories, setExpandedCategories] = useState<number[]>([])
+  const [expandedCategories, setExpandedCategories] = useState<number[]>(selectedCategory ? [Number(selectedCategory)] : [])
   const [selectedPrices, setSelectedPrices] = useState<string[]>([])
   const [sortOption, setSortOption] = useState<string>("")
 
@@ -242,12 +52,22 @@ export default function ProductListingPage() {
     })
   }
 
+  const applyCategoryFilter = (product: Product) => {
+    if (!selectedCategory) return true
+    return product.categoryId === Number(selectedCategory)
+  }
+
+  const applySubcategoryFilter = (product: Product) => {
+    if (!selectedSubcategory) return true
+    return product.subcategoryId === Number(selectedSubcategory)
+  }
+
   const sortProducts = (products: Product[]) => {
     switch (sortOption) {
       case "Tên A-Z":
         return [...products].sort((a, b) => a.name.localeCompare(b.name))
       case "Tên Z-A":
-        return [...products].sort((a, b) => b.name.localeCompare(a.name))
+        return [...products].sort((_a, b) => b.name.localeCompare(b.name))
       case "Giá thấp đến cao":
         return [...products].sort((a, b) => parsePrice(a.currentPrice) - parsePrice(b.currentPrice))
       case "Giá cao xuống thấp":
@@ -257,35 +77,104 @@ export default function ProductListingPage() {
     }
   }
 
-  const filteredProducts = sortProducts(products.filter(applyPriceFilter))
+  const filteredProducts = sortProducts(
+    products.filter((product) =>
+      applyCategoryFilter(product) &&
+      applySubcategoryFilter(product) &&
+      applyPriceFilter(product)
+    )
+  )
+
+  // Filter categories based on URL
+  const displayedCategories = selectedCategory
+    ? categories.filter((category) => category.id === Number(selectedCategory))
+    : categories
+
+  // Filter subcategories based on URL
+  const displayedSubcategories = (categoryId: number) =>
+    subcategories.filter((sub) => sub.categoryId === categoryId)
 
   return (
     <div className="min-h-screen bg-blue-50 p-4 lg:p-8">
+      <div className="max-w-7xl mx-auto mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Image 1 - Solar Panel Installation */}
+          <div className="group overflow-hidden rounded-2xl shadow-lg cursor-pointer">
+            <img
+              src="https://bizweb.dktcdn.net/100/487/020/themes/911678/assets/banner_three_1.jpg?1735875826317"
+              alt="Solar engineers consultation and planning"
+              className="w-full h-64 object-cover transition-all duration-300 group-hover:brightness-110 group-hover:scale-105"
+            />
+            <div className="transition-all duration-300"></div>
+          </div>
+
+          {/* Image 2 - Engineers Consultation */}
+          <div className="group overflow-hidden rounded-2xl shadow-lg cursor-pointer">
+            <img
+              src="https://bizweb.dktcdn.net/100/487/020/themes/911678/assets/banner_three_2.jpg?1735875826317"
+              alt="Solar engineers consultation and planning"
+              className="w-full h-64 object-cover transition-all duration-300 group-hover:brightness-110 group-hover:scale-105"
+            />
+            <div className="transition-all duration-300"></div>
+          </div>
+
+          {/* Image 3 - Solar Farm Inspection */}
+          <div className="group overflow-hidden rounded-2xl shadow-lg cursor-pointer">
+            <img
+              src="https://bizweb.dktcdn.net/100/487/020/themes/911678/assets/banner_three_3.jpg?1735875826317"
+              alt="Solar engineers consultation and planning"
+              className="w-full h-64 object-cover transition-all duration-300 group-hover:brightness-110 group-hover:scale-105"
+            />
+            <div className="transition-all duration-300"></div>
+          </div>
+        </div>
+      </div>
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6">
         <aside className="space-y-6">
           <div className="bg-white rounded-xl shadow-sm p-6">
             <h3 className="text-xl font-semibold text-blue-900 mb-4">Danh mục sản phẩm</h3>
             <ul className="space-y-3">
-              {categories.map((category) => (
+              {displayedCategories.map((category) => (
                 <li key={category.id}>
-                  <div
-                    onClick={() => toggleCategory(category.id)}
-                    className="flex justify-between items-center text-gray-700 text-base cursor-pointer hover:text-blue-700 transition"
-                  >
-                    <span className="font-semibold">{category.name}</span>
-                    {expandedCategories.includes(category.id) ? (
-                      <Minus className="w-4 h-4 text-gray-500" />
-                    ) : (
-                      <Plus className="w-4 h-4 text-gray-500" />
+                  <div className="flex justify-between items-center text-base">
+                    <span
+                      onClick={() => navigate(`/products?category=${category.id}`)}
+                      className={`cursor-pointer transition ${
+                        selectedCategory && Number(selectedCategory) === category.id
+                          ? "text-blue-700 font-semibold"
+                          : "text-gray-700 hover:text-blue-700"
+                      }`}
+                    >
+                      {category.name}
+                    </span>
+                    {displayedSubcategories(category.id).length > 0 && (
+                      <span
+                        onClick={() => toggleCategory(category.id)}
+                        className="cursor-pointer"
+                      >
+                        {expandedCategories.includes(category.id) ? (
+                          <Minus className="w-4 h-4 text-gray-500" />
+                        ) : (
+                          <Plus className="w-4 h-4 text-gray-500" />
+                        )}
+                      </span>
                     )}
                   </div>
-                  {expandedCategories.includes(category.id) && (
-                    <ul className="ml-4 mt-2 space-y-1 text-sm text-gray-600">
-                      {subcategories
-                        .filter((sub) => sub.categoryId === category.id)
-                        .map((sub) => (
-                          <li key={sub.id}>{sub.name}</li>
-                        ))}
+                  {expandedCategories.includes(category.id) && displayedSubcategories(category.id).length > 0 && (
+                    <ul className="ml-4 mt-2 space-y-1 text-sm">
+                      {displayedSubcategories(category.id).map((sub) => (
+                        <li
+                          key={sub.id}
+                          onClick={() => navigate(`/products?category=${category.id}&subcategory=${sub.id}`)}
+                          className={`cursor-pointer ${
+                            selectedSubcategory && Number(selectedSubcategory) === sub.id
+                              ? "text-blue-700 font-semibold"
+                              : "text-gray-600 hover:text-yellow-500"
+                          }`}
+                        >
+                          {sub.name}
+                        </li>
+                      ))}
                     </ul>
                   )}
                 </li>
@@ -352,9 +241,16 @@ export default function ProductListingPage() {
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {filteredProducts.map((product) => (
-                  <div key={product.id} className="relative group rounded-2xl bg-white transition-all duration-300 overflow-hidden hover:bg-[#ebf9ff] cursor-pointer">
+                  <div
+                    key={product.id}
+                    className="relative group rounded-2xl bg-white transition-all duration-300 overflow-hidden hover:bg-[#ebf9ff] cursor-pointer"
+                  >
                     <div className="relative p-4 pb-0">
-                      <img src={product.image} alt={product.name} className="w-full h-full object-contain mx-auto rounded-2xl" />
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="w-full h-full object-contain mx-auto rounded-2xl"
+                      />
                       {product.discount && (
                         <span className="absolute top-3 left-3 bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded-full shadow">
                           -{product.discount}%
@@ -369,7 +265,9 @@ export default function ProductListingPage() {
                         {product.originalPrice ? (
                           <div className="flex justify-center items-center gap-2 text-blue-900 font-bold text-lg">
                             <span>{product.currentPrice}</span>
-                            <span className="text-gray-400 text-sm line-through font-medium">{product.originalPrice}</span>
+                            <span className="text-gray-400 text-sm line-through font-medium">
+                              {product.originalPrice}
+                            </span>
                           </div>
                         ) : (
                           <div className="text-blue-900 font-bold text-lg">{product.currentPrice}</div>
@@ -380,8 +278,19 @@ export default function ProductListingPage() {
                           onClick={() => alert(`Thêm sản phẩm ${product.id} vào giỏ!`)}
                           className="w-full bg-white border-2 border-blue-900 text-blue-900 font-medium py-2 rounded-full flex items-center justify-center gap-2 hover:border-yellow-500 hover:bg-yellow-500 hover:text-white"
                         >
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.35 2.7a1 1 0 00.9 1.5H19M16 21a1 1 0 100-2 1 1 0 000 2zm-8 0a1 1 0 100-2 1 1 0 000 2z" />
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-4 w-4"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.35 2.7a1 1 0 00.9 1.5H19M16 21a1 1 0 100-2 1 1 0 000 2zm-8 0a1 1 0 100-2 1 1 0 000 2z"
+                            />
                           </svg>
                           Thêm vào giỏ
                         </button>
