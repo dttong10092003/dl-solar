@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { products } from "../../data"
+import { formatPrice } from "../../utils/format";
 
 export default function SolarProductsCatalog() {
     const [activeCategory, setActiveCategory] = useState(1);
@@ -11,67 +13,6 @@ export default function SolarProductsCatalog() {
         { id: 5, name: "Bộ lưu điện" },
     ];
 
-    const products = [
-        {
-            id: 1,
-            name: "Đèn đường năng lượng mặt trời 30WĐèn đường năng lượng mặt trời 30WĐèn đường năng lượng mặt trời 30W",
-            image:
-                "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/csd02-sl-70w-1.jpg?v=1685007549850",
-            currentPrice: "4.070.000₫",
-            originalPrice: "4.200.000₫",
-            discount: 3,
-            categoryId: 1,
-        },
-        {
-            id: 2,
-            name: "Đèn đường năng lượng mặt trời 100W",
-            image:
-                "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/csd02-sl-70w-1.jpg?v=1685007549850",
-            currentPrice: "25.322.000₫",
-            originalPrice: null,
-            discount: null,
-            categoryId: 1,
-        },
-        {
-            id: 3,
-            name: "Trụ đèn sân vườn hiện đại",
-            image:
-                "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/04-c149d567-8812-4416-ab40-231f70e2523e.jpg?v=1685007952180",
-            currentPrice: "5.500.000₫",
-            originalPrice: "6.000.000₫",
-            discount: 8,
-            categoryId: 2,
-        },
-        {
-            id: 4,
-            name: "Quạt năng lượng mặt trời mini",
-            image: "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/04-c149d567-8812-4416-ab40-231f70e2523e.jpg?v=1685007952180",
-            currentPrice: "1.200.000₫",
-            originalPrice: "1.400.000₫",
-            discount: 14,
-            categoryId: 3,
-        },
-        {
-            id: 5,
-            name: "Bộ lưu điện 1000W",
-            image:
-                "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/04-c149d567-8812-4416-ab40-231f70e2523e.jpg?v=1685007952180",
-            currentPrice: "7.800.000₫",
-            originalPrice: null,
-            discount: null,
-            categoryId: 5,
-        },
-        {
-            id: 6,
-            name: "Phụ kiện đèn đường",
-            image:
-                "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/04-c149d567-8812-4416-ab40-231f70e2523e.jpg?v=1685007952180",
-            currentPrice: "600.000₫",
-            originalPrice: "750.000₫",
-            discount: 20,
-            categoryId: 4,
-        },
-    ];
 
     const handleAddToCart = (productId: number) => {
         console.log(`Added product ${productId} to cart`);
@@ -97,8 +38,8 @@ export default function SolarProductsCatalog() {
                                 key={category.id}
                                 onClick={() => setActiveCategory(category.id)}
                                 className={`cursor-pointer px-6 py-3 rounded-full font-medium transition-all duration-300 transform hover:scale-105 ${activeCategory === category.id
-                                        ? "bg-yellow-400 text-white shadow-lg hover:bg-yellow-500"
-                                        : "bg-white text-blue-900 border-2 border-blue-200 hover:border-blue-400 hover:bg-blue-50 hover:shadow-md"
+                                    ? "bg-yellow-400 text-white shadow-lg hover:bg-yellow-500"
+                                    : "bg-white text-blue-900 border-2 border-blue-200 hover:border-blue-400 hover:bg-blue-50 hover:shadow-md"
                                     }`}
                             >
                                 {category.name}
@@ -137,14 +78,14 @@ export default function SolarProductsCatalog() {
                                     <div className="text-center mb-4">
                                         {product.originalPrice ? (
                                             <div className="flex justify-between items-center text-blue-900 font-bold text-lg gap-2">
-                                                <span>{product.currentPrice}</span>
+                                                <span>{formatPrice(product.currentPrice)}</span>
                                                 <span className="text-gray-400 text-sm line-through">
-                                                    {product.originalPrice}
+                                                    {formatPrice(product.originalPrice)}
                                                 </span>
                                             </div>
                                         ) : (
                                             <div className="text-blue-900 font-bold text-lg">
-                                                {product.currentPrice}
+                                                {formatPrice(product.currentPrice)}
                                             </div>
                                         )}
                                     </div>
@@ -157,14 +98,14 @@ export default function SolarProductsCatalog() {
                                             className="w-full bg-white border-2 border-blue-900 text-blue-900 font-medium py-2 rounded-full flex items-center justify-center gap-2 hover:border-yellow-500 hover:bg-yellow-500 hover:text-white transition-all cursor-pointer"
                                         >
                                             <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    className="h-4 w-4"
-                                                    fill="none"
-                                                    viewBox="0 0 24 24"
-                                                    stroke="currentColor"
-                                                >
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.35 2.7a1 1 0 00.9 1.5H19M16 21a1 1 0 100-2 1 1 0 000 2zm-8 0a1 1 0 100-2 1 1 0 000 2z" />
-                                                </svg>
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                className="h-4 w-4"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                            >
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.35 2.7a1 1 0 00.9 1.5H19M16 21a1 1 0 100-2 1 1 0 000 2zm-8 0a1 1 0 100-2 1 1 0 000 2z" />
+                                            </svg>
                                             Thêm vào giỏ
                                         </button>
                                     </div>

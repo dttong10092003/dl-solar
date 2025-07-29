@@ -113,6 +113,7 @@ export default function Header() {
                             src="https://bizweb.dktcdn.net/100/487/020/themes/911678/assets/logo.png?1735875826317"
                             alt="DL Solar Logo"
                             className="h-14 w-auto cursor-pointer"
+                            onClick={() => navigate('/')}
                         />
                     </div>
 

@@ -19,8 +19,8 @@ interface Product {
   id: number
   name: string
   image: string
-  currentPrice: string
-  originalPrice: string | null
+  currentPrice: number
+  originalPrice: number | null
   discount: number | null
   categoryId: number
   subcategoryId: number

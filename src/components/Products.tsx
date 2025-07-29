@@ -3,6 +3,7 @@ import { useSearchParams, useNavigate } from "react-router-dom"
 import { Plus, Minus, ArrowUpDown } from "lucide-react"
 import type { PriceRange, Product } from "../types"
 import { categories, subcategories, products } from "../data"
+import { formatPrice } from "../utils/format";
 
 export default function ProductListingPage() {
   const [searchParams] = useSearchParams()
@@ -40,12 +41,9 @@ export default function ProductListingPage() {
 
   const resetPrices = () => setSelectedPrices([])
 
-  const parsePrice = (price: string): number =>
-    Number(price.replace(/[^0-9]/g, "")) || 0
-
   const applyPriceFilter = (product: Product) => {
     if (!selectedPrices.length) return true
-    const price = parsePrice(product.currentPrice)
+    const price = product.currentPrice
     return selectedPrices.some((label) => {
       const range = priceRanges.find((r) => r.label === label)
       return range && price >= range.min && price <= range.max
@@ -67,11 +65,11 @@ export default function ProductListingPage() {
       case "Tên A-Z":
         return [...products].sort((a, b) => a.name.localeCompare(b.name))
       case "Tên Z-A":
-        return [...products].sort((_a, b) => b.name.localeCompare(b.name))
+        return [...products].sort((a, b) => b.name.localeCompare(a.name))
       case "Giá thấp đến cao":
-        return [...products].sort((a, b) => parsePrice(a.currentPrice) - parsePrice(b.currentPrice))
+        return [...products].sort((a, b) => a.currentPrice - b.currentPrice)
       case "Giá cao xuống thấp":
-        return [...products].sort((a, b) => parsePrice(b.currentPrice) - parsePrice(a.currentPrice))
+        return [...products].sort((a, b) => b.currentPrice - a.currentPrice)
       default:
         return products
     }
@@ -139,11 +137,10 @@ export default function ProductListingPage() {
                   <div className="flex justify-between items-center text-base">
                     <span
                       onClick={() => navigate(`/products?category=${category.id}`)}
-                      className={`cursor-pointer transition ${
-                        selectedCategory && Number(selectedCategory) === category.id
-                          ? "text-blue-700 font-semibold"
-                          : "text-gray-700 hover:text-blue-700"
-                      }`}
+                      className={`cursor-pointer transition ${selectedCategory && Number(selectedCategory) === category.id
+                        ? "text-blue-700 font-semibold"
+                        : "text-gray-700 hover:text-blue-700"
+                        }`}
                     >
                       {category.name}
                     </span>
@@ -166,11 +163,10 @@ export default function ProductListingPage() {
                         <li
                           key={sub.id}
                           onClick={() => navigate(`/products?category=${category.id}&subcategory=${sub.id}`)}
-                          className={`cursor-pointer ${
-                            selectedSubcategory && Number(selectedSubcategory) === sub.id
-                              ? "text-blue-700 font-semibold"
-                              : "text-gray-600 hover:text-yellow-500"
-                          }`}
+                          className={`cursor-pointer ${selectedSubcategory && Number(selectedSubcategory) === sub.id
+                            ? "text-blue-700 font-semibold"
+                            : "text-gray-600 hover:text-yellow-500"
+                            }`}
                         >
                           {sub.name}
                         </li>
@@ -222,11 +218,10 @@ export default function ProductListingPage() {
                   <button
                     key={label}
                     onClick={() => setSortOption(label)}
-                    className={`px-4 py-2 border rounded-md text-sm font-semibold transition-colors cursor-pointer ${
-                      sortOption === label
-                        ? "bg-blue-100 border-blue-500 text-blue-700"
-                        : "border-blue-300 text-blue-700 hover:bg-blue-50"
-                    }`}
+                    className={`px-4 py-2 border rounded-md text-sm font-semibold transition-colors cursor-pointer ${sortOption === label
+                      ? "bg-blue-100 border-blue-500 text-blue-700"
+                      : "border-blue-300 text-blue-700 hover:bg-blue-50"
+                      }`}
                   >
                     {label}
                   </button>
@@ -243,6 +238,7 @@ export default function ProductListingPage() {
                 {filteredProducts.map((product) => (
                   <div
                     key={product.id}
+                    onClick={() => navigate(`/product/${product.id}`)}
                     className="relative group rounded-2xl bg-white transition-all duration-300 overflow-hidden hover:bg-[#ebf9ff] cursor-pointer"
                   >
                     <div className="relative p-4 pb-0">
@@ -264,13 +260,15 @@ export default function ProductListingPage() {
                       <div className="text-center mb-4">
                         {product.originalPrice ? (
                           <div className="flex justify-center items-center gap-2 text-blue-900 font-bold text-lg">
-                            <span>{product.currentPrice}</span>
+                            <span>{formatPrice(product.currentPrice)}</span>
                             <span className="text-gray-400 text-sm line-through font-medium">
-                              {product.originalPrice}
+                              {formatPrice(product.originalPrice)}
                             </span>
                           </div>
                         ) : (
-                          <div className="text-blue-900 font-bold text-lg">{product.currentPrice}</div>
+                          <div className="text-blue-900 font-bold text-lg">
+                            {formatPrice(product.currentPrice)}
+                          </div>
                         )}
                       </div>
                       <div className="opacity-0 group-hover:opacity-100 transform group-hover:translate-y-0 translate-y-2 transition-all duration-300">

@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
-import { categories, subcategories, newsCategories, routeNameMap } from "../data";
+import { categories, subcategories, newsCategories, routeNameMap, products } from "../data";
 
 
 export default function Breadcrumb() {
@@ -13,110 +13,113 @@ export default function Breadcrumb() {
   // Find news category name for /news route
   const newsCategory = categoryId ? newsCategories.find((c) => c.id === Number(categoryId)) : null;
 
+  // Create breadcrumb items array
+  const breadcrumbItems = [];
+
+  // Add home
+  breadcrumbItems.push({
+    label: "Trang chủ",
+    link: "/",
+    isActive: false
+  });
+
+  // Handle product detail page specially
+  if (pathnames[0] === "product" && pathnames[1]) {
+    const productId = pathnames[1];
+    const product = products.find(p => p.id === Number(productId));
+    
+    breadcrumbItems.push({
+      label: "Sản phẩm",
+      link: "/products",
+      isActive: false
+    });
+    
+    if (product) {
+      breadcrumbItems.push({
+        label: product.name,
+        link: null,
+        isActive: true
+      });
+    }
+  }
+  // Handle news page
+  else if (pathnames[0] === "news") {
+    breadcrumbItems.push({
+      label: routeNameMap["news"] || "Tin tức",
+      link: newsCategory ? "/news" : null,
+      isActive: !newsCategory
+    });
+    
+    if (newsCategory) {
+      breadcrumbItems.push({
+        label: newsCategory.name,
+        link: null,
+        isActive: true
+      });
+    }
+  }
+  // Handle products page
+  else if (pathnames[0] === "products") {
+    const category = searchParams.get("category")
+      ? categories.find((c) => c.id === Number(searchParams.get("category")))
+      : null;
+    const subcategory = searchParams.get("subcategory")
+      ? subcategories.find((s) => s.id === Number(searchParams.get("subcategory")))
+      : null;
+
+    breadcrumbItems.push({
+      label: routeNameMap["products"] || "Sản phẩm",
+      link: category ? "/products" : null,
+      isActive: !category
+    });
+    
+    if (category) {
+      breadcrumbItems.push({
+        label: category.name,
+        link: subcategory ? `/products?category=${searchParams.get("category")}` : null,
+        isActive: !subcategory
+      });
+    }
+    
+    if (subcategory) {
+      breadcrumbItems.push({
+        label: subcategory.name,
+        link: null,
+        isActive: true
+      });
+    }
+  }
+  // Handle other pages
+  else {
+    pathnames.forEach((value, index) => {
+      const isLast = index === pathnames.length - 1;
+      const to = "/" + pathnames.slice(0, index + 1).join("/");
+      
+      breadcrumbItems.push({
+        label: value === "auth" && tab ? routeNameMap[tab] : routeNameMap[value] || value,
+        link: isLast ? null : to,
+        isActive: isLast
+      });
+    });
+  }
+
   return (
     <nav className="text-sm py-4 px-6 text-gray-700 bg-white shadow-sm">
       <ul className="flex items-center space-x-2 ml-24">
-        <li>
-          <Link to="/" className="hover:text-yellow-500 font-sans">
-            Trang chủ
-          </Link>
-        </li>
-
-        {pathnames.map((value, index) => {
-          const to = "/" + pathnames.slice(0, index + 1).join("/");
-          const isLast = index === pathnames.length - 1;
-
-          // Handle the news page specially to include news category
-          if (value === "news" && isLast) {
-            return (
-              <li key={to} className="flex items-center space-x-2">
-                <ChevronRight size={18} className="text-blue-800" />
-                <Link
-                  to="/news"
-                  className={`font-sans ${!newsCategory ? "text-yellow-500" : "hover:text-yellow-500"}`}
-                >
-                  {routeNameMap[value] || "Tin tức"}
-                </Link>
-                {newsCategory && (
-                  <li className="flex items-center space-x-2">
-                    <ChevronRight size={18} className="text-blue-800" />
-                    <Link
-                      to={`/news?category=${categoryId}`}
-                      className="text-yellow-500 font-sans hover:text-yellow-600"
-                    >
-                      {newsCategory.name}
-                    </Link>
-                  </li>
-                )}
-              </li>
-            );
-          }
-
-          // Handle the products page specially to include category/subcategory
-          if (value === "products" && isLast) {
-            const category = searchParams.get("category")
-              ? categories.find((c) => c.id === Number(searchParams.get("category")))
-              : null;
-            const subcategory = searchParams.get("subcategory")
-              ? subcategories.find((s) => s.id === Number(searchParams.get("subcategory")))
-              : null;
-
-            return (
-              <li key={to} className="flex items-center space-x-2">
-                <ChevronRight size={18} className="text-blue-800" />
-                <Link
-                  to="/products"
-                  className={`font-sans ${!category ? "text-yellow-500" : "hover:text-yellow-500"}`}
-                >
-                  {routeNameMap[value] || "Sản phẩm"}
-                </Link>
-                {category && (
-                  <li className="flex items-center space-x-2">
-                    <ChevronRight size={18} className="text-blue-800" />
-                    {subcategory ? (
-                      <Link
-                        to={`/products?category=${searchParams.get("category")}`}
-                        className="hover:text-yellow-500 font-sans"
-                      >
-                        {category.name}
-                      </Link>
-                    ) : (
-                      <Link
-                        to={`/products?category=${searchParams.get("category")}`}
-                        className="text-yellow-500 font-sans hover:text-yellow-600"
-                      >
-                        {category.name}
-                      </Link>
-                    )}
-                  </li>
-                )}
-                {subcategory && (
-                  <li className="flex items-center space-x-2">
-                    <ChevronRight size={18} className="text-blue-800" />
-                    <span className="text-yellow-500 font-sans">{subcategory.name}</span>
-                  </li>
-                )}
-              </li>
-            );
-          }
-
-          return (
-            <li key={to} className="flex items-center space-x-2">
-              <ChevronRight size={18} className="text-blue-800" />
-              {isLast ? (
-                <span className="text-yellow-500 font-sans">
-                  {value === "auth" && tab
-                    ? routeNameMap[tab]
-                    : routeNameMap[value] || value}
-                </span>
-              ) : (
-                <Link to={to} className="hover:text-yellow-500 font-sans">
-                  {routeNameMap[value] || value}
-                </Link>
-              )}
-            </li>
-          );
-        })}
+        {breadcrumbItems.map((item, index) => (
+          <li key={index} className="flex items-center space-x-2">
+            {index > 0 && <ChevronRight size={18} className="text-blue-800" />}
+            {item.link ? (
+              <Link to={item.link} className="hover:text-yellow-500 font-sans">
+                {item.label}
+              </Link>
+            ) : (
+              <span className={`font-sans ${item.isActive ? "text-yellow-500" : "text-gray-700"}`}>
+                {item.label}
+              </span>
+            )}
+          </li>
+        ))}
       </ul>
     </nav>
   );
