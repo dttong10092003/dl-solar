@@ -104,23 +104,25 @@ export default function Breadcrumb() {
   }
 
   return (
-    <nav className="text-sm py-4 px-6 text-gray-700 bg-white shadow-sm">
-      <ul className="flex items-center space-x-2 ml-24">
-        {breadcrumbItems.map((item, index) => (
-          <li key={index} className="flex items-center space-x-2">
-            {index > 0 && <ChevronRight size={18} className="text-blue-800" />}
-            {item.link ? (
-              <Link to={item.link} className="hover:text-yellow-500 font-sans">
-                {item.label}
-              </Link>
-            ) : (
-              <span className={`font-sans ${item.isActive ? "text-yellow-500" : "text-gray-700"}`}>
-                {item.label}
-              </span>
-            )}
-          </li>
-        ))}
-      </ul>
+    <nav className="text-sm py-3 lg:py-4 px-4 lg:px-6 text-gray-700 bg-white shadow-sm">
+      <div className="max-w-7xl mx-auto">
+        <ul className="flex items-center space-x-1 lg:space-x-2 overflow-x-auto scrollbar-hide">
+          {breadcrumbItems.map((item, index) => (
+            <li key={index} className="flex items-center space-x-1 lg:space-x-2 whitespace-nowrap">
+              {index > 0 && <ChevronRight size={16} className="text-blue-800 lg:w-[18px] lg:h-[18px] flex-shrink-0" />}
+              {item.link ? (
+                <Link to={item.link} className="inline-flex items-center hover:text-yellow-500 font-sans text-xs lg:text-sm">
+                  {item.label}
+                </Link>
+              ) : (
+                <span className={`inline-flex items-center font-sans text-xs lg:text-sm ${item.isActive ? "text-yellow-500" : "text-gray-700"}`}>
+                  {item.label}
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
     </nav>
   );
 }
