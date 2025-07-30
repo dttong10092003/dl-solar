@@ -1,6 +1,8 @@
 import { Phone, MessageCircle, ChevronUp } from "lucide-react"
+import { useNavigate } from 'react-router-dom'
 
 export default function Footer() {
+    const navigate = useNavigate();
     return (
         <>
             {/* Main Footer */}
@@ -61,10 +63,10 @@ export default function Footer() {
                         <div>
                             <h3 className="text-yellow-500 font-bold text-lg mb-4">CHÍNH SÁCH</h3>
                             <ul className="space-y-2 text-sm text-gray-300">
-                                <li><a href="#" className="hover:text-yellow-500 transition-colors">Chính sách thành viên</a></li>
-                                <li><a href="#" className="hover:text-yellow-500 transition-colors">Chính sách thanh toán</a></li>
-                                <li><a href="#" className="hover:text-yellow-500 transition-colors">Hướng dẫn mua hàng</a></li>
-                                <li><a href="#" className="hover:text-yellow-500 transition-colors">Bảo mật thông tin cá nhân</a></li>
+                                <li><a onClick={() => navigate('/member-policy')} className="hover:text-yellow-500 transition-colors cursor-pointer">Chính sách thành viên</a></li>
+                                <li><a onClick={() => navigate('/payment-policy')} className="hover:text-yellow-500 transition-colors cursor-pointer">Chính sách thanh toán</a></li>
+                                <li><a href="#" className="hover:text-yellow-500 transition-colors cursor-pointer">Hướng dẫn mua hàng</a></li>
+                                <li><a href="#" className="hover:text-yellow-500 transition-colors cursor-pointer">Bảo mật thông tin cá nhân</a></li>
                             </ul>
                         </div>
 
@@ -72,11 +74,11 @@ export default function Footer() {
                         <div>
                             <h3 className="text-yellow-500 font-bold text-lg mb-4">HƯỚNG DẪN</h3>
                             <ul className="space-y-2 text-sm text-gray-300">
-                                <li><a href="#" className="hover:text-yellow-500 transition-colors">Hướng dẫn mua hàng</a></li>
-                                <li><a href="#" className="hover:text-yellow-500 transition-colors">Hướng dẫn thanh toán</a></li>
-                                <li><a href="#" className="hover:text-yellow-500 transition-colors">Đăng ký thành viên</a></li>
-                                <li><a href="#" className="hover:text-yellow-500 transition-colors">Hỗ trợ khách hàng</a></li>
-                                <li><a href="#" className="hover:text-yellow-500 transition-colors">Câu hỏi thường gặp</a></li>
+                                <li><a href="#" className="hover:text-yellow-500 transition-colors cursor-pointer">Hướng dẫn mua hàng</a></li>
+                                <li><a href="#" className="hover:text-yellow-500 transition-colors cursor-pointer">Hướng dẫn thanh toán</a></li>
+                                <li><a href="#" className="hover:text-yellow-500 transition-colors cursor-pointer">Đăng ký thành viên</a></li>
+                                <li><a href="#" className="hover:text-yellow-500 transition-colors cursor-pointer">Hỗ trợ khách hàng</a></li>
+                                <li><a href="#" className="hover:text-yellow-500 transition-colors cursor-pointer">Câu hỏi thường gặp</a></li>
                             </ul>
                         </div>
                     </div>

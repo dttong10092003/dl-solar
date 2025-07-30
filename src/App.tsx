@@ -9,6 +9,8 @@ import GalleryPage from "./pages/GalleryPage";
 import FAQPage from "./pages/FAQPage";
 import ContactPage from "./pages/ContactPage";
 import Booking from "./pages/Booking";
+import MemberPolicyPage from "./pages/MemberPolicyPage";
+import PaymentPolicyPage from "./pages/PaymentPolicyPage";
 
 
 import './global.css'
@@ -27,6 +29,8 @@ function App() {
         <Route path="/faq" element={<FAQPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/booking" element={<Booking />} />
+        <Route path="/member-policy" element={<MemberPolicyPage />} />
+        <Route path="/payment-policy" element={<PaymentPolicyPage />} />
         {/* Add more routes as needed */}
       </Routes>
     </Router>
