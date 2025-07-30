@@ -347,30 +347,41 @@ export default function Header() {
                             
                             return (
                                 <div key={i} className="border-b border-gray-200">
-                                    <button
-                                        className="flex justify-between items-center w-full text-left px-4 py-3 hover:bg-gray-50 transition-colors"
-                                        onClick={() => {
-                                            if (isProduct) {
-                                                setMobileProductExpanded(!mobileProductExpanded);
-                                            } else if (isNews) {
-                                                setMobileNewsExpanded(!mobileNewsExpanded);
-                                            } else {
+                                    <div className="flex justify-between items-center w-full px-4 py-3 hover:bg-gray-50 transition-colors">
+                                        {/* Main menu item - clickable to navigate */}
+                                        <span 
+                                            className="text-gray-800 flex-1 cursor-pointer"
+                                            onClick={() => {
                                                 navigate(path);
                                                 closeMobileMenu();
-                                            }
-                                        }}
-                                    >
-                                        <span className="text-gray-800">{label}</span>
+                                            }}
+                                        >
+                                            {label}
+                                        </span>
+                                        
+                                        {/* Expand/Collapse button for submenu items */}
                                         {hasSubmenu && (
-                                            <ChevronRight 
-                                                className={`w-4 h-4 text-gray-600 transition-transform ${
-                                                    (isProduct && mobileProductExpanded) || (isNews && mobileNewsExpanded) 
-                                                        ? 'rotate-90' 
-                                                        : ''
-                                                }`} 
-                                            />
+                                            <button
+                                                className="p-1 rounded hover:bg-gray-200 transition-colors"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    if (isProduct) {
+                                                        setMobileProductExpanded(!mobileProductExpanded);
+                                                    } else if (isNews) {
+                                                        setMobileNewsExpanded(!mobileNewsExpanded);
+                                                    }
+                                                }}
+                                            >
+                                                <ChevronRight 
+                                                    className={`w-4 h-4 text-gray-600 transition-transform ${
+                                                        (isProduct && mobileProductExpanded) || (isNews && mobileNewsExpanded) 
+                                                            ? 'rotate-90' 
+                                                            : ''
+                                                    }`} 
+                                                />
+                                            </button>
                                         )}
-                                    </button>
+                                    </div>
                                     
                                     {/* Show submenu for Tin tức */}
                                     {isNews && mobileNewsExpanded && (

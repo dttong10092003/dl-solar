@@ -18,6 +18,9 @@ export const routeNameMap: { [key: string]: string } = {
   booking: "Đặt lịch khảo sát",
   "member-policy": "Chính sách thành viên",
   "payment-policy": "Chính sách thanh toán",
+  "shopping-guide": "Hướng dẫn mua hàng",
+  "privacy-policy": "Bảo mật thông tin cá nhân",
+  "purchase-guide": "Hướng dẫn thanh toán",
 };
 
 export const categories: Category[] = [

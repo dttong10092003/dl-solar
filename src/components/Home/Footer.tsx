@@ -1,4 +1,4 @@
-import { Phone, MessageCircle, ChevronUp } from "lucide-react"
+import { Phone, MessageCircle } from "lucide-react"
 import { useNavigate } from 'react-router-dom'
 
 export default function Footer() {
@@ -65,8 +65,8 @@ export default function Footer() {
                             <ul className="space-y-2 text-sm text-gray-300">
                                 <li><a onClick={() => navigate('/member-policy')} className="hover:text-yellow-500 transition-colors cursor-pointer">Chính sách thành viên</a></li>
                                 <li><a onClick={() => navigate('/payment-policy')} className="hover:text-yellow-500 transition-colors cursor-pointer">Chính sách thanh toán</a></li>
-                                <li><a href="#" className="hover:text-yellow-500 transition-colors cursor-pointer">Hướng dẫn mua hàng</a></li>
-                                <li><a href="#" className="hover:text-yellow-500 transition-colors cursor-pointer">Bảo mật thông tin cá nhân</a></li>
+                                <li><a onClick={() => navigate('/shopping-guide')} className="hover:text-yellow-500 transition-colors cursor-pointer">Hướng dẫn mua hàng</a></li>
+                                <li><a onClick={() => navigate('/privacy-policy')} className="hover:text-yellow-500 transition-colors cursor-pointer">Bảo mật thông tin cá nhân</a></li>
                             </ul>
                         </div>
 
@@ -74,11 +74,11 @@ export default function Footer() {
                         <div>
                             <h3 className="text-yellow-500 font-bold text-base lg:text-lg mb-3 lg:mb-4">HƯỚNG DẪN</h3>
                             <ul className="space-y-2 text-sm text-gray-300">
-                                <li><a href="#" className="hover:text-yellow-500 transition-colors cursor-pointer">Hướng dẫn mua hàng</a></li>
-                                <li><a href="#" className="hover:text-yellow-500 transition-colors cursor-pointer">Hướng dẫn thanh toán</a></li>
-                                <li><a href="#" className="hover:text-yellow-500 transition-colors cursor-pointer">Đăng ký thành viên</a></li>
-                                <li><a href="#" className="hover:text-yellow-500 transition-colors cursor-pointer">Hỗ trợ khách hàng</a></li>
-                                <li><a href="#" className="hover:text-yellow-500 transition-colors cursor-pointer">Câu hỏi thường gặp</a></li>
+                                <li><a onClick={() => navigate('/shopping-guide')} className="hover:text-yellow-500 transition-colors cursor-pointer">Hướng dẫn mua hàng</a></li>
+                                <li><a onClick={() => navigate('/purchase-guide')} className="hover:text-yellow-500 transition-colors cursor-pointer">Hướng dẫn thanh toán</a></li>
+                                <li><a onClick={() => navigate('/auth?tab=register')} className="hover:text-yellow-500 transition-colors cursor-pointer">Đăng ký thành viên</a></li>
+                                <li><a onClick={() => navigate('/contact')} className="hover:text-yellow-500 transition-colors cursor-pointer">Hỗ trợ khách hàng</a></li>
+                                <li><a onClick={() => navigate('/faq')} className="hover:text-yellow-500 transition-colors cursor-pointer">Câu hỏi thường gặp</a></li>
                             </ul>
                         </div>
                     </div>
@@ -86,9 +86,6 @@ export default function Footer() {
 
                 {/* Floating Support Buttons */}
                 <div className="fixed right-4 lg:right-6 bottom-4 lg:bottom-6 flex flex-col gap-2 lg:gap-3 z-50">
-                    <button className="w-10 h-10 lg:w-12 lg:h-12 bg-blue-700 hover:bg-blue-600 rounded-full flex items-center justify-center shadow-lg transition-colors cursor-pointer">
-                        <ChevronUp className="w-5 h-5 lg:w-6 lg:h-6 text-white" />
-                    </button>
                     <button className="w-10 h-10 lg:w-12 lg:h-12 bg-blue-700 hover:bg-blue-600 rounded-full flex items-center justify-center shadow-lg transition-colors cursor-pointer">
                         <Phone className="w-5 h-5 lg:w-6 lg:h-6 text-white" />
                     </button>
