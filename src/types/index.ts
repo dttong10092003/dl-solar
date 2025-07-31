@@ -19,6 +19,8 @@ interface Product {
   id: number
   name: string
   image: string
+  thumbnails: string[]
+  description: string
   currentPrice: number
   originalPrice: number | null
   discount: number | null
@@ -26,4 +28,21 @@ interface Product {
   subcategoryId: number
 }
 
-export type { PriceRange, Category, Subcategory, Product }
+interface CartItem {
+  id: number
+  productId: number
+  name: string
+  image: string
+  currentPrice: number
+  originalPrice: number | null
+  quantity: number
+  totalPrice: number
+}
+
+interface CartState {
+  items: CartItem[]
+  totalItems: number
+  totalAmount: number
+}
+
+export type { PriceRange, Category, Subcategory, Product, CartItem, CartState }

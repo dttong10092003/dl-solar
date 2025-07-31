@@ -1,10 +1,11 @@
 import { Minus, Plus, ShoppingCart, X, ChevronLeft, ChevronRight } from "lucide-react";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import clsx from "clsx";
 import { products } from "../data";
 import { formatPrice } from "../utils/format";
 import SuccessModal from "./SuccessModal";
+import { useCart } from "../hooks/useCart";
 
 interface Article {
     id: number
@@ -19,14 +20,22 @@ export default function ProductDetail() {
     const { id } = useParams<{ id: string }>();
     const productId = id ? parseInt(id) : null;
     const product = products.find(p => p.id === productId);
+    const { cart, addToCart } = useCart();
 
     const [activeTab, setActiveTab] = useState("description");
     const [quantity, setQuantity] = useState(1);
     const [selectedImage, setSelectedImage] = useState(product?.image || "");
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
-    // Add new state for cart item count
-    const [cartItemCount, setCartItemCount] = useState(0);
+
+    // Update selectedImage when product changes
+    useEffect(() => {
+        if (product?.image) {
+            setSelectedImage(product.image);
+        }
+        // Reset quantity when product changes
+        setQuantity(1);
+    }, [product?.image, product?.id]);
 
     const news: Article[] = [
         {
@@ -95,19 +104,7 @@ export default function ProductDetail() {
         },
     ];
 
-    const defaultThumbnails = [
-        "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/quat-cay-nang-luong-mat-troi-qhs-v218-anh9.jpg?v=1685085713240",
-        "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/quat-cay-nang-luong-mat-troi-qhs-v218-anh10.jpg?v=1685085714583",
-        "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/csd02-sl-rf-rad-30w-2-1.jpg?v=1685007656980",
-        "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/ld01-sl-160wh.png?v=1685008156257",
-        "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/can-den-chu-l-cho-dia-bay-ufo-nang-luong-mat-troi.jpg?v=1685086276963",
-        "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/remote-srne-cu-all5-cho-den-nang-luong-mat-troi-sokoyo-h1.jpg?v=1685086223887",
-        "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/quat-cay-nang-luong-mat-troi-qhs-v218-anh9.jpg?v=1685085713240",
-        "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/4-csd02-sl-100w.jpg?v=1685007518193",
-        "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/4-csd02-sl-100w.jpg?v=1685007518193",
-    ];
-
-    const thumbnails = product ? [product.image, ...defaultThumbnails.slice(1)] : defaultThumbnails;
+    const thumbnails = product?.thumbnails || [];
 
     const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -125,10 +122,20 @@ export default function ProductDetail() {
     const closeImageModal = () => setIsModalOpen(false);
 
     // Replace the existing handleAddToCart function
-    const handleAddToCart = (productId: number) => {
-        console.log(`Added product ${productId} with quantity ${quantity} to cart`);
-        setCartItemCount((prev) => prev + quantity);
-        setIsSuccessModalOpen(true);
+    const handleAddToCart = (productToAdd: typeof product) => {
+        if (productToAdd) {
+            addToCart(productToAdd, quantity);
+            console.log(`Added product ${productToAdd.id} with quantity ${quantity} to cart`);
+            setIsSuccessModalOpen(true);
+        }
+    };
+
+    // Helper function for adding product from list
+    const handleAddProductToCart = (productId: number) => {
+        const productToAdd = products.find(p => p.id === productId);
+        if (productToAdd) {
+            addToCart(productToAdd, 1); // Default quantity 1 for quick add
+        }
     };
 
     if (!product) {
@@ -270,7 +277,7 @@ export default function ProductDetail() {
                                     <div className="w-full border-2 border-blue-900 rounded-lg hover:border-yellow-500 transition-colors duration-400 cursor-pointer">
                                         <button
                                             className="w-full h-12 flex items-stretch overflow-hidden bg-blue-900 hover:bg-yellow-500 transition-colors duration-200 cursor-pointer rounded-sm"
-                                            onClick={() => handleAddToCart(product.id)}
+                                            onClick={() => handleAddToCart(product)}
                                         >
                                             <div className="bg-white flex items-center justify-center px-4 py-2 m-0.5 rounded-l-sm">
                                                 <ShoppingCart className="w-6 h-6 text-blue-900" />
@@ -337,11 +344,7 @@ export default function ProductDetail() {
                         {activeTab === "description" ? (
                             <div className="space-y-4">
                                 <p className="font-semibold text-sm">
-                                    Quạt cây năng lượng mặt trời cao cấp tận dụng nguồn năng lượng vô tận. Độ bền của sản phẩm lên đến 25 năm. Quạt tự nạp điện. Để lắp đặt, chỉ cần tấm pin đèn năng lượng ở nơi cao nhất có thể hấp thụ ánh sáng mặt trời.
-                                </p>
-                                <p className="font-semibold text-sm">An toàn với người sử dụng đúng rất tốt nhất là nơi hay mất điện, nơi không kéo dây điện được...</p>
-                                <p className="font-semibold text-sm">
-                                    Công Kadaza Việt Nam thương hiệu uy tín chất lượng với nhiều năm phục vụ các nhà NPP, Bán sỉ, Bán lẻ đèn led Việt Nam và xuất khẩu các nước Đông Nam Á. Hàng chất lượng cao, mẫu mã mới, bảo hành Tốt.
+                                    {product?.description || "Thông tin mô tả sản phẩm đang được cập nhật..."}
                                 </p>
                             </div>
                         ) : (
@@ -433,7 +436,7 @@ export default function ProductDetail() {
                                 </div>
                                 <div className="opacity-0 group-hover:opacity-100 transform group-hover:translate-y-0 translate-y-2 transition-all duration-300">
                                     <button
-                                        onClick={() => handleAddToCart(product.id)}
+                                        onClick={() => handleAddProductToCart(product.id)}
                                         className="w-full bg-white border-2 border-blue-900 text-blue-900 font-medium py-2 rounded-full flex items-center justify-center gap-2 hover:border-yellow-500 hover:bg-yellow-500 hover:text-white transition-all cursor-pointer"
                                     >
                                         <svg
@@ -498,7 +501,7 @@ export default function ProductDetail() {
                                 </div>
                                 <div className="opacity-0 group-hover:opacity-100 transform group-hover:translate-y-0 translate-y-2 transition-all duration-300">
                                     <button
-                                        onClick={() => handleAddToCart(product.id)}
+                                        onClick={() => handleAddProductToCart(product.id)}
                                         className="w-full bg-white border-2 border-blue-900 text-blue-900 font-medium py-2 rounded-full flex items-center justify-center gap-2 hover:border-yellow-500 hover:bg-yellow-500 hover:text-white transition-all cursor-pointer"
                                     >
                                         <svg
@@ -524,7 +527,7 @@ export default function ProductDetail() {
                 isOpen={isSuccessModalOpen}
                 setIsOpen={setIsSuccessModalOpen}
                 product={product ? { id: product.id, name: product.name, image: product.image, currentPrice: product.currentPrice } : null}
-                cartItemCount={cartItemCount}
+                cartItemCount={cart.totalItems}
                 onContinueShopping={() => {
                     // Navigate to products page or stay on current page
                     console.log("Continue shopping");

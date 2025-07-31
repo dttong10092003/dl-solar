@@ -62,6 +62,13 @@ export const products: Product[] = [
     id: 1,
     name: "Đèn đường NLMT 30W cao cấp",
     image: "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/csd02-sl-rf-rad-30w-2-1.jpg?v=1685007656980",
+    thumbnails: [
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/csd02-sl-rf-rad-30w-2-1.jpg?v=1685007656980",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/csd02-sl-70w-1-1.jpg?v=1685007515690",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/cp02-sl-rf-70w-882e2964-7300-4c1c-bfe3-b8ce4a0bae5d.jpg?v=1685007159840",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/rd-dsv2204-1.jpg?v=1685008012903"
+    ],
+    description: "Đèn đường năng lượng mặt trời công suất 30W với thiết kế hiện đại, chịu nước IP65. Tích hợp pin lithium 3.2V/12Ah, hoạt động liên tục 12-15 giờ. Phù hợp chiếu sáng đường phố, sân vườn và khu vực công cộng.",
     currentPrice: 4070000,
     originalPrice: 4200000,
     discount: 3,
@@ -72,6 +79,13 @@ export const products: Product[] = [
     id: 2,
     name: "Đèn đường NLMT 100W",
     image: "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/csd02-sl-70w-1-1.jpg?v=1685007515690",
+    thumbnails: [
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/csd02-sl-70w-1-1.jpg?v=1685007515690",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/csd02-sl-70w-1.jpg?v=1685007549850",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/csd02-sl-rf-rad-30w-2-1.jpg?v=1685007656980",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/ld01-sl-160wh.png?v=1685008156257"
+    ],
+    description: "Đèn đường năng lượng mặt trời công suất cao 100W, ánh sáng trắng 6500K. Tích hợp cảm biến chuyển động và ánh sáng tự động. Pin Lithium 3.2V/30Ah, thời gian hoạt động 8-12 giờ. Chất liệu nhôm đúc chống ăn mòn.",
     currentPrice: 25322000,
     originalPrice: null,
     discount: null,
@@ -82,6 +96,13 @@ export const products: Product[] = [
     id: 3,
     name: "Trụ đèn sân vườn hiện đại",
     image: "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/cp02-sl-rf-70w-882e2964-7300-4c1c-bfe3-b8ce4a0bae5d.jpg?v=1685007159840",
+    thumbnails: [
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/cp02-sl-rf-70w-882e2964-7300-4c1c-bfe3-b8ce4a0bae5d.jpg?v=1685007159840",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/can-den-chu-l-cho-dia-bay-ufo-nang-luong-mat-troi.jpg?v=1685086276963",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/can-den-cao-ap-don-nang-luong-mat-troi-cd10-60-h1.jpg?v=1685086301773",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/remote-srne-cu-all5-cho-den-nang-luong-mat-troi-sokoyo-h1.jpg?v=1685086223887"
+    ],
+    description: "Trụ đèn sân vườn thiết kế hiện đại với dạng tròn elegance. Sử dụng năng lượng mặt trời, tự động bật/tắt theo ánh sáng môi trường. Chiều cao 2.5m, thích hợp trang trí sân vườn, công viên và khu đô thị.",
     currentPrice: 5520000,
     originalPrice: 6000000,
     discount: 8,
@@ -92,6 +113,13 @@ export const products: Product[] = [
     id: 4,
     name: "Quạt NLMT mini",
     image: "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/z3615445059775-9c41899060e9be5e87d455ee61b4b504.jpg?v=1685085759660",
+    thumbnails: [
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/z3615445059775-9c41899060e9be5e87d455ee61b4b504.jpg?v=1685085759660",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/quat-cay-nang-luong-mat-troi-qhs-v218-anh9.jpg?v=1685085713240",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/quat-cay-nang-luong-mat-troi-qhs-v218-anh10.jpg?v=1685085714583",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/4-csd02-sl-100w.jpg?v=1685007518193"
+    ],
+    description: "Quạt cây năng lượng mặt trời mini với 3 tốc độ gió, pin lithium tích hợp 12V/12Ah. Điều khiển từ xa, đèn LED chiếu sáng đa chức năng. Hoạt động liên tục 6-10 giờ, thích hợp sử dụng ngoài trời và trong nhà.",
     currentPrice: 1204000,
     originalPrice: 1400000,
     discount: 14,
@@ -102,6 +130,13 @@ export const products: Product[] = [
     id: 5,
     name: "Bộ lưu điện 1000W",
     image: "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/ld01-sl-160wh.png?v=1685008156257",
+    thumbnails: [
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/ld01-sl-160wh.png?v=1685008156257",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/can-den-chu-l-cho-dia-bay-ufo-nang-luong-mat-troi.jpg?v=1685086276963",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/remote-srne-cu-all5-cho-den-nang-luong-mat-troi-sokoyo-h1.jpg?v=1685086223887",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/csd02-sl-rf-rad-30w-2-1.jpg?v=1685007656980"
+    ],
+    description: "Bộ lưu điện portable công suất 1000W với pin LiFePO4 160Wh. Hỗ trợ sạc năng lượng mặt trời và điện lưới. Tích hợp nhiều cổng sạc USB, AC, DC. Màn hình LCD hiển thị dung lượng pin và thời gian sử dụng.",
     currentPrice: 7800000,
     originalPrice: null,
     discount: null,
@@ -112,6 +147,13 @@ export const products: Product[] = [
     id: 6,
     name: "Phụ kiện đèn đường",
     image: "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/ld01-sl-160wh.png?v=1685008156257",
+    thumbnails: [
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/ld01-sl-160wh.png?v=1685008156257",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/remote-srne-cu-all5-cho-den-nang-luong-mat-troi-sokoyo-h1.jpg?v=1685086223887",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/can-den-cao-ap-don-nang-luong-mat-troi-cd10-60-h1.jpg?v=1685086301773",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/4-csd02-sl-100w.jpg?v=1685007518193"
+    ],
+    description: "Bộ phụ kiện lắp đặt đèn đường năng lượng mặt trời gồm: trụ đèn, chân đế, ốc vít inox, remote điều khiển. Chất liệu hợp kim nhôm chống ăn mòn, phù hợp mọi loại đèn đường NLMT từ 30W-200W.",
     currentPrice: 600000,
     originalPrice: 750000,
     discount: 20,
@@ -122,6 +164,13 @@ export const products: Product[] = [
     id: 7,
     name: "Đèn pha ngoài trời 50W",
     image: "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/rd-dsv2204-1.jpg?v=1685008012903",
+    thumbnails: [
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/rd-dsv2204-1.jpg?v=1685008012903",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/csd02-sl-70w-1.jpg?v=1685007549850",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/csd02-sl-70w-1-1.jpg?v=1685007515690",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/cp02-sl-rf-70w-882e2964-7300-4c1c-bfe3-b8ce4a0bae5d.jpg?v=1685007159840"
+    ],
+    description: "Đèn pha LED năng lượng mặt trời 50W chuyên dụng ngoài trời, chống nước IP67. Tích hợp cảm biến chuyển động PIR, tự động điều chỉnh độ sáng. Pin lithium 18650 dung lượng cao, hoạt động 8-12 giờ liên tục.",
     currentPrice: 2100000,
     originalPrice: 2500000,
     discount: 16,
@@ -132,6 +181,13 @@ export const products: Product[] = [
     id: 8,
     name: "Đèn pha trong nhà 30W",
     image: "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/csd02-sl-70w-1.jpg?v=1685007549850",
+    thumbnails: [
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/csd02-sl-70w-1.jpg?v=1685007549850",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/rd-dsv2204-1.jpg?v=1685008012903",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/csd02-sl-rf-rad-30w-2-1.jpg?v=1685007656980",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/ld01-sl-160wh.png?v=1685008156257"
+    ],
+    description: "Đèn pha LED trong nhà 30W thiết kế nhỏ gọn, ánh sáng trắng ấm 3000K. Tích hợp tấm pin mono cao cấp, sạc nhanh trong 6-8 giờ. Phù hợp chiếu sáng ban công, hiên nhà, garage và không gian nhỏ.",
     currentPrice: 1200000,
     originalPrice: null,
     discount: null,
@@ -142,6 +198,13 @@ export const products: Product[] = [
     id: 9,
     name: "Đèn liền thể 60W",
     image: "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/csd02-sl-70w-1-1.jpg?v=1685007515690",
+    thumbnails: [
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/csd02-sl-70w-1-1.jpg?v=1685007515690",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/csd02-sl-70w-1.jpg?v=1685007549850",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/csd02-sl-rf-rad-30w-2-1.jpg?v=1685007656980",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/rd-dsv2204-1.jpg?v=1685008012903"
+    ],
+    description: "Đèn đường liền thể 60W thiết kế All-in-One, tích hợp pin, tấm pin và bộ điều khiển trong 1 khối. Dễ lắp đặt, tiết kiệm chi phí. Pin LiFePO4 tuổi thọ cao, cảm biến thông minh, ánh sáng trắng 6000K.",
     currentPrice: 3915000,
     originalPrice: 4500000,
     discount: 13,
@@ -152,6 +215,13 @@ export const products: Product[] = [
     id: 10,
     name: "Đèn chiếc lá 80W",
     image: "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/csd02-sl-70w-1.jpg?v=1685007549850",
+    thumbnails: [
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/csd02-sl-70w-1.jpg?v=1685007549850",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/can-den-chu-l-cho-dia-bay-ufo-nang-luong-mat-troi.jpg?v=1685086276963",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/can-den-cao-ap-don-nang-luong-mat-troi-cd10-60-h1.jpg?v=1685086301773",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/cp02-sl-rf-70w-882e2964-7300-4c1c-bfe3-b8ce4a0bae5d.jpg?v=1685007159840"
+    ],
+    description: "Đèn đường thiết kế hình chiếc lá độc đáo 80W, thẩm mỹ cao và hiệu quả chiếu sáng tối ưu. Tấm pin polycrystalline hiệu suất cao, pin lithium 3.2V/25Ah. Tự động bật/tắt, chống thấm nước IP65.",
     currentPrice: 5984000,
     originalPrice: 6800000,
     discount: 12,
@@ -162,6 +232,13 @@ export const products: Product[] = [
     id: 11,
     name: "Trụ sân vườn nấm",
     image: "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/csd02-sl-70w-1-1.jpg?v=1685007515690",
+    thumbnails: [
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/csd02-sl-70w-1-1.jpg?v=1685007515690",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/cp02-sl-rf-70w-882e2964-7300-4c1c-bfe3-b8ce4a0bae5d.jpg?v=1685007159840",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/can-den-chu-l-cho-dia-bay-ufo-nang-luong-mat-troi.jpg?v=1685086276963",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/quat-cay-nang-luong-mat-troi-qhs-v218-anh9.jpg?v=1685085713240"
+    ],
+    description: "Trụ đèn sân vườn thiết kế dạng nấm hiện đại, tạo điểm nhấn thẩm mỹ cho không gian sân vườn. Ánh sáng vàng ấm 3000K, hoạt động tự động từ hoàng hôn đến bình minh. Chất liệu polycarbonate bền bỉ, chống tia UV.",
     currentPrice: 3182000,
     originalPrice: 3700000,
     discount: 14,
@@ -172,6 +249,13 @@ export const products: Product[] = [
     id: 12,
     name: "Pin lưu trữ 12V 100Ah",
     image: "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/csd02-sl-70w-1-1.jpg?v=1685007515690",
+    thumbnails: [
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/csd02-sl-70w-1-1.jpg?v=1685007515690",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/ld01-sl-160wh.png?v=1685008156257",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/remote-srne-cu-all5-cho-den-nang-luong-mat-troi-sokoyo-h1.jpg?v=1685086223887",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/4-csd02-sl-100w.jpg?v=1685007518193"
+    ],
+    description: "Pin gel acid 12V/100Ah chuyên dụng cho hệ thống năng lượng mặt trời, tuổi thọ 5-7 năm. Khả năng xả sâu tốt, chịu được nhiệt độ cao. Tích hợp bảo vệ quá sạc/quá xả, đầu cực chống ăn mòn.",
     currentPrice: 4500000,
     originalPrice: null,
     discount: null,
@@ -182,6 +266,13 @@ export const products: Product[] = [
     id: 13,
     name: "Cần đèn chiếu sáng hợp kim",
     image: "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/remote-srne-cu-all5-cho-den-nang-luong-mat-troi-sokoyo-h1.jpg?v=1685086223887",
+    thumbnails: [
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/remote-srne-cu-all5-cho-den-nang-luong-mat-troi-sokoyo-h1.jpg?v=1685086223887",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/can-den-cao-ap-don-nang-luong-mat-troi-cd10-60-h1.jpg?v=1685086301773",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/can-den-chu-l-cho-dia-bay-ufo-nang-luong-mat-troi.jpg?v=1685086276963",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/ld01-sl-160wh.png?v=1685008156257"
+    ],
+    description: "Cần đèn chiếu sáng bằng hợp kim nhôm 6063-T5, chiều cao 3-6m có thể điều chỉnh. Thiết kế chữ L hoặc cần đơn, khả năng chịu gió cấp 12. Phù hợp lắp đặt đèn pha, đèn đường năng lượng mặt trời.",
     currentPrice: 946000,
     originalPrice: 1100000,
     discount: 14,
@@ -192,6 +283,13 @@ export const products: Product[] = [
     id: 14,
     name: "Máy phát điện 5kW",
     image: "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/can-den-chu-l-cho-dia-bay-ufo-nang-luong-mat-troi.jpg?v=1685086276963",
+    thumbnails: [
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/can-den-chu-l-cho-dia-bay-ufo-nang-luong-mat-troi.jpg?v=1685086276963",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/ld01-sl-160wh.png?v=1685008156257",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/remote-srne-cu-all5-cho-den-nang-luong-mat-troi-sokoyo-h1.jpg?v=1685086223887",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/4-csd02-sl-100w.jpg?v=1685007518193"
+    ],
+    description: "Máy phát điện hybrid năng lượng mặt trời 5kW, kết hợp inverter và bộ sạc thông minh. Hỗ trợ on-grid và off-grid, tự động chuyển đổi nguồn điện. Màn hình LCD hiển thị thông số, bảo vệ đa cấp độ.",
     currentPrice: 9000000,
     originalPrice: 10000000,
     discount: 10,
@@ -202,6 +300,13 @@ export const products: Product[] = [
     id: 15,
     name: "Đèn ốp trần LED cao cấp",
     image: "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/can-den-chu-l-cho-dia-bay-ufo-nang-luong-mat-troi.jpg?v=1685086276963",
+    thumbnails: [
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/can-den-chu-l-cho-dia-bay-ufo-nang-luong-mat-troi.jpg?v=1685086276963",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/can-den-cao-ap-don-nang-luong-mat-troi-cd10-60-h1.jpg?v=1685086301773",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/csd02-sl-rf-rad-30w-2-1.jpg?v=1685007656980",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/csd02-sl-70w-1.jpg?v=1685007549850"
+    ],
+    description: "Đèn ốp trần LED năng lượng mặt trời 24W thiết kế mỏng, ánh sáng trắng tự nhiên 4000K. Tích hợp pin lithium ẩn, điều khiển từ xa 3 chế độ sáng. Lắp đặt đơn giản, phù hợp phòng khách, phòng ngủ.",
     currentPrice: 1000000,
     originalPrice: 1250000,
     discount: 20,
@@ -212,6 +317,13 @@ export const products: Product[] = [
     id: 16,
     name: "Dây nối điện chống cháy",
     image: "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/can-den-cao-ap-don-nang-luong-mat-troi-cd10-60-h1.jpg?v=1685086301773",
+    thumbnails: [
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/can-den-cao-ap-don-nang-luong-mat-troi-cd10-60-h1.jpg?v=1685086301773",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/remote-srne-cu-all5-cho-den-nang-luong-mat-troi-sokoyo-h1.jpg?v=1685086223887",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/ld01-sl-160wh.png?v=1685008156257",
+      "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/4-csd02-sl-100w.jpg?v=1685007518193"
+    ],
+    description: "Dây điện chống cháy CVV 2x2.5mm² tiêu chuẩn IEC, vỏ bọc PVC chống tia UV và thời tiết. Lõi đồng nguyên chất, chịu được dòng điện 20A. Cuộn 100m, phù hợp nối dài cho hệ thống đèn năng lượng mặt trời.",
     currentPrice: 301000,
     originalPrice: 350000,
     discount: 14,

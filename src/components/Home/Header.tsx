@@ -7,15 +7,18 @@ import {
     Mail,
     Clock,
     User,
-    ShoppingCart,
     ChevronDown,
     Menu,
     MoreHorizontal,
     ChevronRight,
+    ShoppingCart,
 } from "lucide-react";
+import CartDrawer from '../CartDrawer';
+import { useCart } from '../../hooks/useCart';
 
 export default function Header() {
     const navigate = useNavigate();
+    const { cart } = useCart();
 
     const newsCategories: { id: number; name: string }[] = [
         { id: 1, name: "Tin tức điện mặt trời" },
@@ -79,6 +82,7 @@ export default function Header() {
     const [isMobileContactOpen, setIsMobileContactOpen] = useState(false);
     const [mobileProductExpanded, setMobileProductExpanded] = useState(false);
     const [mobileNewsExpanded, setMobileNewsExpanded] = useState(false);
+    const [isCartOpen, setIsCartOpen] = useState(false);
 
     const handleAuthNavigation = (tab: string) => {
         navigate(`/auth?tab=${tab}`);
@@ -181,7 +185,7 @@ export default function Header() {
                         {/* Contact info + nav */}
                         <div className="flex flex-col w-full pl-4 lg:pl-8">
                             {/* Contact Info - Hidden on tablets, shown on desktop */}
-                            <div className="hidden lg:flex justify-around items-center w-full text-sm xl:text-base mb-3">
+                            <div className="hidden lg:flex items-center w-full text-sm xl:text-base mb-3 ml-10">
                                 <div className="flex items-center space-x-8 xl:space-x-24">
                                     <div className="flex items-center space-x-2">
                                         <Phone className="w-4 h-4 xl:w-5 xl:h-5 text-[#0d2b6b]" />
@@ -221,12 +225,16 @@ export default function Header() {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="flex items-center space-x-2">
-                                        <ShoppingCart className="w-4 h-4 xl:w-5 xl:h-5 text-blue-900" />
+                                    <div className="flex items-center space-x-2 cursor-pointer relative" 
+                                         onMouseEnter={() => setIsCartOpen(true)}
+                                         onMouseLeave={() => setIsCartOpen(false)}>
+                                        <ShoppingCart className="w-5 h-5 text-blue-900" />
                                         <div>
-                                            <div className="text-gray-700 font-bold cursor-pointer hover:text-[#f3bd01]">Giỏ hàng</div>
-                                            <div className="text-gray-700"><span className="text-[#f3bd01]">0</span> Sản phẩm</div>
+                                            <div className="text-gray-700 font-bold">Giỏ hàng</div>
+                                            <div className="text-gray-700"><span className="text-[#f3bd01]">{cart.totalItems}</span> Sản phẩm</div>
                                         </div>
+                                        {/* Cart Modal */}
+                                        <CartDrawer isOpen={isCartOpen} />
                                     </div>
                                 </div>
                             </div>
@@ -495,12 +503,16 @@ export default function Header() {
                             </div>
                         </div>
                         
-                        <div className="flex items-center space-x-3">
+                        <div className="flex items-center space-x-3 cursor-pointer relative" 
+                             onMouseEnter={() => setIsCartOpen(true)}
+                             onMouseLeave={() => setIsCartOpen(false)}>
                             <ShoppingCart className="w-5 h-5 text-blue-900" />
                             <div>
                                 <div className="text-gray-700 font-bold">Giỏ hàng</div>
-                                <div className="text-gray-700"><span className="text-[#f3bd01]">2</span> Sản phẩm</div>
+                                <div className="text-gray-700"><span className="text-[#f3bd01]">{cart.totalItems}</span> Sản phẩm</div>
                             </div>
+                            {/* Cart Modal */}
+                            <CartDrawer isOpen={isCartOpen} />
                         </div>
                     </div>
                 </div>
