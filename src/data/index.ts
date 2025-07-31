@@ -16,6 +16,7 @@ export const routeNameMap: { [key: string]: string } = {
   faq: "Câu hỏi thường gặp",
   contact: "Liên hệ",
   booking: "Đặt lịch khảo sát",
+  cart: "Giỏ hàng",
   "member-policy": "Chính sách thành viên",
   "payment-policy": "Chính sách thanh toán",
   "shopping-guide": "Hướng dẫn mua hàng",

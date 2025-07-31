@@ -14,6 +14,7 @@ import PaymentPolicyPage from "./pages/PaymentPolicyPage";
 import ShoppingPolicyPage from "./pages/ShoppingPolicyPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import PurchaseGuidePage from "./pages/PurchaseGuidePage";
+import CartPage from "./pages/CartPage";
 
 import './global.css'
 
@@ -27,6 +28,7 @@ function App() {
         <Route path="/products" element={<ProductPage />} />
         <Route path="/news" element={<NewsPage />} />
         <Route path="/product/:id" element={<ProductDetailPage />} />
+        <Route path="/cart" element={<CartPage />} />
         <Route path="/gallery" element={<GalleryPage />} />
         <Route path="/faq" element={<FAQPage />} />
         <Route path="/contact" element={<ContactPage />} />
@@ -38,7 +40,7 @@ function App() {
         <Route path="/purchase-guide" element={<PurchaseGuidePage />} />
 
 
-        
+
         {/* Add more routes as needed */}
       </Routes>
     </Router>

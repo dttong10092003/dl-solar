@@ -225,12 +225,13 @@ export default function Header() {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="flex items-center space-x-2 cursor-pointer relative" 
-                                         onMouseEnter={() => setIsCartOpen(true)}
-                                         onMouseLeave={() => setIsCartOpen(false)}>
+                                    <div className="flex items-center space-x-2 cursor-pointer relative"
+                                        onMouseEnter={() => setIsCartOpen(true)}
+                                        onMouseLeave={() => setIsCartOpen(false)}
+                                    >
                                         <ShoppingCart className="w-5 h-5 text-blue-900" />
                                         <div>
-                                            <div className="text-gray-700 font-bold">Giỏ hàng</div>
+                                            <div className="text-gray-700 font-bold hover:text-yellow-500" onClick={() => navigate('/cart')}>Giỏ hàng</div>
                                             <div className="text-gray-700"><span className="text-[#f3bd01]">{cart.totalItems}</span> Sản phẩm</div>
                                         </div>
                                         {/* Cart Modal */}
@@ -352,12 +353,12 @@ export default function Header() {
                             const isProduct = label === 'Sản phẩm';
                             const isNews = label === 'Tin tức';
                             const hasSubmenu = isProduct || isNews;
-                            
+
                             return (
                                 <div key={i} className="border-b border-gray-200">
                                     <div className="flex justify-between items-center w-full px-4 py-3 hover:bg-gray-50 transition-colors">
                                         {/* Main menu item - clickable to navigate */}
-                                        <span 
+                                        <span
                                             className="text-gray-800 flex-1 cursor-pointer"
                                             onClick={() => {
                                                 navigate(path);
@@ -366,7 +367,7 @@ export default function Header() {
                                         >
                                             {label}
                                         </span>
-                                        
+
                                         {/* Expand/Collapse button for submenu items */}
                                         {hasSubmenu && (
                                             <button
@@ -380,17 +381,16 @@ export default function Header() {
                                                     }
                                                 }}
                                             >
-                                                <ChevronRight 
-                                                    className={`w-4 h-4 text-gray-600 transition-transform ${
-                                                        (isProduct && mobileProductExpanded) || (isNews && mobileNewsExpanded) 
-                                                            ? 'rotate-90' 
+                                                <ChevronRight
+                                                    className={`w-4 h-4 text-gray-600 transition-transform ${(isProduct && mobileProductExpanded) || (isNews && mobileNewsExpanded)
+                                                            ? 'rotate-90'
                                                             : ''
-                                                    }`} 
+                                                        }`}
                                                 />
                                             </button>
                                         )}
                                     </div>
-                                    
+
                                     {/* Show submenu for Tin tức */}
                                     {isNews && mobileNewsExpanded && (
                                         <div className="bg-gray-50 px-6 py-2">
@@ -451,7 +451,7 @@ export default function Header() {
                 </div>
             )}
 
-            {/* Mobile Contact Modal */}              
+            {/* Mobile Contact Modal */}
             {isMobileContactOpen && (
                 <div className="md:hidden bg-white shadow-lg border-t border-gray-200">
                     <div className="p-4 space-y-4">
@@ -462,7 +462,7 @@ export default function Header() {
                                 <div className="text-gray-700">1900 6750</div>
                             </div>
                         </div>
-                        
+
                         <div className="flex items-center space-x-3">
                             <Mail className="w-5 h-5 text-blue-900" />
                             <div>
@@ -470,7 +470,7 @@ export default function Header() {
                                 <div className="text-gray-700">support@sapo.vn</div>
                             </div>
                         </div>
-                        
+
                         <div className="flex items-center space-x-3">
                             <Clock className="w-5 h-5 text-blue-900" />
                             <div>
@@ -478,7 +478,7 @@ export default function Header() {
                                 <div className="text-gray-700">8h00 - 17h30</div>
                             </div>
                         </div>
-                        
+
                         <div className="flex items-center space-x-3">
                             <User className="w-5 h-5 text-blue-900" />
                             <div>
@@ -502,13 +502,13 @@ export default function Header() {
                                 </div>
                             </div>
                         </div>
-                        
-                        <div className="flex items-center space-x-3 cursor-pointer relative" 
-                             onMouseEnter={() => setIsCartOpen(true)}
-                             onMouseLeave={() => setIsCartOpen(false)}>
+
+                        <div className="flex items-center space-x-3 cursor-pointer relative"
+                            onMouseEnter={() => setIsCartOpen(true)}
+                            onMouseLeave={() => setIsCartOpen(false)}>
                             <ShoppingCart className="w-5 h-5 text-blue-900" />
                             <div>
-                                <div className="text-gray-700 font-bold">Giỏ hàng</div>
+                                <div className="text-gray-700 font-bold hover:text-yellow-500" onClick={() => navigate('/cart')}>Giỏ hàng</div>
                                 <div className="text-gray-700"><span className="text-[#f3bd01]">{cart.totalItems}</span> Sản phẩm</div>
                             </div>
                             {/* Cart Modal */}
