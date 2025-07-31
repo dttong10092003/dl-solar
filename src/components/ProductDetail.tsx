@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import clsx from "clsx";
 import { products } from "../data";
 import { formatPrice } from "../utils/format";
-
+import SuccessModal from "./SuccessModal";
 
 interface Article {
     id: number
@@ -20,7 +20,13 @@ export default function ProductDetail() {
     const productId = id ? parseInt(id) : null;
     const product = products.find(p => p.id === productId);
 
-    const [activeTab, setActiveTab] = useState("description")
+    const [activeTab, setActiveTab] = useState("description");
+    const [quantity, setQuantity] = useState(1);
+    const [selectedImage, setSelectedImage] = useState(product?.image || "");
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+    // Add new state for cart item count
+    const [cartItemCount, setCartItemCount] = useState(0);
 
     const news: Article[] = [
         {
@@ -28,7 +34,7 @@ export default function ProductDetail() {
             title: "Phát triển bền vững là gì? Các mục tiêu phát triển bền vững",
             image: "https://bizweb.dktcdn.net/100/487/020/articles/8-db826524-76aa-4d6c-a11c-7a0ac7ead6da.jpg?v=1685089847453",
             date: "26/05/2023",
-            excerpt: "Động lực tăng trưởng kinh tế đã dẫn đến nhiều hệ lụy như suy thoái môi trường và chênh lệch xã hội. Do đó phát triển bền vững đã được đặt ra nhằm. Động lực tăng trưởng kinh tế đã dẫn đến nhiều hệ lụy như suy thoái môi trường và chênh lệch xã hội. Do đó phát triển bền vững đã được đặt ra nhằm",
+            excerpt: "Động lực tăng trưởng kinh tế đã dẫn đến nhiều hệ lụy như suy thoái môi trường và chênh lệch xã hội. Do đó phát triển bền vững đã được đặt ra nhằm.",
             categoryId: 1,
         },
         {
@@ -87,9 +93,8 @@ export default function ProductDetail() {
             excerpt: "Hướng dẫn cách dùng điều hòa tiết kiệm điện nhất Trái đất nóng lên, nhiệt độ tăng cao và mùa hè kéo dài là những nguyên nhân khiến nhu cầu sử dụng...",
             categoryId: 2,
         },
-    ]
+    ];
 
-    // Fallback thumbnails nếu không tìm thấy sản phẩm
     const defaultThumbnails = [
         "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/quat-cay-nang-luong-mat-troi-qhs-v218-anh9.jpg?v=1685085713240",
         "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/quat-cay-nang-luong-mat-troi-qhs-v218-anh10.jpg?v=1685085714583",
@@ -102,12 +107,7 @@ export default function ProductDetail() {
         "https://bizweb.dktcdn.net/thumb/large/100/487/020/products/4-csd02-sl-100w.jpg?v=1685007518193",
     ];
 
-    // Sử dụng ảnh sản phẩm hoặc ảnh mặc định
     const thumbnails = product ? [product.image, ...defaultThumbnails.slice(1)] : defaultThumbnails;
-
-    const [quantity, setQuantity] = useState(1);
-    const [selectedImage, setSelectedImage] = useState(thumbnails[0]);
-    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -124,11 +124,13 @@ export default function ProductDetail() {
     const openImageModal = () => setIsModalOpen(true);
     const closeImageModal = () => setIsModalOpen(false);
 
+    // Replace the existing handleAddToCart function
     const handleAddToCart = (productId: number) => {
-        console.log(`Added product ${productId} to cart`);
+        console.log(`Added product ${productId} with quantity ${quantity} to cart`);
+        setCartItemCount((prev) => prev + quantity);
+        setIsSuccessModalOpen(true);
     };
 
-    // Nếu không tìm thấy sản phẩm
     if (!product) {
         return (
             <div className="min-h-screen bg-[#eef6fc] p-4 flex items-center justify-center">
@@ -154,7 +156,6 @@ export default function ProductDetail() {
         <div className="min-h-screen bg-[#eef6fc] p-4 py-8">
             <div className="max-w-7xl mx-auto font-semibold pb-10">
                 <div className="flex flex-col lg:flex-row gap-6 items-stretch">
-
                     {/* LEFT: Image + Thumbnails */}
                     <div className="w-full flex flex-col gap-4 lg:flex-[2] max-w-full lg:max-w-[calc(100%*2/6)]">
                         <div
@@ -170,15 +171,12 @@ export default function ProductDetail() {
 
                         {/* Thumbnails */}
                         <div className="bg-white rounded-2xl p-4 h-full relative overflow-hidden">
-                            {/* Nút scroll trái */}
                             <button
                                 onClick={() => scrollBy(-120)}
                                 className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-white shadow rounded-full p-1 hover:bg-gray-100"
                             >
                                 <ChevronLeft className="w-5 h-5 cursor-pointer" />
                             </button>
-
-                            {/* Thumbnail list */}
                             <div
                                 ref={scrollRef}
                                 className="flex gap-2 overflow-x-auto flex-nowrap scroll-smooth scrollbar-hide"
@@ -202,8 +200,6 @@ export default function ProductDetail() {
                                     </div>
                                 ))}
                             </div>
-
-                            {/* Nút scroll phải */}
                             <button
                                 onClick={() => scrollBy(120)}
                                 className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-white shadow rounded-full p-1 hover:bg-gray-100"
@@ -218,9 +214,8 @@ export default function ProductDetail() {
                         <div className="bg-white rounded-2xl p-6 shadow-sm h-full flex flex-col justify-between">
                             <div className="space-y-6">
                                 <h1 className="text-2xl lg:text-2xl font-semibold text-gray-900">
-                                    {product?.name || "Sản phẩm không tồn tại"}
+                                    {product.name}
                                 </h1>
-
                                 <div className="space-y-2">
                                     <div className="flex items-center gap-2">
                                         <span className="text-gray-600 font-semibold">Tình trạng:</span>
@@ -228,34 +223,29 @@ export default function ProductDetail() {
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <span className="text-gray-600 font-semibold">Mã sản phẩm:</span>
-                                        <span className="text-blue-500">{product?.id || "N/A"}</span>
+                                        <span className="text-blue-500">{product.id}</span>
                                     </div>
                                 </div>
-
-                                {product && (
-                                    <div className="space-y-2 bg-[#eef6fc] p-2 rounded-lg">
-                                        <div className="flex items-baseline gap-3">
-                                            <span className="text-3xl font-semibold text-blue-900">
-                                                {formatPrice(product.currentPrice)}
-                                            </span>
-                                            {product.originalPrice && (
-                                                <span className="text-gray-400 line-through font-semibold">
-                                                    {formatPrice(product.originalPrice)}
-                                                </span>
-                                            )}
-                                        </div>
+                                <div className="space-y-2 bg-[#eef6fc] p-2 rounded-lg">
+                                    <div className="flex items-baseline gap-3">
+                                        <span className="text-3xl font-semibold text-blue-900">
+                                            {formatPrice(product.currentPrice)}
+                                        </span>
                                         {product.originalPrice && (
-                                            <div className="flex items-center gap-2">
-                                                <span className="text-gray-600 font-semibold">Tiết kiệm:</span>
-                                                <span className="text-red-500 font-semibold">
-                                                    {formatPrice(product.originalPrice - product.currentPrice)}
-                                                </span>
-                                            </div>
+                                            <span className="text-gray-400 line-through font-semibold">
+                                                {formatPrice(product.originalPrice)}
+                                            </span>
                                         )}
                                     </div>
-                                )}
-
-                                {/* Số lượng và Giỏ hàng */}
+                                    {product.originalPrice && (
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-gray-600 font-semibold">Tiết kiệm:</span>
+                                            <span className="text-red-500 font-semibold">
+                                                {formatPrice(product.originalPrice - product.currentPrice)}
+                                            </span>
+                                        </div>
+                                    )}
+                                </div>
                                 <div className="space-y-4">
                                     <div>
                                         <label className="block text-gray-700 font-semibold mb-2">Số lượng:</label>
@@ -277,9 +267,11 @@ export default function ProductDetail() {
                                             </button>
                                         </div>
                                     </div>
-
                                     <div className="w-full border-2 border-blue-900 rounded-lg hover:border-yellow-500 transition-colors duration-400 cursor-pointer">
-                                        <button className="w-full h-12 flex items-stretch overflow-hidden bg-blue-900 hover:bg-yellow-500 transition-colors duration-200 cursor-pointer rounded-sm">
+                                        <button
+                                            className="w-full h-12 flex items-stretch overflow-hidden bg-blue-900 hover:bg-yellow-500 transition-colors duration-200 cursor-pointer rounded-sm"
+                                            onClick={() => handleAddToCart(product.id)}
+                                        >
                                             <div className="bg-white flex items-center justify-center px-4 py-2 m-0.5 rounded-l-sm">
                                                 <ShoppingCart className="w-6 h-6 text-blue-900" />
                                             </div>
@@ -326,78 +318,51 @@ export default function ProductDetail() {
             </div>
 
             <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 font-semibold pb-10">
-                {/* Main Content Area */}
                 <div className="lg:col-span-2 bg-white rounded-lg shadow-sm p-6">
                     <div className="flex mb-6">
                         <button
-                            className={`cursor-pointer px-6 py-3 text-lg font-semibold rounded-t-lg transition-colors duration-200 ${activeTab === "description" ? "bg-[#2A4365] text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                                }`}
+                            className={`cursor-pointer px-6 py-3 text-lg font-semibold rounded-t-lg transition-colors duration-200 ${activeTab === "description" ? "bg-[#2A4365] text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}
                             onClick={() => setActiveTab("description")}
                         >
                             MÔ TẢ SẢN PHẨM
                         </button>
                         <button
-                            className={`cursor-pointer px-6 py-3 text-lg font-semibold rounded-t-lg transition-colors duration-200 ${activeTab === "guide" ? "bg-[#2A4365] text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                                }`}
+                            className={`cursor-pointer px-6 py-3 text-lg font-semibold rounded-t-lg transition-colors duration-200 ${activeTab === "guide" ? "bg-[#2A4365] text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}
                             onClick={() => setActiveTab("guide")}
                         >
                             HƯỚNG DẪN MUA HÀNG
                         </button>
                     </div>
-
                     <div className="prose max-w-none text-gray-700 border-1 p-2 rounded-sm">
                         {activeTab === "description" ? (
                             <div className="space-y-4">
                                 <p className="font-semibold text-sm">
-                                    Quạt cây năng lượng mặt trời cao cấp tận dụng nguồn năng lượng vô tận. Độ bền của sản phẩm lên đến 25
-                                    năm. Quạt tự nạp điện. Để lắp đặt, chỉ cần tấm pin đèn năng lượng ở nơi cao nhất có thể hấp thụ ánh
-                                    sáng mặt trời.
+                                    Quạt cây năng lượng mặt trời cao cấp tận dụng nguồn năng lượng vô tận. Độ bền của sản phẩm lên đến 25 năm. Quạt tự nạp điện. Để lắp đặt, chỉ cần tấm pin đèn năng lượng ở nơi cao nhất có thể hấp thụ ánh sáng mặt trời.
                                 </p>
                                 <p className="font-semibold text-sm">An toàn với người sử dụng đúng rất tốt nhất là nơi hay mất điện, nơi không kéo dây điện được...</p>
                                 <p className="font-semibold text-sm">
-                                    Công Kadaza Việt Nam thương hiệu uy tín chất lượng với nhiều năm phục vụ các nhà NPP, Bán sỉ, Bán lẻ
-                                    đèn led Việt Nam và xuất khẩu các nước Đông Nam Á. Hàng chất lượng cao, mẫu mã mới, bảo hành Tốt.
+                                    Công Kadaza Việt Nam thương hiệu uy tín chất lượng với nhiều năm phục vụ các nhà NPP, Bán sỉ, Bán lẻ đèn led Việt Nam và xuất khẩu các nước Đông Nam Á. Hàng chất lượng cao, mẫu mã mới, bảo hành Tốt.
                                 </p>
                             </div>
                         ) : (
                             <div className="space-y-4">
                                 <p className="font-semibold text-sm"><span className="font-bold">Bước 1:</span> Truy cập website và lựa chọn sản phẩm cần mua</p>
-                                <p className="font-semibold text-sm">
-                                    <span className="font-bold">Bước 2:</span> Click vào sản phẩm muốn mua, màn hình hiển thị ra pop up với các lựa chọn sau
-                                </p>
-                                <p className="font-semibold text-sm">
-                                    Nếu bạn muốn tiếp tục mua hàng: Bấm vào phần tiếp tục mua hàng để lựa chọn thêm sản phẩm vào giỏ hàng
-                                </p>
+                                <p className="font-semibold text-sm"><span className="font-bold">Bước 2:</span> Click vào sản phẩm muốn mua, màn hình hiển thị ra pop up với các lựa chọn sau</p>
+                                <p className="font-semibold text-sm">Nếu bạn muốn tiếp tục mua hàng: Bấm vào phần tiếp tục mua hàng để lựa chọn thêm sản phẩm vào giỏ hàng</p>
                                 <p className="font-semibold text-sm">Nếu bạn muốn xem giỏ hàng để cập nhật sản phẩm: Bấm vào xem giỏ hàng</p>
                                 <p className="font-semibold text-sm">Nếu bạn muốn đặt hàng và thanh toán cho sản phẩm này vui lòng bấm vào: Đặt hàng và thanh toán</p>
                                 <p className="font-semibold text-sm"><span className="font-bold">Bước 3:</span> Lựa chọn thông tin tài khoản thanh toán</p>
-                                <p className="font-semibold text-sm">
-                                    Nếu bạn đã có tài khoản vui lòng nhập thông tin tên đăng nhập là email và mật khẩu mua được đã có tài
-                                    khoản trên hệ thống
-                                </p>
-                                <p className="font-semibold text-sm">
-                                    Nếu bạn chưa có tài khoản và muốn đăng ký tài khoản vui lòng điền các thông tin cá nhân để tiếp tục
-                                    đăng ký tài khoản. Khi có tài khoản bạn sẽ dễ dàng theo dõi đơn hàng của mình
-                                </p>
-                                <p className="font-semibold text-sm">
-                                    Nếu bạn muốn mua hàng mà không cần tài khoản vui lòng nhấp chuột vào mục đặt hàng không cần tài khoản
-                                </p>
-                                <p className="font-semibold text-sm">
-                                    <span className="font-bold">Bước 4:</span> Điền các thông tin của bạn để nhận đơn hàng, lựa chọn hình thức thanh toán và vận chuyển cho
-                                    đơn hàng của mình
-                                </p>
+                                <p className="font-semibold text-sm">Nếu bạn đã có tài khoản vui lòng nhập thông tin tên đăng nhập là email và mật khẩu mua được đã có tài khoản trên hệ thống</p>
+                                <p className="font-semibold text-sm">Nếu bạn chưa có tài khoản và muốn đăng ký tài khoản vui lòng điền các thông tin cá nhân để tiếp tục đăng ký tài khoản. Khi có tài khoản bạn sẽ dễ dàng theo dõi đơn hàng của mình</p>
+                                <p className="font-semibold text-sm">Nếu bạn muốn mua hàng mà không cần tài khoản vui lòng nhấp chuột vào mục đặt hàng không cần tài khoản</p>
+                                <p className="font-semibold text-sm"><span className="font-bold">Bước 4:</span> Điền các thông tin của bạn để nhận đơn hàng, lựa chọn hình thức thanh toán và vận chuyển cho đơn hàng của mình</p>
                                 <p className="font-semibold text-sm"><span className="font-bold">Bước 5:</span> Xem lại thông tin đặt hàng, điền chú thích và gửi đơn hàng</p>
-                                <p className="font-semibold text-sm">
-                                    Sau khi nhận được đơn hàng bạn gọi chúng tôi sẽ liên hệ bằng cách gọi điện lại để xác nhận lại đơn
-                                    hàng và địa chỉ của bạn.
-                                </p>
+                                <p className="font-semibold text-sm">Sau khi nhận được đơn hàng bạn gọi chúng tôi sẽ liên hệ bằng cách gọi điện lại để xác nhận lại đơn hàng và địa chỉ của bạn.</p>
                                 <p className="font-semibold text-sm">Trân trọng cảm ơn.</p>
                             </div>
                         )}
                     </div>
                 </div>
-
-                {/* Sidebar Area */}
                 <div className="lg:col-span-1 bg-white rounded-lg shadow-sm">
                     <div className="rounded-t-lg py-4 px-6">
                         <h2 className="text-2xl font-semibold text-[#003366]">Tin tức mới nhất</h2>
@@ -436,7 +401,6 @@ export default function ProductDetail() {
                             key={product.id}
                             className="relative group rounded-2xl bg-white transition-all duration-300 overflow-hidden hover:bg-[#ebf9ff] cursor-pointer"
                         >
-                            {/* Image */}
                             <div className="relative p-4 pb-0">
                                 <img
                                     src={product.image || "/placeholder.svg"}
@@ -449,8 +413,6 @@ export default function ProductDetail() {
                                     </span>
                                 )}
                             </div>
-
-                            {/* Info */}
                             <div className="p-4 pt-2">
                                 <h3 className="text-gray-800 text-sm font-medium min-h-[40px] leading-relaxed mb-3 text-center transition-colors duration-200 group-hover:text-yellow-500 cursor-pointer line-clamp-2">
                                     {product.name}
@@ -469,9 +431,6 @@ export default function ProductDetail() {
                                         </div>
                                     )}
                                 </div>
-
-
-                                {/* Hover-only button */}
                                 <div className="opacity-0 group-hover:opacity-100 transform group-hover:translate-y-0 translate-y-2 transition-all duration-300">
                                     <button
                                         onClick={() => handleAddToCart(product.id)}
@@ -495,7 +454,7 @@ export default function ProductDetail() {
                 </div>
             </div>
 
-            <div className="max-w-7xl mx-auto py-2 px-6 rounded-2xl bg-white">
+            <div className="max-w-7xl mx-auto py-2 px-6 rounded-2xl bg-white mb-10">
                 <div className="text-center mb-12">
                     <h1 className="text-4xl md:text-5xl font-bold text-blue-900 mb-8">
                         Sản phẩm đã xem
@@ -507,7 +466,6 @@ export default function ProductDetail() {
                             key={product.id}
                             className="relative group rounded-2xl bg-white transition-all duration-300 overflow-hidden hover:bg-[#ebf9ff] cursor-pointer"
                         >
-                            {/* Image */}
                             <div className="relative p-4 pb-0">
                                 <img
                                     src={product.image || "/placeholder.svg"}
@@ -520,8 +478,6 @@ export default function ProductDetail() {
                                     </span>
                                 )}
                             </div>
-
-                            {/* Info */}
                             <div className="p-4 pt-2">
                                 <h3 className="text-gray-800 text-sm font-medium min-h-[40px] leading-relaxed mb-3 text-center transition-colors duration-200 group-hover:text-yellow-500 cursor-pointer line-clamp-2">
                                     {product.name}
@@ -540,9 +496,6 @@ export default function ProductDetail() {
                                         </div>
                                     )}
                                 </div>
-
-
-                                {/* Hover-only button */}
                                 <div className="opacity-0 group-hover:opacity-100 transform group-hover:translate-y-0 translate-y-2 transition-all duration-300">
                                     <button
                                         onClick={() => handleAddToCart(product.id)}
@@ -566,13 +519,28 @@ export default function ProductDetail() {
                 </div>
             </div>
 
-            {/* Modal xem ảnh to */}
+            {/* Update the SuccessModal usage to pass cartItemCount */}
+            <SuccessModal
+                isOpen={isSuccessModalOpen}
+                setIsOpen={setIsSuccessModalOpen}
+                product={product ? { id: product.id, name: product.name, image: product.image, currentPrice: product.currentPrice } : null}
+                cartItemCount={cartItemCount}
+                onContinueShopping={() => {
+                    // Navigate to products page or stay on current page
+                    console.log("Continue shopping");
+                }}
+                onCheckout={() => {
+                    // Navigate to checkout page
+                    console.log("Go to checkout");
+                }}
+            />
+
             {isModalOpen && (
-                <div className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center">
+                <div className="fixed inset-0 bg-black bg-opacity-30 z-50 flex items-center justify-center">
                     <div className="relative max-w-4xl w-full px-4">
                         <button
                             onClick={closeImageModal}
-                            className="absolute top-2 right-2 text-white hover:text-red-400"
+                            className="absolute top-2 right-2 text-white hover:text-red-400 bg-black bg-opacity-50 rounded-full p-2"
                         >
                             <X size={28} />
                         </button>
