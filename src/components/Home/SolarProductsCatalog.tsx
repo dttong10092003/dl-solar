@@ -1,9 +1,23 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { products } from "../../data"
 import { formatPrice } from "../../utils/format";
+import { useCart } from "../../hooks/useCart";
+import SuccessModal from "../SuccessModal";
+
+interface Product {
+    id: number;
+    name: string;
+    image: string;
+    currentPrice: number;
+}
 
 export default function SolarProductsCatalog() {
     const [activeCategory, setActiveCategory] = useState(1);
+    const [showModal, setShowModal] = useState(false);
+    const [addedProduct, setAddedProduct] = useState<Product | null>(null);
+    const navigate = useNavigate();
+    const { addToCart, cart } = useCart();
 
     const categories = [
         { id: 1, name: "Đèn cao cấp" },
@@ -15,7 +29,12 @@ export default function SolarProductsCatalog() {
 
 
     const handleAddToCart = (productId: number) => {
-        console.log(`Added product ${productId} to cart`);
+        const product = products.find(p => p.id === productId);
+        if (product) {
+            addToCart(product);
+            setAddedProduct(product);
+            setShowModal(true);
+        }
     };
 
     const filteredProducts = products.filter(
@@ -55,6 +74,7 @@ export default function SolarProductsCatalog() {
                             <div
                                 key={product.id}
                                 className="relative group rounded-xl lg:rounded-2xl bg-white transition-all duration-300 overflow-hidden hover:bg-[#ebf9ff] cursor-pointer"
+                                onClick={() => navigate(`/product/${product.id}`)}
                             >
                                 {/* Image */}
                                 <div className="relative p-2 lg:p-4 pb-0">
@@ -94,7 +114,10 @@ export default function SolarProductsCatalog() {
                                     {/* Hover-only button */}
                                     <div className="opacity-0 group-hover:opacity-100 transform group-hover:translate-y-0 translate-y-2 transition-all duration-300">
                                         <button
-                                            onClick={() => handleAddToCart(product.id)}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleAddToCart(product.id);
+                                            }}
                                             className="w-full bg-white border-2 border-blue-900 text-blue-900 font-medium py-1 lg:py-2 rounded-full flex items-center justify-center gap-1 lg:gap-2 hover:border-yellow-500 hover:bg-yellow-500 hover:text-white transition-all cursor-pointer text-xs lg:text-sm"
                                         >
                                             <svg
@@ -123,6 +146,23 @@ export default function SolarProductsCatalog() {
                     </div>
                 </div>
             </div>
+
+            {/* Success Modal */}
+            {showModal && addedProduct && (
+                <SuccessModal
+                    isOpen={showModal}
+                    setIsOpen={setShowModal}
+                    product={addedProduct}
+                    cartItemCount={cart.totalItems}
+                    onContinueShopping={() => {
+                        setShowModal(false);
+                    }}
+                    onCheckout={() => {
+                        setShowModal(false);
+                        navigate('/cart');
+                    }}
+                />
+            )}
         </div>
     );
 }

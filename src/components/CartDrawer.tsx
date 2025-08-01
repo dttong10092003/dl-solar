@@ -1,4 +1,4 @@
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, Plus, Minus } from "lucide-react";
 import { useCart } from "../hooks/useCart";
 import { formatPrice } from "../utils/format";
 import { useNavigate } from "react-router-dom";
@@ -31,7 +31,7 @@ export default function CartDrawer({ isOpen }: CartDrawerProps) {
                 <img
                   src={item.image}
                   alt={item.name}
-                  className="w-16 h-16 object-cover rounded-md flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity"
+                  className="w-16 h-20 object-cover rounded-md flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity"
                   onClick={() => navigate(`/product/${item.productId}`)}
                 />
                 <div className="flex-1 min-w-0">
@@ -42,7 +42,7 @@ export default function CartDrawer({ isOpen }: CartDrawerProps) {
                     {item.name}
                   </h4>
                   <div 
-                    className="text-red-500 text-xs mb-1 cursor-pointer hover:text-red-700 hover:underline"
+                    className="max-w-4 text-red-500 text-xs mb-1 cursor-pointer hover:text-yellow-500"
                     onClick={() => removeFromCart(item.productId)}
                   >
                     Xóa
@@ -53,18 +53,18 @@ export default function CartDrawer({ isOpen }: CartDrawerProps) {
                     <div className="flex items-center gap-1">
                       <button
                         onClick={() => updateQuantity(item.productId, item.quantity - 1)}
-                        className="w-7 h-7 flex items-center justify-center bg-blue-900 text-white rounded text-xs hover:bg-blue-800"
+                        className="cursor-pointer w-7 h-7 flex items-center justify-center bg-blue-900 text-white rounded text-xs hover:bg-blue-800"
                       >
-                        −
+                        <Minus className="w-3 h-3" />
                       </button>
                       <span className="w-8 h-7 flex items-center justify-center bg-white border border-gray-300 rounded text-sm font-medium">
                         {item.quantity}
                       </span>
                       <button
                         onClick={() => updateQuantity(item.productId, item.quantity + 1)}
-                        className="w-7 h-7 flex items-center justify-center bg-blue-900 text-white rounded text-xs hover:bg-blue-800"
+                        className="cursor-pointer w-7 h-7 flex items-center justify-center bg-blue-900 text-white rounded text-xs hover:bg-blue-800"
                       >
-                        +
+                        <Plus className="w-3 h-3" />
                       </button>
                     </div>
                     <div className="text-right">

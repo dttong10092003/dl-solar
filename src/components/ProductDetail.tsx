@@ -1,6 +1,6 @@
 import { Minus, Plus, ShoppingCart, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import clsx from "clsx";
 import { products } from "../data";
 import { formatPrice } from "../utils/format";
@@ -18,6 +18,7 @@ interface Article {
 
 export default function ProductDetail() {
     const { id } = useParams<{ id: string }>();
+    const navigate = useNavigate();
     const productId = id ? parseInt(id) : null;
     const product = products.find(p => p.id === productId);
     const { cart, addToCart } = useCart();
@@ -27,6 +28,7 @@ export default function ProductDetail() {
     const [selectedImage, setSelectedImage] = useState(product?.image || "");
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+    const [addedProduct, setAddedProduct] = useState<typeof product | null>(null);
 
     // Update selectedImage when product changes
     useEffect(() => {
@@ -126,6 +128,7 @@ export default function ProductDetail() {
         if (productToAdd) {
             addToCart(productToAdd, quantity);
             console.log(`Added product ${productToAdd.id} with quantity ${quantity} to cart`);
+            setAddedProduct(productToAdd);
             setIsSuccessModalOpen(true);
         }
     };
@@ -135,6 +138,9 @@ export default function ProductDetail() {
         const productToAdd = products.find(p => p.id === productId);
         if (productToAdd) {
             addToCart(productToAdd, 1); // Default quantity 1 for quick add
+            console.log(`Added product ${productToAdd.id} with quantity 1 to cart`);
+            setAddedProduct(productToAdd);
+            setIsSuccessModalOpen(true);
         }
     };
 
@@ -403,6 +409,7 @@ export default function ProductDetail() {
                         <div
                             key={product.id}
                             className="relative group rounded-2xl bg-white transition-all duration-300 overflow-hidden hover:bg-[#ebf9ff] cursor-pointer"
+                            onClick={() => navigate(`/product/${product.id}`)}
                         >
                             <div className="relative p-4 pb-0">
                                 <img
@@ -436,7 +443,10 @@ export default function ProductDetail() {
                                 </div>
                                 <div className="opacity-0 group-hover:opacity-100 transform group-hover:translate-y-0 translate-y-2 transition-all duration-300">
                                     <button
-                                        onClick={() => handleAddProductToCart(product.id)}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleAddProductToCart(product.id);
+                                        }}
                                         className="w-full bg-white border-2 border-blue-900 text-blue-900 font-medium py-2 rounded-full flex items-center justify-center gap-2 hover:border-yellow-500 hover:bg-yellow-500 hover:text-white transition-all cursor-pointer"
                                     >
                                         <svg
@@ -468,6 +478,7 @@ export default function ProductDetail() {
                         <div
                             key={product.id}
                             className="relative group rounded-2xl bg-white transition-all duration-300 overflow-hidden hover:bg-[#ebf9ff] cursor-pointer"
+                            onClick={() => navigate(`/product/${product.id}`)}
                         >
                             <div className="relative p-4 pb-0">
                                 <img
@@ -501,7 +512,10 @@ export default function ProductDetail() {
                                 </div>
                                 <div className="opacity-0 group-hover:opacity-100 transform group-hover:translate-y-0 translate-y-2 transition-all duration-300">
                                     <button
-                                        onClick={() => handleAddProductToCart(product.id)}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleAddProductToCart(product.id);
+                                        }}
                                         className="w-full bg-white border-2 border-blue-900 text-blue-900 font-medium py-2 rounded-full flex items-center justify-center gap-2 hover:border-yellow-500 hover:bg-yellow-500 hover:text-white transition-all cursor-pointer"
                                     >
                                         <svg
@@ -526,13 +540,18 @@ export default function ProductDetail() {
             <SuccessModal
                 isOpen={isSuccessModalOpen}
                 setIsOpen={setIsSuccessModalOpen}
-                product={product ? { id: product.id, name: product.name, image: product.image, currentPrice: product.currentPrice } : null}
+                product={addedProduct ? { 
+                    id: addedProduct.id, 
+                    name: addedProduct.name, 
+                    image: addedProduct.image, 
+                    currentPrice: addedProduct.currentPrice 
+                } : null}
                 cartItemCount={cart.totalItems}
                 onContinueShopping={() => {
-                    // Navigate to products page or stay on current page
-                    console.log("Continue shopping");
+                    setIsSuccessModalOpen(false);
                 }}
                 onCheckout={() => {
+                    setIsSuccessModalOpen(false);
                     // Navigate to checkout page
                     console.log("Go to checkout");
                 }}

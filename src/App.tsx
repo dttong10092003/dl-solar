@@ -15,6 +15,7 @@ import ShoppingPolicyPage from "./pages/ShoppingPolicyPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import PurchaseGuidePage from "./pages/PurchaseGuidePage";
 import CartPage from "./pages/CartPage";
+import Checkout from "./pages/Checkout";
 
 import './global.css'
 
@@ -38,6 +39,7 @@ function App() {
         <Route path="/shopping-guide" element={<ShoppingPolicyPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
         <Route path="/purchase-guide" element={<PurchaseGuidePage />} />
+        <Route path="/checkout" element={<Checkout />} />
 
 
 

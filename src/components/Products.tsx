@@ -4,10 +4,13 @@ import { Plus, Minus, ArrowUpDown, ChevronLeft, ChevronRight, X, Filter } from "
 import type { PriceRange, Product } from "../types"
 import { categories, subcategories, products } from "../data"
 import { formatPrice } from "../utils/format"
+import { useCart } from "../hooks/useCart"
+import SuccessModal from "./SuccessModal"
 
 export default function ProductListingPage() {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
+  const { cart, addToCart } = useCart()
   const selectedCategory = searchParams.get("category")
   const selectedSubcategory = searchParams.get("subcategory")
 
@@ -28,6 +31,8 @@ export default function ProductListingPage() {
   const [sortOption, setSortOption] = useState<string>("")
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false)
+  const [addedProduct, setAddedProduct] = useState<Product | null>(null)
 
   const bannerImages = [
     "https://bizweb.dktcdn.net/100/487/020/themes/911678/assets/banner_three_1.jpg?1735875826317",
@@ -56,6 +61,12 @@ export default function ProductListingPage() {
   }
 
   const resetPrices = () => setSelectedPrices([])
+
+  const handleAddToCart = (product: Product) => {
+    addToCart(product, 1)
+    setAddedProduct(product)
+    setIsSuccessModalOpen(true)
+  }
 
   const applyPriceFilter = (product: Product) => {
     if (!selectedPrices.length) return true
@@ -334,8 +345,11 @@ export default function ProductListingPage() {
                         </div>
                         <div className="opacity-0 group-hover:opacity-100 transform group-hover:translate-y-0 translate-y-2 transition-all duration-300">
                           <button
-                            onClick={() => alert(`Thêm sản phẩm ${product.id} vào giỏ!`)}
-                            className="w-full bg-white border-2 border-blue-900 text-blue-900 font-medium py-1 lg:py-2 rounded-full flex items-center justify-center gap-1 lg:gap-2 hover:border-yellow-500 hover:bg-yellow-500 hover:text-white text-xs lg:text-sm"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleAddToCart(product);
+                            }}
+                            className="cursor-pointer w-full bg-white border-2 border-blue-900 text-blue-900 font-medium py-1 lg:py-2 rounded-full flex items-center justify-center gap-1 lg:gap-2 hover:border-yellow-500 hover:bg-yellow-500 hover:text-white text-xs lg:text-sm"
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -461,6 +475,27 @@ export default function ProductListingPage() {
           </div>
         </div>
       )}
+
+      {/* Success Modal */}
+      <SuccessModal
+        isOpen={isSuccessModalOpen}
+        setIsOpen={setIsSuccessModalOpen}
+        product={addedProduct ? { 
+          id: addedProduct.id, 
+          name: addedProduct.name, 
+          image: addedProduct.image, 
+          currentPrice: addedProduct.currentPrice 
+        } : null}
+        cartItemCount={cart.totalItems}
+        onContinueShopping={() => {
+          setIsSuccessModalOpen(false);
+          // Stay on current page
+        }}
+        onCheckout={() => {
+          setIsSuccessModalOpen(false);
+          navigate("/cart");
+        }}
+      />
     </div>
   )
 }
