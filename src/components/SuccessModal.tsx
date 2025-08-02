@@ -1,4 +1,5 @@
 import { Check, X } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { formatPrice } from "../utils/format";
 
 interface Product {
@@ -13,18 +14,16 @@ interface SuccessModalProps {
   setIsOpen: (open: boolean) => void;
   product: Product | null;
   cartItemCount: number;
-  onContinueShopping?: () => void;
-  onCheckout?: () => void;
 }
 
 export default function SuccessModal({ 
   isOpen, 
   setIsOpen, 
   product, 
-  cartItemCount,
-  onContinueShopping,
-  onCheckout
+  cartItemCount
 }: SuccessModalProps) {
+  const navigate = useNavigate();
+  
   if (!isOpen || !product) return null;
 
   const handleOutsideClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -35,30 +34,27 @@ export default function SuccessModal({
 
   const handleContinueShopping = () => {
     setIsOpen(false);
-    if (onContinueShopping) {
-      onContinueShopping();
-    }
+    // Just close the modal, don't call any additional callbacks
   };
 
   const handleCheckout = () => {
     setIsOpen(false);
-    if (onCheckout) {
-      onCheckout();
-    }
+    // Navigate to checkout page
+    navigate('/checkout');
   };
 
   return (
     <div className="fixed inset-0 bg-[#363636]/30 flex items-center justify-center p-4 z-50" onClick={handleOutsideClick}>
       <div className="bg-white rounded-lg shadow-xl max-w-md w-full overflow-hidden">
         {/* Header */}
-        <div className="bg-blue-600 text-white px-4 py-3 flex items-center justify-between">
+        <div className="bg-blue-800 text-white px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center">
-              <Check className="w-4 h-4 text-blue-600" />
+              <Check className="w-4 h-4 text-blue-800" />
             </div>
-            <span className="font-medium">Mua hàng thành công</span>
+            <span className="font-semibold">Mua hàng thành công</span>
           </div>
-          <button onClick={() => setIsOpen(false)} className="text-white hover:text-gray-200 transition-colors">
+          <button onClick={() => setIsOpen(false)} className="cursor-pointer text-white hover:text-gray-200 transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -74,10 +70,10 @@ export default function SuccessModal({
               />
             </div>
             <div className="flex-1">
-              <h3 className="text-sm font-medium text-gray-900 mb-1">
+              <h3 className="text-sm font-semibold text-gray-900 mb-1">
                 {product.name}
               </h3>
-              <p className="text-blue-600 font-semibold">{formatPrice(product.currentPrice)}</p>
+              <p className="text-blue-800 font-semibold">{formatPrice(product.currentPrice)}</p>
             </div>
           </div>
 
@@ -88,13 +84,13 @@ export default function SuccessModal({
           <div className="flex gap-3">
             <button
               onClick={handleContinueShopping}
-              className="flex-1 bg-yellow-400 hover:bg-yellow-500 text-black font-medium py-2.5 px-4 rounded transition-colors"
+              className="cursor-pointer flex-1 bg-yellow-500 hover:bg-blue-800 text-white font-medium py-2.5 px-4 rounded transition-colors"
             >
               Tiếp tục mua hàng
             </button>
             <button
               onClick={handleCheckout}
-              className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-4 rounded transition-colors"
+              className="cursor-pointer flex-1 bg-blue-800 hover:bg-yellow-500 text-white font-medium py-2.5 px-4 rounded transition-colors"
             >
               Thanh toán ngay
             </button>

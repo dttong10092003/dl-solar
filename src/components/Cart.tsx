@@ -110,7 +110,9 @@ export default function CartPage() {
                 <span className="text-base font-medium text-gray-900">Tổng tiền:</span>
                 <span className="text-sm font-semibold text-blue-900">{formatPrice(cart.totalAmount)}</span>
               </div>
-              <button className="max-w-60 w-full bg-blue-900 hover:bg-yellow-500 text-white px-8 py-3 rounded-lg font-semibold transition-colors cursor-pointer">
+              <button
+                onClick={() => navigate('/checkout')}
+                className="max-w-60 w-full bg-blue-900 hover:bg-yellow-500 text-white px-8 py-3 rounded-lg font-semibold transition-colors cursor-pointer">
                 Thanh toán
               </button>
             </div>

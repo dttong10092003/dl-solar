@@ -487,14 +487,6 @@ export default function ProductListingPage() {
           currentPrice: addedProduct.currentPrice 
         } : null}
         cartItemCount={cart.totalItems}
-        onContinueShopping={() => {
-          setIsSuccessModalOpen(false);
-          // Stay on current page
-        }}
-        onCheckout={() => {
-          setIsSuccessModalOpen(false);
-          navigate("/cart");
-        }}
       />
     </div>
   )

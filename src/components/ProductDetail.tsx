@@ -547,14 +547,6 @@ export default function ProductDetail() {
                     currentPrice: addedProduct.currentPrice 
                 } : null}
                 cartItemCount={cart.totalItems}
-                onContinueShopping={() => {
-                    setIsSuccessModalOpen(false);
-                }}
-                onCheckout={() => {
-                    setIsSuccessModalOpen(false);
-                    // Navigate to checkout page
-                    console.log("Go to checkout");
-                }}
             />
 
             {isModalOpen && (

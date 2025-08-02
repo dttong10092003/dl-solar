@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react"
 import { ChevronDownIcon, CircleUserRound } from "lucide-react"
 import { useNavigate } from "react-router-dom"
+import { useCart } from "../hooks/useCart"
 import { formatPrice } from "../utils/format"
 
 interface Province {
@@ -27,7 +28,14 @@ interface Country {
 export default function Checkout() {
     const [selectedPayment, setSelectedPayment] = useState("cod")
     const [discountCode, setDiscountCode] = useState("")
+    const [discountError, setDiscountError] = useState("")
     const navigate = useNavigate()
+    const { cart } = useCart()
+
+    // Form data states
+    const [email, setEmail] = useState("")
+    const [fullName, setFullName] = useState("")
+    const [address, setAddress] = useState("")
 
     // Address selection states
     const [selectedCountry, setSelectedCountry] = useState("")
@@ -131,24 +139,53 @@ export default function Checkout() {
         return countries.find(country => country.code === selectedCountry)
     }
 
-    const products = [
-        {
-            id: 1,
-            name: "Quạt cây năng lượng Mặt Trời QHS-V218",
-            quantity: 2,
-            price: 3240000,
-            image: "/placeholder.svg?height=60&width=60",
-        },
-        {
-            id: 2,
-            name: "Đèn đường năng lượng mặt trời 70W",
-            quantity: 2,
-            price: 41228000,
-            image: "/placeholder.svg?height=60&width=60",
-        },
-    ]
+    // Handle discount code application
+    const handleApplyDiscount = () => {
+        if (!discountCode.trim()) {
+            return
+        }
+        
+        // Simulate checking discount code - always invalid for demo
+        setDiscountError("Mã khuyến mãi không hợp lệ")
+        
+        // Clear error after 5 seconds
+        setTimeout(() => {
+            setDiscountError("")
+        }, 5000)
+    }
 
-    const subtotal = products.reduce((sum, product) => sum + product.price * product.quantity, 0)
+    // Handle order placement
+    const handlePlaceOrder = () => {
+        // Validate required fields
+        if (!email.trim()) {
+            alert("Vui lòng nhập email")
+            return
+        }
+        if (!fullName.trim()) {
+            alert("Vui lòng nhập họ và tên")
+            return
+        }
+        if (!selectedProvince) {
+            alert("Vui lòng chọn tỉnh thành")
+            return
+        }
+        if (!selectedDistrict) {
+            alert("Vui lòng chọn quận huyện")
+            return
+        }
+        if (!selectedWard) {
+            alert("Vui lòng chọn phường xã")
+            return
+        }
+
+        // Show success message
+        alert("Đặt hàng thành công! Cảm ơn bạn đã đặt hàng.")
+        
+        // Redirect to home page
+        navigate('/')
+    }
+
+    const subtotal = cart.totalAmount
     const shipping = selectedProvince ? 40000 : 0
     const total = subtotal + shipping
 
@@ -187,11 +224,15 @@ export default function Checkout() {
                                         <input
                                             type="email"
                                             placeholder="Email"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
                                             className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                                         />
                                         <input
                                             type="text"
                                             placeholder="Họ và tên"
+                                            value={fullName}
+                                            onChange={(e) => setFullName(e.target.value)}
                                             className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                                         />
                                         <div className="flex">
@@ -272,6 +313,8 @@ export default function Checkout() {
                                         <input
                                             type="text"
                                             placeholder="Địa chỉ (tùy chọn)"
+                                            value={address}
+                                            onChange={(e) => setAddress(e.target.value)}
                                             className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                                         />
                                         <div className="relative">
@@ -392,26 +435,26 @@ export default function Checkout() {
                     <div className="lg:col-span-1">
                         <div className="border-l border-gray-200 pl-6">
                             <h3 className="text-xl font-medium text-gray-900 mb-6">
-                                Đơn hàng ({products.reduce((sum, p) => sum + p.quantity, 0)} sản phẩm)
+                                Đơn hàng ({cart.items.reduce((sum, item) => sum + item.quantity, 0)} sản phẩm)
                             </h3>
                             <div className="space-y-4 mb-6">
-                                {products.map((product) => (
-                                    <div key={product.id} className="flex items-start gap-3">
+                                {cart.items.map((item) => (
+                                    <div key={item.id} className="flex items-start gap-3">
                                         <div className="relative flex-shrink-0">
                                             <img
-                                                src={product.image || "/placeholder.svg"}
-                                                alt={product.name}
-                                                className="w-12 h-12 object-cover rounded border"
+                                                src={item.image || "/placeholder.svg"}
+                                                alt={item.name}
+                                                className="w-12 h-12 object-cover rounded border-gray-300 border"
                                             />
-                                            <span className="absolute -top-2 -right-2 bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                                                {product.quantity}
+                                            <span className="absolute -top-2 -right-2 bg-[#2a9dcc] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                                                {item.quantity}
                                             </span>
                                         </div>
                                         <div className="flex-1 min-w-0">
-                                            <p className="text-sm text-gray-900 leading-tight">{product.name}</p>
+                                            <p className="text-sm text-gray-700 leading-tight font-semibold">{item.name}</p>
                                         </div>
                                         <div className="text-right flex-shrink-0">
-                                            <p className="font-medium text-gray-900">{formatPrice(product.price * product.quantity)}</p>
+                                            <p className="text-sm font-semibold text-gray-700">{formatPrice(item.currentPrice * item.quantity)}</p>
                                         </div>
                                     </div>
                                 ))}
@@ -421,13 +464,32 @@ export default function Checkout() {
                                     type="text"
                                     placeholder="Nhập mã giảm giá"
                                     value={discountCode}
-                                    onChange={(e) => setDiscountCode(e.target.value)}
+                                    onChange={(e) => {
+                                        setDiscountCode(e.target.value)
+                                        // Clear error when user types
+                                        if (discountError) {
+                                            setDiscountError("")
+                                        }
+                                    }}
                                     className="flex-1 px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-blue-500"
                                 />
-                                <button className="px-4 py-2 bg-blue-500 text-white rounded text-sm hover:bg-blue-600 transition-colors">
+                                <button 
+                                    onClick={handleApplyDiscount}
+                                    disabled={!discountCode.trim()}
+                                    className={`px-4 py-2 rounded text-sm font-medium transition-colors ${
+                                        discountCode.trim()
+                                            ? 'bg-[#2a9dcc] text-white hover:bg-blue-600 cursor-pointer'
+                                            : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                    }`}
+                                >
                                     Áp dụng
                                 </button>
                             </div>
+                            {discountError && (
+                                <div className="mb-6 text-red-600 text-sm">
+                                    {discountError}
+                                </div>
+                            )}
                             <div className="space-y-3 mb-6">
                                 <div className="flex justify-between text-gray-600">
                                     <span>Tạm tính</span>
@@ -438,22 +500,28 @@ export default function Checkout() {
                                     <span>{selectedProvince ? formatPrice(shipping) : "-"}</span>
                                 </div>
                                 <hr className="border-gray-200" />
-                                <div className="flex justify-between text-lg font-medium text-blue-600">
+                                <div className="flex justify-between text-lg font-medium text-[#2a9dcc]">
                                     <span>Tổng cộng</span>
                                     <span>{formatPrice(total)}</span>
                                 </div>
                             </div>
-                            <div className="mb-4">
-                                <button className="text-blue-500 text-sm hover:underline flex items-center gap-1">
+                            <div className="flex items-center justify-between">
+                                <button 
+                                    onClick={() => navigate('/cart')}
+                                    className="text-[#2a9dcc] text-sm hover:text-blue-600 flex items-center gap-1 cursor-pointer"
+                                >
                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                                     </svg>
                                     Quay về giỏ hàng
                                 </button>
+                                <button 
+                                    onClick={handlePlaceOrder}
+                                    className="cursor-pointer bg-[#2a9dcc] text-white px-6 py-3 rounded font-medium hover:bg-blue-600 transition-colors"
+                                >
+                                    ĐẶT HÀNG
+                                </button>
                             </div>
-                            <button className="w-full bg-blue-600 text-white py-3 rounded font-medium hover:bg-blue-700 transition-colors">
-                                ĐẶT HÀNG
-                            </button>
                         </div>
                     </div>
                 </div>

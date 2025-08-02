@@ -89,7 +89,10 @@ export default function CartDrawer({ isOpen }: CartDrawerProps) {
               {formatPrice(cart.totalAmount)}
             </span>
           </div>
-          <button className="w-full bg-blue-900 text-white py-2.5 rounded-lg hover:bg-blue-800 font-medium text-sm">
+          <button 
+            onClick={() => navigate('/checkout')}
+            className="w-full bg-blue-900 text-white py-2.5 rounded-lg hover:bg-blue-800 font-medium text-sm"
+          >
             Thanh toán
           </button>
         </div>

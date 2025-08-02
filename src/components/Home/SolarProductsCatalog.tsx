@@ -154,13 +154,6 @@ export default function SolarProductsCatalog() {
                     setIsOpen={setShowModal}
                     product={addedProduct}
                     cartItemCount={cart.totalItems}
-                    onContinueShopping={() => {
-                        setShowModal(false);
-                    }}
-                    onCheckout={() => {
-                        setShowModal(false);
-                        navigate('/cart');
-                    }}
                 />
             )}
         </div>
