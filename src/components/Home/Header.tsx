@@ -559,9 +559,7 @@ export default function Header() {
                                     </div>
                                 </div>
 
-                                <div className="flex items-center space-x-3 cursor-pointer relative"
-                                    onMouseEnter={() => setIsCartOpen(true)}
-                                    onMouseLeave={() => setIsCartOpen(false)}>
+                                <div className="flex items-center space-x-3 cursor-pointer relative">
                                     <ShoppingCart className="w-5 h-5 text-blue-900" />
                                     <div>
                                         <div className="text-gray-700 font-bold hover:text-yellow-500" onClick={() => {
@@ -570,8 +568,6 @@ export default function Header() {
                                         }}>Giỏ hàng</div>
                                         <div className="text-gray-700"><span className="text-[#f3bd01]">{cart.totalItems}</span> Sản phẩm</div>
                                     </div>
-                                    {/* Cart Modal */}
-                                    <CartDrawer isOpen={isCartOpen} />
                                 </div>
                             </div>
                         </div>

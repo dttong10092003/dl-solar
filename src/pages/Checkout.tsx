@@ -244,65 +244,65 @@ export default function Checkout() {
     const total = subtotal + shipping
 
     return (
-        <div className="min-h-screen bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-8">
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="min-h-screen bg-gray-50">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
                     {/* Left Section - 2/3 width */}
                     <div className="lg:col-span-2">
                         {/* Logo */}
-                        <div className="text-center mb-12">
+                        <div className="text-center mb-6 sm:mb-8 lg:mb-12">
                             <img
                                 src="https://bizweb.dktcdn.net/100/487/020/themes/911678/assets/logo.png?1735875826317"
                                 alt="DL Solar"
-                                className="h-20 mx-auto"
+                                className="h-16 sm:h-20 mx-auto"
                             />
                         </div>
 
                         {/* Customer Information & Shipping/Payment */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 lg:gap-8">
                             {/* Customer Information */}
-                            <div>
-                                <div className="space-y-6">
-                                    <div className="flex items-center gap-4 mb-2 justify-between">
-                                        <h2 className="text-xl font-semibold text-gray-900">Thông tin nhận hàng</h2>
+                            <div className="bg-white p-4 sm:p-6 rounded-lg shadow-sm border border-gray-200">
+                                <div className="space-y-4 sm:space-y-6">
+                                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 justify-between">
+                                        <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Thông tin nhận hàng</h2>
                                         <button
                                             onClick={() => navigate('/auth?tab=login')}
-                                            className="flex items-center gap-2 text-[#2a9dcc] hover:text-blue-600 transition-colors cursor-pointer"
+                                            className="flex items-center gap-2 text-[#2a9dcc] hover:text-blue-600 transition-colors cursor-pointer text-sm"
                                         >
-                                            <CircleUserRound className="w-5 h-5" />
-                                            <span className="text-sm">Đăng nhập</span>
+                                            <CircleUserRound className="w-4 h-4 sm:w-5 sm:h-5" />
+                                            <span>Đăng nhập</span>
                                         </button>
                                     </div>
 
-                                    <div className="space-y-4">
+                                    <div className="space-y-3 sm:space-y-4">
                                         <input
                                             type="email"
                                             placeholder="Email"
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
-                                            className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                                            className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded focus:outline-none focus:border-blue-500 text-sm sm:text-base"
                                         />
                                         <input
                                             type="text"
                                             placeholder="Họ và tên"
                                             value={fullName}
                                             onChange={(e) => setFullName(e.target.value)}
-                                            className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                                            className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded focus:outline-none focus:border-blue-500 text-sm sm:text-base"
                                         />
-                                        <div className="flex">
+                                        <div className="flex flex-col sm:flex-row gap-2 sm:gap-0">
                                             {/* Phone Input */}
                                             <input
                                                 type="tel"
                                                 placeholder="Số điện thoại (tùy chọn)"
                                                 value={phoneNumber}
                                                 onChange={(e) => setPhoneNumber(e.target.value)}
-                                                className="flex-1 px-4 py-3 border border-gray-300 rounded-l focus:outline-none focus:border-blue-500"
+                                                className="flex-1 px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded sm:rounded-l sm:rounded-r-none focus:outline-none focus:border-blue-500 text-sm sm:text-base"
                                             />
                                             {/* Country Code Selector */}
                                             <div className="relative flex-shrink-0" ref={countryDropdownRef}>
                                                 <div
                                                     onClick={() => setIsCountryDropdownOpen(!isCountryDropdownOpen)}
-                                                    className="w-30 h-full px-3 py-3 border border-gray-300 border-l-0 rounded-r bg-white focus:outline-none focus:border-blue-500 appearance-none cursor-pointer flex items-center justify-between"
+                                                    className="w-full sm:w-30 h-full px-3 py-2 sm:py-3 border border-gray-300 rounded sm:rounded-r sm:rounded-l-none sm:border-l-0 bg-white focus:outline-none focus:border-blue-500 appearance-none cursor-pointer flex items-center justify-between text-sm sm:text-base"
                                                 >
                                                     <div className="flex items-center gap-2">
                                                         {getSelectedCountry() ? (
@@ -310,19 +310,19 @@ export default function Checkout() {
                                                                 <img
                                                                     src={getSelectedCountry()?.flag}
                                                                     alt={getSelectedCountry()?.name}
-                                                                    className="w-5 h-4 object-cover rounded-sm border"
+                                                                    className="w-4 sm:w-5 h-3 sm:h-4 object-cover rounded-sm border"
                                                                     onError={(e) => {
                                                                         const target = e.target as HTMLImageElement;
                                                                         target.style.display = 'none';
                                                                     }}
                                                                 />
-                                                                <span className="text-sm font-medium">{getSelectedCountry()?.code}</span>
+                                                                <span className="text-xs sm:text-sm font-medium">{getSelectedCountry()?.code}</span>
                                                             </>
                                                         ) : (
-                                                            <span className="text-sm text-gray-500">Chọn</span>
+                                                            <span className="text-xs sm:text-sm text-gray-500">Chọn</span>
                                                         )}
                                                     </div>
-                                                    <ChevronDownIcon className={`w-4 h-4 text-gray-500 transform transition-transform ${isCountryDropdownOpen ? 'rotate-180' : ''}`} />
+                                                    <ChevronDownIcon className={`w-3 sm:w-4 h-3 sm:h-4 text-gray-500 transform transition-transform ${isCountryDropdownOpen ? 'rotate-180' : ''}`} />
                                                 </div>
 
                                                 {/* Dropdown Options */}
@@ -333,7 +333,7 @@ export default function Checkout() {
                                                                 setSelectedCountry("")
                                                                 setIsCountryDropdownOpen(false)
                                                             }}
-                                                            className="px-3 py-2 hover:bg-gray-50 cursor-pointer text-sm text-gray-500"
+                                                            className="px-3 py-2 hover:bg-gray-50 cursor-pointer text-xs sm:text-sm text-gray-500"
                                                         >
                                                             Chọn quốc gia
                                                         </div>
@@ -344,13 +344,13 @@ export default function Checkout() {
                                                                     setSelectedCountry(country.code)
                                                                     setIsCountryDropdownOpen(false)
                                                                 }}
-                                                                className={`px-3 py-2 hover:bg-blue-50 cursor-pointer flex items-center gap-2 text-sm ${selectedCountry === country.code ? 'bg-blue-100' : ''
+                                                                className={`px-3 py-2 hover:bg-blue-50 cursor-pointer flex items-center gap-2 text-xs sm:text-sm ${selectedCountry === country.code ? 'bg-blue-100' : ''
                                                                     }`}
                                                             >
                                                                 <img
                                                                     src={country.flag}
                                                                     alt={country.name}
-                                                                    className="w-6 h-4 object-cover rounded-sm border"
+                                                                    className="w-5 sm:w-6 h-3 sm:h-4 object-cover rounded-sm border"
                                                                     onError={(e) => {
                                                                         const target = e.target as HTMLImageElement;
                                                                         target.style.display = 'none';
@@ -369,7 +369,7 @@ export default function Checkout() {
                                             placeholder="Địa chỉ (tùy chọn)"
                                             value={address}
                                             onChange={(e) => setAddress(e.target.value)}
-                                            className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                                            className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded focus:outline-none focus:border-blue-500 text-sm sm:text-base"
                                         />
                                         <div className="relative">
                                             <select
@@ -378,7 +378,7 @@ export default function Checkout() {
                                                     console.log('Province changed to:', e.target.value);
                                                     setSelectedProvince(String(e.target.value));
                                                 }}
-                                                className="w-full px-4 py-3 border border-gray-300 rounded bg-white focus:outline-none focus:border-blue-500 appearance-none"
+                                                className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded bg-white focus:outline-none focus:border-blue-500 appearance-none text-sm sm:text-base"
                                             >
                                                 <option value="">Chọn tỉnh thành</option>
                                                 {provinces.map((province: Province) => (
@@ -387,7 +387,7 @@ export default function Checkout() {
                                                     </option>
                                                 ))}
                                             </select>
-                                            <ChevronDownIcon className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+                                            <ChevronDownIcon className="absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2 w-3 sm:w-4 h-3 sm:h-4 text-gray-500 pointer-events-none" />
                                         </div>
                                         <div className="relative">
                                             <select
@@ -396,7 +396,7 @@ export default function Checkout() {
                                                     console.log('District changed to:', e.target.value);
                                                     setSelectedDistrict(String(e.target.value));
                                                 }}
-                                                className="w-full px-4 py-3 border border-gray-300 rounded bg-white focus:outline-none focus:border-blue-500 appearance-none disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
+                                                className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded bg-white focus:outline-none focus:border-blue-500 appearance-none disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed text-sm sm:text-base"
                                                 disabled={!selectedProvince}
                                             >
                                                 <option value="">Chọn quận huyện</option>
@@ -406,7 +406,7 @@ export default function Checkout() {
                                                     </option>
                                                 ))}
                                             </select>
-                                            <ChevronDownIcon className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+                                            <ChevronDownIcon className="absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2 w-3 sm:w-4 h-3 sm:h-4 text-gray-500 pointer-events-none" />
                                         </div>
                                         <div className="relative">
                                             <select
@@ -415,7 +415,7 @@ export default function Checkout() {
                                                     console.log('Ward changed to:', e.target.value);
                                                     setSelectedWard(String(e.target.value));
                                                 }}
-                                                className="w-full px-4 py-3 border border-gray-300 rounded bg-white focus:outline-none focus:border-blue-500 appearance-none disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
+                                                className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded bg-white focus:outline-none focus:border-blue-500 appearance-none disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed text-sm sm:text-base"
                                                 disabled={!selectedDistrict}
                                             >
                                                 <option value="">Chọn phường xã</option>
@@ -425,25 +425,25 @@ export default function Checkout() {
                                                     </option>
                                                 ))}
                                             </select>
-                                            <ChevronDownIcon className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+                                            <ChevronDownIcon className="absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2 w-3 sm:w-4 h-3 sm:h-4 text-gray-500 pointer-events-none" />
                                         </div>
                                         <textarea
                                             placeholder="Ghi chú (tùy chọn)"
-                                            rows={4}
-                                            className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-blue-500 resize-none"
+                                            rows={3}
+                                            className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded focus:outline-none focus:border-blue-500 resize-none text-sm sm:text-base"
                                         />
                                     </div>
                                 </div>
                             </div>
 
                             {/* Shipping & Payment */}
-                            <div>
-                                <div className="space-y-6">
+                            <div className="bg-white p-4 sm:p-6 rounded-lg shadow-sm border border-gray-200">
+                                <div className="space-y-4 sm:space-y-6">
                                     <div>
-                                        <h3 className="text-xl font-medium text-gray-900 mb-4">Vận chuyển</h3>
+                                        <h3 className="text-lg sm:text-xl font-medium text-gray-900 mb-3 sm:mb-4">Vận chuyển</h3>
                                         {selectedProvince ? (
-                                            <div className="border border-gray-300 rounded p-4">
-                                                <label className="flex items-center gap-3 cursor-pointer">
+                                            <div className="border border-gray-300 rounded p-3 sm:p-4">
+                                                <label className="flex items-center gap-2 sm:gap-3 cursor-pointer">
                                                     <input
                                                         type="radio"
                                                         name="shipping"
@@ -452,20 +452,20 @@ export default function Checkout() {
                                                         readOnly
                                                         className="w-4 h-4 text-blue-600"
                                                     />
-                                                    <span className="text-gray-900 flex-1">Giao hàng tận nơi</span>
-                                                    <span className="text-gray-900 font-medium">{formatPrice(40000)}</span>
+                                                    <span className="text-gray-900 flex-1 text-sm sm:text-base">Giao hàng tận nơi</span>
+                                                    <span className="text-gray-900 font-medium text-sm sm:text-base">{formatPrice(40000)}</span>
                                                 </label>
                                             </div>
                                         ) : (
-                                            <div className="bg-blue-50 border border-blue-200 rounded p-4 text-blue-800 text-sm">
+                                            <div className="bg-blue-50 border border-blue-200 rounded p-3 sm:p-4 text-blue-800 text-xs sm:text-sm">
                                                 Vui lòng nhập thông tin giao hàng
                                             </div>
                                         )}
                                     </div>
                                     <div>
-                                        <h3 className="text-xl font-medium text-gray-900 mb-4">Thanh toán</h3>
-                                        <div className="border border-gray-300 rounded p-4">
-                                            <label className="flex items-center gap-3 cursor-pointer">
+                                        <h3 className="text-lg sm:text-xl font-medium text-gray-900 mb-3 sm:mb-4">Thanh toán</h3>
+                                        <div className="border border-gray-300 rounded p-3 sm:p-4">
+                                            <label className="flex items-center gap-2 sm:gap-3 cursor-pointer">
                                                 <input
                                                     type="radio"
                                                     name="payment"
@@ -474,9 +474,9 @@ export default function Checkout() {
                                                     onChange={(e) => setSelectedPayment(e.target.value)}
                                                     className="w-4 h-4 text-blue-600"
                                                 />
-                                                <span className="text-gray-900 flex-1">Thanh toán khi giao hàng (COD)</span>
-                                                <div className="w-8 h-8 border-2 border-blue-500 rounded flex items-center justify-center">
-                                                    <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <span className="text-gray-900 flex-1 text-sm sm:text-base">Thanh toán khi giao hàng (COD)</span>
+                                                <div className="w-6 h-6 sm:w-8 sm:h-8 border-2 border-blue-500 rounded flex items-center justify-center">
+                                                    <svg className="w-3 h-3 sm:w-4 sm:h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path
                                                             strokeLinecap="round"
                                                             strokeLinejoin="round"
@@ -486,7 +486,7 @@ export default function Checkout() {
                                                     </svg>
                                                 </div>
                                             </label>
-                                            <p className="text-sm text-gray-600 mt-3 ml-7">Bạn chỉ phải thanh toán khi nhận được hàng</p>
+                                            <p className="text-xs sm:text-sm text-gray-600 mt-2 sm:mt-3 ml-5 sm:ml-7">Bạn chỉ phải thanh toán khi nhận được hàng</p>
                                         </div>
                                     </div>
                                 </div>
@@ -496,33 +496,33 @@ export default function Checkout() {
 
                     {/* Right Section - 1/3 width - Order Summary */}
                     <div className="lg:col-span-1">
-                        <div className="border-l border-gray-200 pl-6">
-                            <h3 className="text-xl font-medium text-gray-900 mb-6">
+                        <div className="bg-white p-4 sm:p-6 rounded-lg shadow-sm border border-gray-200 lg:border-l-0 lg:border-r lg:border-t lg:border-b lg:pl-6 lg:bg-transparent lg:shadow-none">
+                            <h3 className="text-lg sm:text-xl font-medium text-gray-900 mb-4 sm:mb-6">
                                 Đơn hàng ({cart.items.reduce((sum, item) => sum + item.quantity, 0)} sản phẩm)
                             </h3>
-                            <div className="space-y-4 mb-6">
+                            <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6 max-h-60 sm:max-h-80 overflow-y-auto">
                                 {cart.items.map((item) => (
-                                    <div key={item.id} className="flex items-start gap-3">
+                                    <div key={item.id} className="flex items-start gap-2 sm:gap-3 p-2 sm:p-0">
                                         <div className="relative flex-shrink-0">
                                             <img
                                                 src={item.image || "/placeholder.svg"}
                                                 alt={item.name}
-                                                className="w-12 h-12 object-cover rounded border-gray-300 border"
+                                                className="w-10 h-10 sm:w-12 sm:h-12 object-cover rounded border-gray-300 border"
                                             />
-                                            <span className="absolute -top-2 -right-2 bg-[#2a9dcc] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                                            <span className="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 bg-[#2a9dcc] text-white text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center">
                                                 {item.quantity}
                                             </span>
                                         </div>
                                         <div className="flex-1 min-w-0">
-                                            <p className="text-sm text-gray-700 leading-tight font-semibold">{item.name}</p>
+                                            <p className="text-xs sm:text-sm text-gray-700 leading-tight font-semibold line-clamp-2">{item.name}</p>
                                         </div>
                                         <div className="text-right flex-shrink-0">
-                                            <p className="text-sm font-semibold text-gray-700">{formatPrice(item.currentPrice * item.quantity)}</p>
+                                            <p className="text-xs sm:text-sm font-semibold text-gray-700">{formatPrice(item.currentPrice * item.quantity)}</p>
                                         </div>
                                     </div>
                                 ))}
                             </div>
-                            <div className="flex gap-2 mb-6">
+                            <div className="flex flex-col sm:flex-row gap-2 mb-4 sm:mb-6">
                                 <input
                                     type="text"
                                     placeholder="Nhập mã giảm giá"
@@ -534,12 +534,12 @@ export default function Checkout() {
                                             setDiscountError("")
                                         }
                                     }}
-                                    className="flex-1 px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-blue-500"
+                                    className="flex-1 px-3 py-2 border border-gray-300 rounded text-xs sm:text-sm focus:outline-none focus:border-blue-500"
                                 />
                                 <button 
                                     onClick={handleApplyDiscount}
                                     disabled={!discountCode.trim()}
-                                    className={`px-4 py-2 rounded text-sm font-medium transition-colors ${
+                                    className={`px-3 sm:px-4 py-2 rounded text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
                                         discountCode.trim()
                                             ? 'bg-[#2a9dcc] text-white hover:bg-blue-600 cursor-pointer'
                                             : 'bg-gray-300 text-gray-500 cursor-not-allowed'
@@ -549,38 +549,38 @@ export default function Checkout() {
                                 </button>
                             </div>
                             {discountError && (
-                                <div className="mb-6 text-red-600 text-sm">
+                                <div className="mb-4 sm:mb-6 text-red-600 text-xs sm:text-sm">
                                     {discountError}
                                 </div>
                             )}
-                            <div className="space-y-3 mb-6">
-                                <div className="flex justify-between text-gray-600">
+                            <div className="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
+                                <div className="flex justify-between text-gray-600 text-sm sm:text-base">
                                     <span>Tạm tính</span>
                                     <span>{formatPrice(subtotal)}</span>
                                 </div>
-                                <div className="flex justify-between text-gray-600">
+                                <div className="flex justify-between text-gray-600 text-sm sm:text-base">
                                     <span>Phí vận chuyển</span>
                                     <span>{selectedProvince ? formatPrice(shipping) : "-"}</span>
                                 </div>
                                 <hr className="border-gray-200" />
-                                <div className="flex justify-between text-lg font-medium text-[#2a9dcc]">
+                                <div className="flex justify-between text-base sm:text-lg font-medium text-[#2a9dcc]">
                                     <span>Tổng cộng</span>
                                     <span>{formatPrice(total)}</span>
                                 </div>
                             </div>
-                            <div className="flex items-center justify-between">
+                            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-0">
                                 <button 
                                     onClick={() => navigate('/cart')}
-                                    className="text-[#2a9dcc] text-sm hover:text-blue-600 flex items-center gap-1 cursor-pointer"
+                                    className="text-[#2a9dcc] text-xs sm:text-sm hover:text-blue-600 flex items-center gap-1 cursor-pointer order-2 sm:order-1"
                                 >
-                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                                     </svg>
                                     Quay về giỏ hàng
                                 </button>
                                 <button 
                                     onClick={handlePlaceOrder}
-                                    className="cursor-pointer bg-[#2a9dcc] text-white px-6 py-3 rounded font-medium hover:bg-blue-600 transition-colors"
+                                    className="w-full sm:w-auto cursor-pointer bg-[#2a9dcc] text-white px-4 sm:px-6 py-2 sm:py-3 rounded font-medium hover:bg-blue-600 transition-colors text-sm sm:text-base order-1 sm:order-2"
                                 >
                                     ĐẶT HÀNG
                                 </button>
