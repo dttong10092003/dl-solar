@@ -5,17 +5,17 @@ import { useCart } from "../hooks/useCart"
 import { formatPrice } from "../utils/format"
 
 interface Province {
-    code: string
+    code: string | number
     name: string
 }
 
 interface District {
-    code: string
+    code: string | number
     name: string
 }
 
 interface Ward {
-    code: string
+    code: string | number
     name: string
 }
 
@@ -30,7 +30,7 @@ export default function Checkout() {
     const [discountCode, setDiscountCode] = useState("")
     const [discountError, setDiscountError] = useState("")
     const navigate = useNavigate()
-    const { cart } = useCart()
+    const { cart, clearCart } = useCart()
 
     // Form data states
     const [email, setEmail] = useState("")
@@ -42,6 +42,9 @@ export default function Checkout() {
     const [selectedProvince, setSelectedProvince] = useState("")
     const [selectedDistrict, setSelectedDistrict] = useState("")
     const [selectedWard, setSelectedWard] = useState("")
+
+    // Debug: log current state values
+    console.log('Current selection states:', { selectedProvince, selectedDistrict, selectedWard });
 
     // Address data states
     const [provinces, setProvinces] = useState<Province[]>([])
@@ -108,6 +111,8 @@ export default function Checkout() {
         try {
             const response = await fetch('https://provinces.open-api.vn/api/p/')
             const data = await response.json()
+            console.log('Provinces API response:', data); // Debug API response
+            console.log('First province sample:', data[0]); // Debug sample province
             setProvinces(data)
         } catch (error) {
             console.error('Error fetching provinces:', error)
@@ -118,6 +123,8 @@ export default function Checkout() {
         try {
             const response = await fetch(`https://provinces.open-api.vn/api/p/${provinceCode}?depth=2`)
             const data = await response.json()
+            console.log('Districts API response:', data); // Debug API response
+            console.log('Districts array:', data.districts); // Debug districts array
             setDistricts(data.districts || [])
         } catch (error) {
             console.error('Error fetching districts:', error)
@@ -128,6 +135,8 @@ export default function Checkout() {
         try {
             const response = await fetch(`https://provinces.open-api.vn/api/d/${districtCode}?depth=2`)
             const data = await response.json()
+            console.log('Wards API response:', data); // Debug API response
+            console.log('Wards array:', data.wards); // Debug wards array
             setWards(data.wards || [])
         } catch (error) {
             console.error('Error fetching wards:', error)
@@ -178,11 +187,56 @@ export default function Checkout() {
             return
         }
 
-        // Show success message
-        alert("Đặt hàng thành công! Cảm ơn bạn đã đặt hàng.")
-        
-        // Redirect to home page
-        navigate('/')
+        // Debug: log the address data
+        console.log('Selected codes:', { selectedProvince, selectedDistrict, selectedWard });
+        console.log('Arrays lengths:', { 
+            provincesLength: provinces.length, 
+            districtsLength: districts.length, 
+            wardsLength: wards.length 
+        });
+        console.log('Sample data:', { 
+            firstProvince: provinces[0], 
+            firstDistrict: districts[0], 
+            firstWard: wards[0] 
+        });
+
+        // Get province, district, ward names
+        const provinceName = provinces.find(p => String(p.code) === selectedProvince)?.name || "";
+        const districtName = districts.find(d => String(d.code) === selectedDistrict)?.name || "";
+        const wardName = wards.find(w => String(w.code) === selectedWard)?.name || "";
+
+        console.log('Found names:', { provinceName, districtName, wardName });
+
+        // Prepare order data
+        const orderData = {
+            customerInfo: {
+                email: email.trim(),
+                fullName: fullName.trim(),
+                phoneNumber: phoneNumber.trim(),
+                address: address.trim(),
+                province: provinceName,
+                district: districtName,
+                ward: wardName,
+                country: getSelectedCountry()?.name || ""
+            },
+            cartItems: cart.items,
+            pricing: {
+                subtotal,
+                shipping,
+                total
+            },
+            paymentMethod: "Thanh toán khi giao hàng (COD)",
+            shippingMethod: "Giao hàng tận nơi"
+        };
+
+        // Debug: log the complete order data
+        console.log('Complete order data being sent:', orderData);
+
+        // Clear cart after successful order
+        clearCart();
+
+        // Navigate to order confirmation with data
+        navigate('/order-confirmation', { state: orderData });
     }
 
     const subtotal = cart.totalAmount
@@ -320,12 +374,15 @@ export default function Checkout() {
                                         <div className="relative">
                                             <select
                                                 value={selectedProvince}
-                                                onChange={(e) => setSelectedProvince(e.target.value)}
+                                                onChange={(e) => {
+                                                    console.log('Province changed to:', e.target.value);
+                                                    setSelectedProvince(String(e.target.value));
+                                                }}
                                                 className="w-full px-4 py-3 border border-gray-300 rounded bg-white focus:outline-none focus:border-blue-500 appearance-none"
                                             >
                                                 <option value="">Chọn tỉnh thành</option>
                                                 {provinces.map((province: Province) => (
-                                                    <option key={province.code} value={province.code}>
+                                                    <option key={province.code} value={String(province.code)}>
                                                         {province.name}
                                                     </option>
                                                 ))}
@@ -335,13 +392,16 @@ export default function Checkout() {
                                         <div className="relative">
                                             <select
                                                 value={selectedDistrict}
-                                                onChange={(e) => setSelectedDistrict(e.target.value)}
+                                                onChange={(e) => {
+                                                    console.log('District changed to:', e.target.value);
+                                                    setSelectedDistrict(String(e.target.value));
+                                                }}
                                                 className="w-full px-4 py-3 border border-gray-300 rounded bg-white focus:outline-none focus:border-blue-500 appearance-none disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
                                                 disabled={!selectedProvince}
                                             >
                                                 <option value="">Chọn quận huyện</option>
                                                 {districts.map((district: District) => (
-                                                    <option key={district.code} value={district.code}>
+                                                    <option key={district.code} value={String(district.code)}>
                                                         {district.name}
                                                     </option>
                                                 ))}
@@ -351,13 +411,16 @@ export default function Checkout() {
                                         <div className="relative">
                                             <select
                                                 value={selectedWard}
-                                                onChange={(e) => setSelectedWard(e.target.value)}
+                                                onChange={(e) => {
+                                                    console.log('Ward changed to:', e.target.value);
+                                                    setSelectedWard(String(e.target.value));
+                                                }}
                                                 className="w-full px-4 py-3 border border-gray-300 rounded bg-white focus:outline-none focus:border-blue-500 appearance-none disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
                                                 disabled={!selectedDistrict}
                                             >
                                                 <option value="">Chọn phường xã</option>
                                                 {wards.map((ward: Ward) => (
-                                                    <option key={ward.code} value={ward.code}>
+                                                    <option key={ward.code} value={String(ward.code)}>
                                                         {ward.name}
                                                     </option>
                                                 ))}
