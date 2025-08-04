@@ -1,105 +1,26 @@
 import { useState, useEffect } from "react"
-import { useSearchParams } from "react-router-dom"
+import { useSearchParams, useNavigate } from "react-router-dom"
 import { Calendar, Search, ChevronLeft, ChevronRight } from "lucide-react"
-
-interface Category {
-    id: number
-    name: string
-}
-
-interface Article {
-    id: number
-    title: string
-    image: string
-    date: string
-    excerpt: string
-    categoryId: number
-}
+import type { Article } from '../types'
+import { categories, news } from '../data/newsData'
 
 export default function Home() {
     const [searchParams, setSearchParams] = useSearchParams()
+    const navigate = useNavigate()
     const selectedCategoryFromUrl = searchParams.get("category")
     const [searchQuery, setSearchQuery] = useState("")
+    const [searchInput, setSearchInput] = useState("") // New state for input value
     const [selectedCategory, setSelectedCategory] = useState<number | null>(
         selectedCategoryFromUrl ? Number(selectedCategoryFromUrl) : null
     )
     const [currentPage, setCurrentPage] = useState(1)
     const articlesPerPage = 6
 
-    const categories: Category[] = [
-        { id: 1, name: "Tin tức điện mặt trời" },
-        { id: 2, name: "Kiến thức hữu ích" },
-    ]
-
-    const news: Article[] = [
-        {
-            id: 1,
-            title: "Phát triển bền vững là gì? Các mục tiêu phát triển bền vững",
-            image: "https://bizweb.dktcdn.net/100/487/020/articles/8-db826524-76aa-4d6c-a11c-7a0ac7ead6da.jpg?v=1685089847453",
-            date: "26/05/2023",
-            excerpt: "Động lực tăng trưởng kinh tế đã dẫn đến nhiều hệ lụy như suy thoái môi trường và chênh lệch xã hội. Do đó phát triển bền vững đã được đặt ra nhằm. Động lực tăng trưởng kinh tế đã dẫn đến nhiều hệ lụy như suy thoái môi trường và chênh lệch xã hội. Do đó phát triển bền vững đã được đặt ra nhằm",
-            categoryId: 1,
-        },
-        {
-            id: 2,
-            title: "Tín chỉ carbon là gì? Thị trường tín chỉ carbon ở Việt Nam",
-            image: "https://bizweb.dktcdn.net/100/487/020/articles/7-a520a37f-a7eb-4f92-9a4b-2407d7d16c31.jpg?v=1685089803273",
-            date: "26/05/2023",
-            excerpt: "Tín chỉ carbon là một đơn vị đo lường được sử dụng để giới hạn lượng khí thải carbon mà một doanh nghiệp được thải ra môi trường. Thuật ngữ này được...",
-            categoryId: 1,
-        },
-        {
-            id: 3,
-            title: "Tiêu dùng xanh là gì? Tầm quan trọng của tiêu dùng xanh",
-            image: "https://bizweb.dktcdn.net/100/487/020/articles/6-fd633771-8dc4-471e-859b-a9418616e82c.jpg?v=1685089720007",
-            date: "26/05/2023",
-            excerpt: "Thế giới đang phải đối mặt với tình trạng ô nhiễm môi trường và biến đổi khí hậu ngày càng. Vì vậy để đảm bảo mục tiêu phát triển bền vững, mỗi quốc gia...",
-            categoryId: 1,
-        },
-        {
-            id: 4,
-            title: "Tiếp địa hệ thống pin mặt trời: Nguy cơ xảy ra khi lắp đặt sai cách",
-            image: "https://bizweb.dktcdn.net/100/487/020/articles/5-06880260-8eed-4413-a564-d3ddf69e8923.jpg?v=1685089650643",
-            date: "26/05/2023",
-            excerpt: "Nối đất hay tiếp địa hệ thống pin mặt trời là một trong những yêu cầu bắt buộc khi lắp đặt điện mặt trời. Việc lắp đặt tiếp địa cho hệ thống điện mặt trời...",
-            categoryId: 1,
-        },
-        {
-            id: 5,
-            title: "El Nino là gì? El Nino tác động đến thời tiết tại Việt Nam như thế nào?",
-            image: "https://bizweb.dktcdn.net/100/487/020/articles/4-deeb2267-a43c-4edd-9345-d152e1fb8b1d.jpg?v=1685089461490",
-            date: "26/05/2023",
-            excerpt: "Trong thời gian gần đây, El Nino là cụm từ được bắt gặp rất nhiều trên tivi, báo chí và những kênh mạng xã hội khác. El Nino xuất hiện khiến nhiệt độ trái đất...",
-            categoryId: 2,
-        },
-        {
-            id: 6,
-            title: "Điện gió và năng lượng gió: Những kiến thức cần biết",
-            image: "https://bizweb.dktcdn.net/100/487/020/articles/3-0112ae10-3239-4e98-a669-fa5b8a7d7b40.jpg?v=1685089405597",
-            date: "26/05/2023",
-            excerpt: "Năng lượng gió là một nguồn năng lượng sạch và bền vững. Việc sử dụng năng lượng gió để tạo ra điện đã được con người biết đến và ứng dụng từ xa...",
-            categoryId: 2,
-        },
-        {
-            id: 7,
-            title: "Biệt thự song lập có những lợi thế gì? Có nên đầu tư không?",
-            image: "https://bizweb.dktcdn.net/100/487/020/articles/7.jpg?v=1685087738607",
-            date: "26/05/2023",
-            excerpt: "Biệt thự song lập là cụm từ xuất hiện phổ biến trên thị trường bất động sản hiện nay. Với nhu cầu sống cao cấp, muốn sở hữu nhiều tiện nghi, đồng thời tối...",
-            categoryId: 2,
-        },
-        {
-            id: 8,
-            title: "Cách dùng điều hòa tiết kiệm điện hiệu quả, không hại máy",
-            image: "https://bizweb.dktcdn.net/100/487/020/articles/8.jpg?v=1685087928170",
-            date: "26/05/2023",
-            excerpt: "Hướng dẫn cách dùng điều hòa tiết kiệm điện nhất Trái đất nóng lên, nhiệt độ tăng cao và mùa hè kéo dài là những nguyên nhân khiến nhu cầu sử dụng...",
-            categoryId: 2,
-        },
-    ]
-
     const ArticleCard = ({ article }: { article: Article }) => (
-        <div className="flex gap-4 mb-8 group cursor-pointer">
+        <div
+            className="flex gap-4 mb-8 group cursor-pointer hover:bg-gray-50 p-4 rounded-lg transition-colors"
+            onClick={() => navigate(`/news/${article.id}`)}
+        >
             <div className="flex-shrink-0">
                 <img
                     src={article.image || "/placeholder.svg"}
@@ -137,6 +58,19 @@ export default function Home() {
         setSelectedCategory(categoryId)
         setSearchParams(categoryId ? { category: categoryId.toString() } : {})
         setCurrentPage(1) // Reset to first page when category changes
+    }
+
+    // Handle search when button is clicked
+    const handleSearch = () => {
+        setSearchQuery(searchInput)
+        setCurrentPage(1) // Reset to first page when searching
+    }
+
+    // Handle Enter key press in search input
+    const handleSearchKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            handleSearch()
+        }
     }
 
     const totalPages = Math.ceil(filteredArticles.length / articlesPerPage)
@@ -213,13 +147,14 @@ export default function Home() {
                                     type="text"
                                     placeholder="Nhập tên tin tức..."
                                     className="w-full border border-gray-300 rounded-lg py-2 px-4 pr-10"
-                                    value={searchQuery}
-                                    onChange={(e) => {
-                                        setSearchQuery(e.target.value)
-                                        setCurrentPage(1) // Reset to first page on search
-                                    }}
+                                    value={searchInput}
+                                    onChange={(e) => setSearchInput(e.target.value)}
+                                    onKeyPress={handleSearchKeyPress}
                                 />
-                                <button className="absolute right-0 top-0 h-full px-3 bg-yellow-500 rounded-r-lg flex items-center justify-center">
+                                <button
+                                    onClick={handleSearch}
+                                    className="absolute right-0 top-0 h-full px-3 bg-yellow-500 rounded-r-lg flex items-center justify-center hover:bg-yellow-600 transition-colors cursor-pointer"
+                                >
                                     <Search className="h-5 w-5 text-white" />
                                 </button>
                             </div>
@@ -248,7 +183,11 @@ export default function Home() {
                             <h2 className="text-2xl font-semibold text-[#003366] mb-4">Tin tức nổi bật</h2>
                             <div className="space-y-4">
                                 {news.slice(0, 4).map((newsItem) => (
-                                    <div key={newsItem.id} className="flex gap-3">
+                                    <div
+                                        key={newsItem.id}
+                                        className="flex gap-3 cursor-pointer hover:bg-gray-50 p-2 rounded-lg transition-colors"
+                                        onClick={() => navigate(`/news/${newsItem.id}`)}
+                                    >
                                         <div className="w-30 h-20 relative rounded-md overflow-hidden flex-shrink-0">
                                             <img
                                                 src={newsItem.image || "/placeholder.svg"}
@@ -256,7 +195,7 @@ export default function Home() {
                                                 className="object-cover w-full h-full"
                                             />
                                         </div>
-                                        <p className="text-[#003366] font-semibold hover:text-yellow-500 cursor-pointer line-clamp-2">
+                                        <p className="text-[#003366] font-semibold hover:text-yellow-500 transition-colors cursor-pointer line-clamp-2">
                                             {newsItem.title}
                                         </p>
                                     </div>

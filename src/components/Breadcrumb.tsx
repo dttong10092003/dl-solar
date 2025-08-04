@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 import { categories, subcategories, newsCategories, routeNameMap, products } from "../data";
+import { news } from "../data/newsData";
 
 
 export default function Breadcrumb() {
@@ -44,18 +45,39 @@ export default function Breadcrumb() {
   }
   // Handle news page
   else if (pathnames[0] === "news") {
-    breadcrumbItems.push({
-      label: routeNameMap["news"] || "Tin tức",
-      link: newsCategory ? "/news" : null,
-      isActive: !newsCategory
-    });
-    
-    if (newsCategory) {
+    // Check if this is a news detail page
+    if (pathnames[1]) {
+      const newsId = pathnames[1];
+      const article = news.find(n => n.id === Number(newsId));
+      
       breadcrumbItems.push({
-        label: newsCategory.name,
-        link: null,
-        isActive: true
+        label: routeNameMap["news"] || "Tin tức",
+        link: "/news",
+        isActive: false
       });
+      
+      if (article) {
+        breadcrumbItems.push({
+          label: article.title,
+          link: null,
+          isActive: true
+        });
+      }
+    } else {
+      // Regular news listing page
+      breadcrumbItems.push({
+        label: routeNameMap["news"] || "Tin tức",
+        link: newsCategory ? "/news" : null,
+        isActive: !newsCategory
+      });
+      
+      if (newsCategory) {
+        breadcrumbItems.push({
+          label: newsCategory.name,
+          link: null,
+          isActive: true
+        });
+      }
     }
   }
   // Handle products page

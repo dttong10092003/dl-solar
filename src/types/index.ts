@@ -8,6 +8,16 @@ interface Category {
   id: number
   name: string
 }
+interface Article {
+    id: number
+    title: string
+    image: string
+    date: string
+    excerpt: string
+    categoryId: number
+    content?: string
+    author?: string
+}
 
 interface Subcategory {
   id: number
@@ -45,4 +55,4 @@ interface CartState {
   totalAmount: number
 }
 
-export type { PriceRange, Category, Subcategory, Product, CartItem, CartState }
+export type { PriceRange, Category, Subcategory, Product, CartItem, CartState, Article }

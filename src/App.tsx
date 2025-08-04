@@ -4,6 +4,7 @@ import Auth from "./pages/Auth";
 import Intro from "./pages/Intro";
 import ProductPage from "./pages/ProductPage";
 import NewsPage from "./pages/NewsPage";
+import NewsDetailPage from "./pages/NewsDetailPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import GalleryPage from "./pages/GalleryPage";
 import FAQPage from "./pages/FAQPage";
@@ -29,6 +30,7 @@ function App() {
         <Route path="/about" element={<Intro />} />
         <Route path="/products" element={<ProductPage />} />
         <Route path="/news" element={<NewsPage />} />
+        <Route path="/news/:id" element={<NewsDetailPage />} />
         <Route path="/product/:id" element={<ProductDetailPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/gallery" element={<GalleryPage />} />
