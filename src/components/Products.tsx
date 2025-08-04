@@ -366,7 +366,6 @@ export default function ProductListingPage() {
                               />
                             </svg>
                             <span className="hidden sm:inline lg:inline">Thêm vào giỏ</span>
-                            <span className="sm:hidden">Mua</span>
                           </button>
                         </div>
                       </div>

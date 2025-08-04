@@ -16,6 +16,7 @@ import ShoppingPolicyPage from "./pages/ShoppingPolicyPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import PurchaseGuidePage from "./pages/PurchaseGuidePage";
 import CartPage from "./pages/CartPage";
+import SearchPage from "./pages/SearchPage";
 import Checkout from "./pages/Checkout";
 import OrderConfirmation from "./pages/OrderConfirmation";
 
@@ -50,6 +51,7 @@ function App() {
         <Route path="shopping-guide" element={<ShoppingPolicyPage />} />
         <Route path="privacy-policy" element={<PrivacyPolicyPage />} />
         <Route path="purchase-guide" element={<PurchaseGuidePage />} />
+        <Route path="search" element={<SearchPage />} />
       </Route>
 
       {/* Special routes without layout */}

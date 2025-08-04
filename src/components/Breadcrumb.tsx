@@ -111,6 +111,14 @@ export default function Breadcrumb() {
       });
     }
   }
+  // Handle search page
+  else if (pathnames[0] === "search") {
+    breadcrumbItems.push({
+      label: "Tìm kiếm",
+      link: null,
+      isActive: true
+    });
+  }
   // Handle other pages
   else {
     pathnames.forEach((value, index) => {

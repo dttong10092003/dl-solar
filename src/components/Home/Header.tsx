@@ -83,6 +83,24 @@ export default function Header() {
     const [mobileProductExpanded, setMobileProductExpanded] = useState(false);
     const [mobileNewsExpanded, setMobileNewsExpanded] = useState(false);
     const [isCartOpen, setIsCartOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [mobileSearchQuery, setMobileSearchQuery] = useState('');
+
+    const handleSearch = (query: string) => {
+        if (query.trim()) {
+            navigate(`/search?q=${encodeURIComponent(query.trim())}`);
+        }
+    };
+
+    const handleDesktopSearchSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        handleSearch(searchQuery);
+    };
+
+    const handleMobileSearchSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        handleSearch(mobileSearchQuery);
+    };
 
     const handleAuthNavigation = (tab: string) => {
         navigate(`/auth?tab=${tab}`);
@@ -108,16 +126,21 @@ export default function Header() {
             <div className="bg-[#0d2b6b] text-white text-sm md:text-base hidden md:block">
                 <div className="max-w-7xl mx-auto flex justify-between items-center px-4 py-1.5">
                     <span className="whitespace-nowrap">{texts[index]}</span>
-                    <div className="relative w-[340px]">
+                    <form onSubmit={handleDesktopSearchSubmit} className="relative w-[340px]">
                         <input
                             type="text"
                             placeholder="Bạn muốn tìm gì?"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
                             className="bg-white text-gray-900 px-5 py-2 pr-12 rounded text-base w-full focus:outline-none focus:ring-0"
                         />
-                        <button className="absolute top-0 right-0 h-full px-4 bg-yellow-400 rounded-r hover:bg-yellow-500 cursor-pointer">
+                        <button 
+                            type="submit"
+                            className="absolute top-0 right-0 h-full px-4 bg-yellow-400 rounded-r hover:bg-yellow-500 cursor-pointer"
+                        >
                             <Search className="w-4 h-4 text-white" />
                         </button>
-                    </div>
+                    </form>
                 </div>
             </div>
 
@@ -157,16 +180,21 @@ export default function Header() {
 
                         {/* Bottom row: Search bar */}
                         <div className="pb-4">
-                            <div className="relative">
+                            <form onSubmit={handleMobileSearchSubmit} className="relative">
                                 <input
                                     type="text"
                                     placeholder="Bạn muốn tìm gì?"
+                                    value={mobileSearchQuery}
+                                    onChange={(e) => setMobileSearchQuery(e.target.value)}
                                     className="bg-white text-gray-900 px-4 py-3 pr-12 rounded text-sm w-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 />
-                                <button className="absolute top-0 right-0 h-full px-4 bg-yellow-400 rounded-r hover:bg-yellow-500">
+                                <button 
+                                    type="submit" 
+                                    className="absolute top-0 right-0 h-full px-4 bg-yellow-400 rounded-r hover:bg-yellow-500"
+                                >
                                     <Search className="w-4 h-4 text-white" />
                                 </button>
-                            </div>
+                            </form>
                         </div>
                     </div>
 
