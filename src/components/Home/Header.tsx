@@ -134,7 +134,7 @@ export default function Header() {
                             onChange={(e) => setSearchQuery(e.target.value)}
                             className="bg-white text-gray-900 px-5 py-2 pr-12 rounded text-base w-full focus:outline-none focus:ring-0"
                         />
-                        <button 
+                        <button
                             type="submit"
                             className="absolute top-0 right-0 h-full px-4 bg-yellow-400 rounded-r hover:bg-yellow-500 cursor-pointer"
                         >
@@ -188,8 +188,8 @@ export default function Header() {
                                     onChange={(e) => setMobileSearchQuery(e.target.value)}
                                     className="bg-white text-gray-900 px-4 py-3 pr-12 rounded text-sm w-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 />
-                                <button 
-                                    type="submit" 
+                                <button
+                                    type="submit"
                                     className="absolute top-0 right-0 h-full px-4 bg-yellow-400 rounded-r hover:bg-yellow-500"
                                 >
                                     <Search className="w-4 h-4 text-white" />
@@ -369,178 +369,211 @@ export default function Header() {
 
             {/* Mobile Menu Modal */}
             {isMobileMenuOpen && (
-                <div className="md:hidden bg-[#0d2b6b] text-white shadow-lg">
-                    {/* Mobile Menu Header */}
-                    <div className="bg-[#0d2b6b] text-white px-4 py-3 font-bold text-center border-b border-blue-800">
-                        MENU CHÍNH
-                    </div>
+                <div className="fixed inset-0 z-50 md:hidden">
+                    {/* Backdrop */}
+                    <div
+                        className="absolute inset-0 bg-[#363636]/30"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                    ></div>
 
-                    {/* Mobile Navigation */}
-                    <nav className="bg-white text-gray-800">
-                        {Object.entries(navRoutes).map(([label, path], i) => {
-                            const isProduct = label === 'Sản phẩm';
-                            const isNews = label === 'Tin tức';
-                            const hasSubmenu = isProduct || isNews;
+                    {/* Menu Panel - Right Side */}
+                    <div className="absolute top-0 left-0 h-full w-3/4 bg-white shadow-xl transform transition-transform duration-300 ease-in-out">
+                        <div className="px-4 py-3 w-full flex justify-center">
+                            <img src="https://bizweb.dktcdn.net/100/487/020/themes/911678/assets/logo.png?1735875826317"
+                                alt="DL Solar Logo"
+                                className="h-16 w-auto cursor-pointer"
+                                onClick={() => navigate('/')}
+                            />
+                        </div>
+                        {/* Menu Header */}
+                        <div className="bg-[#0d2b6b] text-white px-4 py-3 font-bold text-center border-b border-blue-800">
+                            <span>MENU CHÍNH</span>
+                        </div>
 
-                            return (
-                                <div key={i} className="border-b border-gray-200">
-                                    <div className="flex justify-between items-center w-full px-4 py-3 hover:bg-gray-50 transition-colors">
-                                        {/* Main menu item - clickable to navigate */}
-                                        <span
-                                            className="text-gray-800 flex-1 cursor-pointer"
-                                            onClick={() => {
-                                                navigate(path);
-                                                closeMobileMenu();
-                                            }}
-                                        >
-                                            {label}
-                                        </span>
+                        {/* Menu Content - Scrollable */}
+                        <div className="h-full overflow-y-auto pb-20">
+                            <nav className="bg-white text-gray-800">
+                                {Object.entries(navRoutes).map(([label, path], i) => {
+                                    const isProduct = label === 'Sản phẩm';
+                                    const isNews = label === 'Tin tức';
+                                    const hasSubmenu = isProduct || isNews;
 
-                                        {/* Expand/Collapse button for submenu items */}
-                                        {hasSubmenu && (
-                                            <button
-                                                className="p-1 rounded hover:bg-gray-200 transition-colors"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    if (isProduct) {
-                                                        setMobileProductExpanded(!mobileProductExpanded);
-                                                    } else if (isNews) {
-                                                        setMobileNewsExpanded(!mobileNewsExpanded);
-                                                    }
-                                                }}
-                                            >
-                                                <ChevronRight
-                                                    className={`w-4 h-4 text-gray-600 transition-transform ${(isProduct && mobileProductExpanded) || (isNews && mobileNewsExpanded)
-                                                            ? 'rotate-90'
-                                                            : ''
-                                                        }`}
-                                                />
-                                            </button>
-                                        )}
-                                    </div>
-
-                                    {/* Show submenu for Tin tức */}
-                                    {isNews && mobileNewsExpanded && (
-                                        <div className="bg-gray-50 px-6 py-2">
-                                            {newsCategories.map((category) => (
-                                                <div
-                                                    key={category.id}
-                                                    className="py-2 text-sm text-gray-600 cursor-pointer hover:text-yellow-500"
+                                    return (
+                                        <div key={i} className="border-b border-gray-200">
+                                            <div className="flex justify-between items-center w-full px-4 py-3 hover:bg-gray-50 transition-colors">
+                                                {/* Main menu item - clickable to navigate */}
+                                                <span
+                                                    className="text-gray-800 flex-1 cursor-pointer"
                                                     onClick={() => {
-                                                        navigate(`/news?category=${category.id}`);
+                                                        navigate(path);
                                                         closeMobileMenu();
                                                     }}
                                                 >
-                                                    {category.name}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
+                                                    {label}
+                                                </span>
 
-                                    {/* Show submenu for Sản phẩm */}
-                                    {isProduct && mobileProductExpanded && (
-                                        <div className="bg-gray-50">
-                                            {categories.map((category) => (
-                                                <div key={category.id} className="border-b border-gray-200 last:border-b-0">
-                                                    <div
-                                                        className="px-6 py-2 text-sm font-semibold text-blue-900 cursor-pointer hover:text-yellow-500"
-                                                        onClick={() => {
-                                                            navigate(`/products?category=${category.id}`);
-                                                            closeMobileMenu();
+                                                {/* Expand/Collapse button for submenu items */}
+                                                {hasSubmenu && (
+                                                    <button
+                                                        className="p-1 rounded hover:bg-gray-200 transition-colors"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            if (isProduct) {
+                                                                setMobileProductExpanded(!mobileProductExpanded);
+                                                            } else if (isNews) {
+                                                                setMobileNewsExpanded(!mobileNewsExpanded);
+                                                            }
                                                         }}
                                                     >
-                                                        {category.name}
-                                                    </div>
-                                                    {/* Subcategories */}
-                                                    <div className="pl-8 pb-2">
-                                                        {subcategories
-                                                            .filter((sub) => sub.categoryId === category.id)
-                                                            .map((sub) => (
-                                                                <div
-                                                                    key={sub.id}
-                                                                    className="py-1 text-xs text-gray-500 cursor-pointer hover:text-yellow-500"
-                                                                    onClick={() => {
-                                                                        navigate(`/products?category=${category.id}&subcategory=${sub.id}`);
-                                                                        closeMobileMenu();
-                                                                    }}
-                                                                >
-                                                                    {sub.name}
-                                                                </div>
-                                                            ))}
-                                                    </div>
+                                                        <ChevronRight
+                                                            className={`w-4 h-4 text-gray-600 transition-transform ${(isProduct && mobileProductExpanded) || (isNews && mobileNewsExpanded)
+                                                                ? 'rotate-90'
+                                                                : ''
+                                                                }`}
+                                                        />
+                                                    </button>
+                                                )}
+                                            </div>
+
+                                            {/* Show submenu for Tin tức */}
+                                            {isNews && mobileNewsExpanded && (
+                                                <div className="bg-gray-50 px-6 py-2">
+                                                    {newsCategories.map((category) => (
+                                                        <div
+                                                            key={category.id}
+                                                            className="py-2 text-sm text-gray-600 cursor-pointer hover:text-yellow-500"
+                                                            onClick={() => {
+                                                                navigate(`/news?category=${category.id}`);
+                                                                closeMobileMenu();
+                                                            }}
+                                                        >
+                                                            {category.name}
+                                                        </div>
+                                                    ))}
                                                 </div>
-                                            ))}
+                                            )}
+
+                                            {/* Show submenu for Sản phẩm */}
+                                            {isProduct && mobileProductExpanded && (
+                                                <div className="bg-gray-50">
+                                                    {categories.map((category) => (
+                                                        <div key={category.id} className="border-b border-gray-200 last:border-b-0">
+                                                            <div
+                                                                className="px-6 py-2 text-sm font-semibold text-blue-900 cursor-pointer hover:text-yellow-500"
+                                                                onClick={() => {
+                                                                    navigate(`/products?category=${category.id}`);
+                                                                    closeMobileMenu();
+                                                                }}
+                                                            >
+                                                                {category.name}
+                                                            </div>
+                                                            {/* Subcategories */}
+                                                            <div className="pl-8 pb-2">
+                                                                {subcategories
+                                                                    .filter((sub) => sub.categoryId === category.id)
+                                                                    .map((sub) => (
+                                                                        <div
+                                                                            key={sub.id}
+                                                                            className="py-1 text-xs text-gray-500 cursor-pointer hover:text-yellow-500"
+                                                                            onClick={() => {
+                                                                                navigate(`/products?category=${category.id}&subcategory=${sub.id}`);
+                                                                                closeMobileMenu();
+                                                                            }}
+                                                                        >
+                                                                            {sub.name}
+                                                                        </div>
+                                                                    ))}
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
                                         </div>
-                                    )}
-                                </div>
-                            );
-                        })}
-                    </nav>
+                                    );
+                                })}
+                            </nav>
+                        </div>
+                    </div>
                 </div>
             )}
 
             {/* Mobile Contact Modal */}
             {isMobileContactOpen && (
-                <div className="md:hidden bg-white shadow-lg border-t border-gray-200">
-                    <div className="p-4 space-y-4">
-                        <div className="flex items-center space-x-3">
-                            <Phone className="w-5 h-5 text-blue-900" />
-                            <div>
-                                <div className="text-gray-700 font-bold">Hotline:</div>
-                                <div className="text-gray-700">1900 6750</div>
-                            </div>
-                        </div>
+                <div className="fixed inset-0 z-50 md:hidden">
+                    {/* Backdrop */}
+                    <div
+                        className="absolute inset-0 bg-[#363636]/30"
+                        onClick={() => setIsMobileContactOpen(false)}
+                    ></div>
 
-                        <div className="flex items-center space-x-3">
-                            <Mail className="w-5 h-5 text-blue-900" />
-                            <div>
-                                <div className="text-gray-700 font-bold">Email:</div>
-                                <div className="text-gray-700">support@sapo.vn</div>
-                            </div>
-                        </div>
-
-                        <div className="flex items-center space-x-3">
-                            <Clock className="w-5 h-5 text-blue-900" />
-                            <div>
-                                <div className="text-gray-700 font-bold">Mở cửa:</div>
-                                <div className="text-gray-700">8h00 - 17h30</div>
-                            </div>
-                        </div>
-
-                        <div className="flex items-center space-x-3">
-                            <User className="w-5 h-5 text-blue-900" />
-                            <div>
-                                <div
-                                    className="text-gray-700 cursor-pointer hover:text-[#f3bd01] mb-1"
-                                    onClick={() => {
-                                        handleAuthNavigation('register');
-                                        setIsMobileContactOpen(false);
-                                    }}
-                                >
-                                    Đăng ký
+                    {/* Contact Panel - Left Side */}
+                    <div className="absolute top-0 right-0 w-3/4 bg-white shadow-xl transform transition-transform duration-300 ease-in-out">
+                        {/* Contact Content - Scrollable */}
+                        <div className="h-full overflow-y-auto pb-20 p-4">
+                            <div className="space-y-6">
+                                <div className="flex items-center space-x-3">
+                                    <Phone className="w-5 h-5 text-blue-900" />
+                                    <div>
+                                        <div className="text-gray-700 font-bold">Hotline:</div>
+                                        <div className="text-gray-700">1900 6750</div>
+                                    </div>
                                 </div>
-                                <div
-                                    className="text-gray-700 cursor-pointer hover:text-[#f3bd01]"
-                                    onClick={() => {
-                                        handleAuthNavigation('login');
-                                        setIsMobileContactOpen(false);
-                                    }}
-                                >
-                                    Đăng nhập
+
+                                <div className="flex items-center space-x-3">
+                                    <Mail className="w-5 h-5 text-blue-900" />
+                                    <div>
+                                        <div className="text-gray-700 font-bold">Email:</div>
+                                        <div className="text-gray-700">support@sapo.vn</div>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-center space-x-3">
+                                    <Clock className="w-5 h-5 text-blue-900" />
+                                    <div>
+                                        <div className="text-gray-700 font-bold">Mở cửa:</div>
+                                        <div className="text-gray-700">8h00 - 17h30</div>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-center space-x-3">
+                                    <User className="w-5 h-5 text-blue-900" />
+                                    <div>
+                                        <div
+                                            className="text-gray-700 cursor-pointer hover:text-[#f3bd01] mb-1"
+                                            onClick={() => {
+                                                handleAuthNavigation('register');
+                                                setIsMobileContactOpen(false);
+                                            }}
+                                        >
+                                            Đăng ký
+                                        </div>
+                                        <div
+                                            className="text-gray-700 cursor-pointer hover:text-[#f3bd01]"
+                                            onClick={() => {
+                                                handleAuthNavigation('login');
+                                                setIsMobileContactOpen(false);
+                                            }}
+                                        >
+                                            Đăng nhập
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-center space-x-3 cursor-pointer relative"
+                                    onMouseEnter={() => setIsCartOpen(true)}
+                                    onMouseLeave={() => setIsCartOpen(false)}>
+                                    <ShoppingCart className="w-5 h-5 text-blue-900" />
+                                    <div>
+                                        <div className="text-gray-700 font-bold hover:text-yellow-500" onClick={() => {
+                                            navigate('/cart');
+                                            setIsMobileContactOpen(false);
+                                        }}>Giỏ hàng</div>
+                                        <div className="text-gray-700"><span className="text-[#f3bd01]">{cart.totalItems}</span> Sản phẩm</div>
+                                    </div>
+                                    {/* Cart Modal */}
+                                    <CartDrawer isOpen={isCartOpen} />
                                 </div>
                             </div>
-                        </div>
-
-                        <div className="flex items-center space-x-3 cursor-pointer relative"
-                            onMouseEnter={() => setIsCartOpen(true)}
-                            onMouseLeave={() => setIsCartOpen(false)}>
-                            <ShoppingCart className="w-5 h-5 text-blue-900" />
-                            <div>
-                                <div className="text-gray-700 font-bold hover:text-yellow-500" onClick={() => navigate('/cart')}>Giỏ hàng</div>
-                                <div className="text-gray-700"><span className="text-[#f3bd01]">{cart.totalItems}</span> Sản phẩm</div>
-                            </div>
-                            {/* Cart Modal */}
-                            <CartDrawer isOpen={isCartOpen} />
                         </div>
                     </div>
                 </div>

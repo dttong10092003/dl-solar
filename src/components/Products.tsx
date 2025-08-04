@@ -380,7 +380,7 @@ export default function ProductListingPage() {
 
       {/* Mobile Filter Modal */}
       {isFilterModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-start justify-center pt-4 p-4">
+        <div className="fixed inset-0 bg-[#363636]/30 z-50 flex items-start justify-center pt-4 p-4">
           <div className="bg-white rounded-xl shadow-xl w-full max-w-md max-h-[90vh] overflow-hidden">
             <div className="flex items-center justify-between p-4 border-b">
               <h3 className="text-lg font-semibold text-blue-900">Bộ lọc & Danh mục</h3>
