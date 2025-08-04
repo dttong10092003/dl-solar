@@ -1,12 +1,12 @@
 import {
-    Header, Banner, AboutMe, Why, InstallationProcess, SolarBenefitsInfographic,
+    Banner, AboutMe, Why, InstallationProcess, SolarBenefitsInfographic,
     SolarProductsCatalog, SolarHeroBanner, SolarProjectsShowcase, BlogNewsSection,
-    CustomerTestimonials, PartnersSection, Footer
+    CustomerTestimonials, PartnersSection
 } from "../components/Home";
+
 const Home = () => {
     return (
         <>
-            <Header />
             <Banner />
             <AboutMe />
             <Why />
@@ -18,7 +18,6 @@ const Home = () => {
             <BlogNewsSection />
             <CustomerTestimonials />
             <PartnersSection />
-            <Footer />
         </>
     );
 };
